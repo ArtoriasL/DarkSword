@@ -1,4 +1,4 @@
-package mods.allenzhang.darksword;
+package mods.allenzhang.darksword.util;
 
 public class Reference {
     /**
@@ -10,17 +10,13 @@ public class Reference {
      */
     public static final String NAME = "DarkSword";
     /**
-     * Current version TODO Update version
-     */
-    public static final String VERSION = "mc1.12.2 sbr5 v0.1";
-    /**
      * Where the server proxy is found
      */
     public static final String COMMON = "mods.allenzhang.darksword.proxy.CommonProxy";
     /**
      * Where the client proxy is found
      */
-    public static final String CLIENT = "mods.allen.allenzhang.proxy.ClientProxy";
+    public static final String CLIENT = "mods.allenzhang.darksword.proxy.ClientProxy";
     /**
      * What the DEPENDENCIES
      */

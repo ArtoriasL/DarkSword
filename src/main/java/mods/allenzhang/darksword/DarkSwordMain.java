@@ -1,5 +1,6 @@
 package mods.allenzhang.darksword;
 
+import mods.allenzhang.darksword.util.Reference;
 import mods.allenzhang.darksword.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -10,14 +11,16 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @Mod(
         modid = Reference.MODID,
         name = Reference.NAME,
-        version = Reference.VERSION,
+        version = DarkSwordMain.version,
         dependencies = Reference.DEPENDENCIES
-)
+        )
 public class DarkSwordMain {
+    public static final String version = "@VERSION@";
+
     @Mod.Instance
     public static DarkSwordMain instance;
 
-    @SidedProxy(clientSide = "mods.allenzhang.darksword.proxy.ClientProxy",serverSide = "mods.allenzhang.darksword.proxy.CommonProxy",modId = Reference.MODID)
+    @SidedProxy(clientSide = Reference.CLIENT,serverSide = Reference.COMMON,modId = Reference.MODID)
     public static CommonProxy proxy;
     @Mod.EventHandler
     public static void preInit( FMLPreInitializationEvent event){}
