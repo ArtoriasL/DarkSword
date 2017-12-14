@@ -1,0 +1,31 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+gradle
+build.gradle
+darksword.iml
+gradle.properties
+gradlew
+gradlew.bat
+src/api
+src/test
+

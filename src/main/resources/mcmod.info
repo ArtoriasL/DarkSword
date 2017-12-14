@@ -1,0 +1,16 @@
+[
+{
+  "modid": "darksword",
+  "name": "DarkSword",
+  "description": "null.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["AllenZhang"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
