@@ -9,6 +9,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import static mods.allenzhang.darksword.DarkswordMain.GetLogger;
+
 @EventBusSubscriber
 public class RegistryHandler {
 
@@ -17,11 +19,18 @@ public class RegistryHandler {
         event.getRegistry().registerAll(Allitems.ITEMS.toArray(new Item[0]));
     }
 
-    public static  void onModelRegister( ModelRegistryEvent event){
-        for (Item item : Allitems.ITEMS){
-            if(item instanceof IHasModel){
-                ((IHasModel) item).registerModels();
+    @SubscribeEvent
+    public static void onModelRegister(ModelRegistryEvent event)
+    {
+
+        GetLogger("ModelRegister is start");
+        for(Item item : Allitems.ITEMS)
+        {
+            if(item instanceof IHasModel)
+            {
+                ((IHasModel)item).registerModels();
             }
         }
+
     }
 }

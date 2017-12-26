@@ -20,7 +20,7 @@ public class Reference {
     /**
      * What the DEPENDENCIES
      */
-    public static final String DEPENDENCIES = "required-after:flammpfeil.slashblade";
+//    public static final String DEPENDENCIES = "required-after:flammpfeil.slashblade";
     /**
      * Where our gui factory if found
      */

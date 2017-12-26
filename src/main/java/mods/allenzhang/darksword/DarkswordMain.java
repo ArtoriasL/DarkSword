@@ -11,8 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @Mod(
         modid = Reference.MODID,
         name = Reference.NAME,
-        version = DarkswordMain.version,
-        dependencies = Reference.DEPENDENCIES
+        version = DarkswordMain.version
         )
 public class DarkswordMain {
     public static final String version = "@VERSION@";
