@@ -11,19 +11,22 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @Mod(
         modid = Reference.MODID,
         name = Reference.NAME,
-        version = DarkSwordMain.version,
+        version = DarkswordMain.version,
         dependencies = Reference.DEPENDENCIES
         )
-public class DarkSwordMain {
+public class DarkswordMain {
     public static final String version = "@VERSION@";
-
+    public static final DarkswordTab darkcore = new DarkswordTab("darkcore");
+    public static void GetLogger(String log){
+        System.out.printf("[darksword] : "+log + "\n");
+    }
     @Mod.Instance
-    public static DarkSwordMain instance;
+    public static DarkswordMain instance;
 
     @SidedProxy(clientSide = Reference.CLIENT,serverSide = Reference.COMMON,modId = Reference.MODID)
     public static CommonProxy proxy;
     @Mod.EventHandler
-    public static void preInit( FMLPreInitializationEvent event){}
+    public static void preInit( FMLPreInitializationEvent event){GetLogger("test");}
 
     @Mod.EventHandler
     public static void init( FMLInitializationEvent event){}
