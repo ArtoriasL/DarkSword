@@ -1,7 +1,10 @@
 package mods.allenzhang.darksword;
 
+import mods.allenzhang.darksword.init.Allitems;
 import mods.allenzhang.darksword.util.Reference;
 import mods.allenzhang.darksword.proxy.CommonProxy;
+import mods.flammpfeil.slashblade.SlashBlade;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -25,11 +28,14 @@ public class DarkswordMain {
     @SidedProxy(clientSide = Reference.CLIENT,serverSide = Reference.COMMON,modId = Reference.MODID)
     public static CommonProxy proxy;
     @Mod.EventHandler
-    public static void preInit( FMLPreInitializationEvent event){GetLogger("test");}
+    public static void preInit( FMLPreInitializationEvent event){}
 
     @Mod.EventHandler
     public static void init( FMLInitializationEvent event){}
 
     @Mod.EventHandler
-    public static void postInit( FMLPostInitializationEvent event){}
+    public static void postInit( FMLPostInitializationEvent event)
+    {
+        SlashBlade.addSmelting("testsb", Item.getItemById(0015).getDefaultInstance(), Allitems.weaksoul.getDefaultInstance(),25F);
+    }
 }

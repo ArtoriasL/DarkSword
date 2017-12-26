@@ -2,7 +2,6 @@ package mods.allenzhang.darksword.handlers;
 
 import mods.allenzhang.darksword.init.Allitems;
 import mods.allenzhang.darksword.util.IHasModel;
-import mods.allenzhang.darksword.util.LoggerPlugs;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
