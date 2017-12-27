@@ -1,10 +1,7 @@
 package mods.allenzhang.darksword;
 
-import mods.allenzhang.darksword.init.Allitems;
 import mods.allenzhang.darksword.util.Reference;
 import mods.allenzhang.darksword.proxy.CommonProxy;
-import mods.flammpfeil.slashblade.SlashBlade;
-import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -36,6 +33,6 @@ public class DarkswordMain {
     @Mod.EventHandler
     public static void postInit( FMLPostInitializationEvent event)
     {
-        SlashBlade.addSmelting("testsb", Item.getItemById(0015).getDefaultInstance(), Allitems.weaksoul.getDefaultInstance(),25F);
+
     }
 }

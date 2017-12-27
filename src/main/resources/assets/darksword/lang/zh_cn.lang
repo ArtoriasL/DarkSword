@@ -1,3 +1,7 @@
 itemGroup.darkcore=黑暗核心
 
-item.weaksoul.name=即将消失的灵魂
+item.soul_weak.name=即将消失的灵魂
+item.soul_normal.name=常人的灵魂
+item.soul_strong.name=强大的灵魂
+item.soul_largecreature.name=巨大生灵的灵魂
+item.soul_abyss.name=神的灵魂

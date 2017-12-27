@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "darksword:items/weak_soul"
+        "layer0": "darksword:items/soul_strong"
     }
 }
