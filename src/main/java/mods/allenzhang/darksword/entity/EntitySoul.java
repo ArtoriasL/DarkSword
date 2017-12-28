@@ -1,5 +1,6 @@
 package mods.allenzhang.darksword.entity;
 
+import mods.allenzhang.darksword.DarkswordMain;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -11,7 +12,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntitySoul extends EntityThrowable {
-
     public EntitySoul(World worldIn)
     {
         super(worldIn);
@@ -21,12 +21,14 @@ public class EntitySoul extends EntityThrowable {
         super(worldIn, throwerIn);
     }
     public EntitySoul( World worldIn,double x,double y,double z){super(worldIn, x, y, z);}
-
-    public static void registerFixesExpBottle(DataFixer fixer)
-    {
+    public static void registerFixesExpBottle(DataFixer fixer){
         EntityThrowable.registerFixesThrowable(fixer, "ThrowableSoul");
     }
-
+    public void setSoulsCount(int count)
+    {
+        soulsCount=count;
+    }
+    private int soulsCount =1;
     /**
      * Gets the amount of gravity to apply to the thrown entity with each tick.
      */
@@ -34,21 +36,18 @@ public class EntitySoul extends EntityThrowable {
     {
         return 0.07F;
     }
-
     /**
      * Called when this EntityThrowable hits a block or entity.
      */
-    protected void onImpact(RayTraceResult result)
-    {
+    protected void onImpact(RayTraceResult result){
         if (!this.world.isRemote)
         {
             this.world.playEvent(2002, new BlockPos(this), PotionUtils.getPotionColor(PotionTypes.SLOWNESS));
-            int i = 3 + this.world.rand.nextInt(5) + this.world.rand.nextInt(5);
 
-            while (i > 0)
+            while (soulsCount > 0)
             {
-                int j = EntityXPOrb.getXPSplit(i);
-                i -= j;
+                int j = EntityXPOrb.getXPSplit(soulsCount);
+                soulsCount -= j;
                 this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, j));
             }
 

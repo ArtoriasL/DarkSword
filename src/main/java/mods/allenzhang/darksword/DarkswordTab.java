@@ -1,6 +1,6 @@
 package mods.allenzhang.darksword;
 
-import mods.allenzhang.darksword.init.Items;
+import mods.allenzhang.darksword.init.ModItems;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 
@@ -11,7 +11,7 @@ public class DarkswordTab extends CreativeTabs{
 
 
     public ItemStack getTabIconItem() {
-        return  new ItemStack(Items.soul_abyss);
+        return  new ItemStack(ModItems.soul_abyss);
     }
 
 
