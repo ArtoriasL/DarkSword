@@ -1,6 +1,7 @@
 package mods.allenzhang.darksword.handlers;
 
 import mods.allenzhang.darksword.DarkswordMain;
+import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.IHasModel;
 import net.minecraft.item.Item;
@@ -27,7 +28,7 @@ public class RegistryHandler {
                 ((IHasModel)item).registerModels();
             }
         }
-        DarkswordMain.log().info("ModelRegister");
+        Debug.log().info("ModelRegister");
     }
 
 

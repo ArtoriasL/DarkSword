@@ -19,16 +19,8 @@ import org.apache.logging.log4j.Logger;
 public class DarkswordMain {
     public static final String version = "@VERSION@";
     public static final DarkswordTab darkcore = new DarkswordTab("darkcore");
-
-    private static Logger logger;
-    public static Logger log() {
-        if (logger == null) {
-            logger = LogManager.getFormatterLogger(Reference.MODID);
-        }
-        return logger;
-    }
-
     @Mod.Instance
+
     public static DarkswordMain instance;
 
     @SidedProxy(clientSide = Reference.CLIENT,serverSide = Reference.COMMON,modId = Reference.MODID)
