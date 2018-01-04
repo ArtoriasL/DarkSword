@@ -27,4 +27,6 @@ public class Reference {
     public static final String GUI_FACTORY = "mods.allen.allenzhang.config.DSConfigGuiFactory";
 
     public static final String VERSION_CHECKER_URL = "";
+
+    public static final int[] SOULS_EXP = new int[]{1,8,64,512,4096};
 }

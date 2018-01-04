@@ -1,6 +1,7 @@
 package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.DarkswordMain;
+import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.IHasModel;
 import net.minecraft.item.Item;

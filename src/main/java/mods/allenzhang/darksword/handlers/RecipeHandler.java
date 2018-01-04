@@ -18,27 +18,27 @@ public class RecipeHandler {
 
     public static void RegisterRepices(){
         for(RecipeBase rb : ModRepices.RECIPES)
-            registerShapedRepice(rb.targetItem, rb.recipe);
-        for(RecipeBase rb : ModRepices.RESULTRECIPES)
-            registerShapedlessRepice(rb.targetItem, rb.ingredients);
+            registerShapedRepice(rb.recipeType.toString(),rb.targetItem, rb.recipe);
+
+        for(RecipeBase rbless : ModRepices.RESULTRECIPES)
+            registerShapedlessRepice(rbless.recipeType.toString(),rbless.targetItem,rbless.ingredients);
+
         Debug.log().info("Registered Crafting Recipes!");
     }
     public static void RegisterFurnaceRepices(){
         Debug.log().info("Registered Furnace Recipes!");
     }
 
-    private static void registerShapedRepice(ItemStack items,Object... params){
-        String resName = items.getItem().getUnlocalizedName();
-        GameRegistry.addShapedRecipe(new ResourceLocation(resName),
-                new ResourceLocation(resName),
+    private static void registerShapedRepice(String resType,ItemStack items,Object... params){
+        GameRegistry.addShapedRecipe(new ResourceLocation(items.getItem().getRegistryName()+resType),
+                null,
                 items,
                 params
         );
     }
-    private static void registerShapedlessRepice(ItemStack items,Ingredient... params){
-        String resName = items.getItem().getUnlocalizedName();
-        GameRegistry.addShapelessRecipe(new ResourceLocation(resName),
-                new ResourceLocation(resName),
+    private static void registerShapedlessRepice(String resType,ItemStack items,Ingredient... params){
+        GameRegistry.addShapelessRecipe(new ResourceLocation(items.getItem().getRegistryName()+resType),
+                null,
                 items,
                 params
         );

@@ -20,7 +20,6 @@ public class ItemSoulBase extends ItemBase  {
     {
         soulsCount= i;
     }
-
     //ItemSkills
     /**
      * Called when the equipped item is right clicked.

@@ -8,8 +8,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @Mod(
         modid = Reference.MODID,
@@ -26,7 +24,8 @@ public class DarkswordMain {
     @SidedProxy(clientSide = Reference.CLIENT,serverSide = Reference.COMMON,modId = Reference.MODID)
     public static CommonProxy proxy;
     @Mod.EventHandler
-    public static void preInit( FMLPreInitializationEvent event){}
+    public static void preInit( FMLPreInitializationEvent event){
+    }
 
     @Mod.EventHandler
     public static void init( FMLInitializationEvent event)

@@ -1,12 +1,13 @@
 package mods.allenzhang.darksword.handlers;
 
-import mods.allenzhang.darksword.DarkswordMain;
 import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.IHasModel;
+import mods.allenzhang.darksword.util.LivingDropSouls;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -31,5 +32,11 @@ public class RegistryHandler {
         Debug.log().info("ModelRegister");
     }
 
+    @SubscribeEvent
+    public static void onLivingDead(LivingExperienceDropEvent event)
+    {
+        LivingDropSouls.DropSoulsByExp(event.getEntity(),event.getOriginalExperience());
+
+    }
 
 }
