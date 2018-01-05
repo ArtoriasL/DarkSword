@@ -1,8 +1,9 @@
-package mods.allenzhang.darksword.util;
+package mods.allenzhang.darksword.handlers;
 
 
 import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.init.ModItems;
+import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -10,11 +11,10 @@ import net.minecraft.item.ItemStack;
 public class LivingDropSouls {
     public static void DropSoulsByExp( Entity entityIn, int exp){
 
-        double rdm = Math.random();
-        if(rdm<=0.7)return;
+
         for(int i=4;i>=0;i--)
         {
-            int temp = (int)Math.floor(exp/Reference.SOULS_EXP[i]);
+            int temp = (int)Math.floor(exp/ Reference.SOULS_EXP[i]);
             if(temp>=1) {
                 spawnSouls(entityIn, i, temp);
                 break;

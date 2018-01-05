@@ -15,15 +15,12 @@ public class ItemSoulBase extends ItemBase  {
         super(name);
         setSoulsCount(souls);
     }
-    private int soulsCount=1;
+    public int soulsCount=1;
     public void setSoulsCount(int i)
     {
         soulsCount= i;
     }
     //ItemSkills
-    /**
-     * Called when the equipped item is right clicked.
-     */
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
         ItemStack itemstack = SkillBase.UseSoul(soulsCount,this,worldIn,playerIn,handIn);

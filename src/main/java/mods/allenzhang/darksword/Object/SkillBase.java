@@ -1,7 +1,10 @@
 package mods.allenzhang.darksword.Object;
 
 import mods.allenzhang.darksword.Object.Items.ItemSoulBase;
+import mods.allenzhang.darksword.common.Debug;
+import mods.allenzhang.darksword.common.MathA;
 import mods.allenzhang.darksword.entity.EntitySoul;
+import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -20,7 +23,17 @@ public class SkillBase {
             itemstack.shrink(1);
         }
 
-        worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_WITHER_AMBIENT, SoundCategory.NEUTRAL, 0.2F, 5.0F);
+
+        float pitch = 0F;
+        if(count< Reference.SOULS_EXP[1])pitch=2.0F;
+        else if(count< Reference.SOULS_EXP[2])pitch=1.5F;
+        else if(count< Reference.SOULS_EXP[3])pitch=1.0F;
+        else if(count< Reference.SOULS_EXP[4])pitch=0.5F;
+        float volum = MathA.clamp(1F-((pitch+1F)*0.1F+0.5F),0F,1F);
+
+//        Debug.log().info(count+"/"+volum+"/"+pitch);
+
+        worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_WITHER_AMBIENT, SoundCategory.NEUTRAL, volum, pitch);
 
         if (!worldIn.isRemote)
         {
