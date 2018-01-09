@@ -1,6 +1,5 @@
-package mods.allenzhang.darksword.entity;
+package mods.allenzhang.darksword.Object.entity;
 
-import mods.allenzhang.darksword.DarkswordMain;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.projectile.EntityThrowable;

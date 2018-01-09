@@ -11,7 +11,6 @@ public class ClientProxy extends CommonProxy {
     public void registerItemRenderer(Item item, int meta, String id)
     {
         ModelResourceLocation mrl = new ModelResourceLocation(item.getRegistryName(),id);
-        Debug.log().info(mrl.toString());
         ModelLoader.setCustomModelResourceLocation(item, meta, mrl);
     }
 }

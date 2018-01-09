@@ -1,9 +1,8 @@
 package mods.allenzhang.darksword.Object;
 
 import mods.allenzhang.darksword.Object.Items.ItemSoulBase;
-import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.common.MathA;
-import mods.allenzhang.darksword.entity.EntitySoul;
+import mods.allenzhang.darksword.Object.entity.EntitySoul;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;

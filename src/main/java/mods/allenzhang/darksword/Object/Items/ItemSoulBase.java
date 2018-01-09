@@ -2,6 +2,7 @@ package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.DarkswordMain;
 import mods.allenzhang.darksword.Object.SkillBase;
+import mods.allenzhang.darksword.init.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;

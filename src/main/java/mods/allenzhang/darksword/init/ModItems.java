@@ -16,4 +16,6 @@ public class ModItems {
     public static final Item soul_strong = new ItemSoulBase("soul_strong",Reference.SOULS_EXP[2]);
     public static final Item soul_largecreature = new ItemSoulBase("soul_largecreature",Reference.SOULS_EXP[3]);
     public static final Item soul_abyss = new ItemSoulBase("soul_abyss",Reference.SOULS_EXP[4]);
+
+    public static final Item darktome = new ItemSoulEnchanted("darktome").setMaxStackSize(1);
 }

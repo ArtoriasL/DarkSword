@@ -1,7 +1,10 @@
 itemGroup.darkcore=Dark Core
 
 item.soul_weak.name=Weak Soul
-item.soul_normal.name=Soul of a human
-item.soul_strong.name=Soul of a strong man
-item.soul_largecreature.name=Soul of a large creature
-item.soul_abyss.name=Soul of king
+item.soul_normal.name=Soul of Human
+item.soul_strong.name=Soul of Strong man
+item.soul_largecreature.name=Soul of Large creature
+item.soul_abyss.name=Soul of King
+item.darktome.name=Dark Tome
+
+enchantment.tome_darksword=Tome of Darksword

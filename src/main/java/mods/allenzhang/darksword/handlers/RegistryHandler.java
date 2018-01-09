@@ -2,14 +2,18 @@ package mods.allenzhang.darksword.handlers;
 
 import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.init.ModBlocks;
+import mods.allenzhang.darksword.init.ModDarkTome;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.IHasModel;
+import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -26,6 +30,12 @@ public class RegistryHandler {
     public static void onBlockRegister(RegistryEvent.Register<Block> event)
     {
         event.getRegistry().registerAll(ModBlocks.BLOCKS.toArray(new Block[0]));
+    }
+
+    @SubscribeEvent
+    public static void onEnchantmentRegister( RegistryEvent.Register<Enchantment> event){
+        event.getRegistry().registerAll(ModDarkTome.darkTomes.toArray(new Enchantment[0]));
+        Debug.log().info("registerEnchantment");
     }
 
     @SubscribeEvent
@@ -51,10 +61,10 @@ public class RegistryHandler {
     }
 
     @SubscribeEvent
-    public static void onLivingDead(LivingExperienceDropEvent event)
+    public static void onLivingExpDrop( LivingExperienceDropEvent event)
     {
         int exp = event.getOriginalExperience();
-        double rdmR = 0.3;
+        double rdmR = (exp>= Reference.SOULS_EXP[4])?1.0:0.3;
         EntityLivingBase el = event.getEntityLiving();
 
         if(el instanceof EntityPlayer)
@@ -66,6 +76,13 @@ public class RegistryHandler {
         double rdm = Math.random();
         if(rdm<=rdmR)LivingDropSouls.DropSoulsByExp(event.getEntity(),exp);
     }
+
+    @SubscribeEvent
+    public static void onLivingDeath( LivingDeathEvent event){
+        if(event.getEntity().getEntityId()==5593)
+            LivingDropSouls.DropSoulsByExp(event.getEntity(),12000);
+    }
+
 
     public static int GetExpByLevel(int level){
         double exp = 0;
