@@ -1,5 +1,6 @@
 package mods.allenzhang.darksword.Object.darktomes;
 
+import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.init.ModDarkTome;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;

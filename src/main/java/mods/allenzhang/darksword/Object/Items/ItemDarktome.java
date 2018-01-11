@@ -1,23 +1,34 @@
 package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.DarkswordMain;
+import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.init.ModDarkTome;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemSoulEnchanted extends ItemBase{
-    public ItemSoulEnchanted( String name ) {
+import javax.annotation.Nullable;
+import java.util.List;
+
+public class ItemDarktome extends ItemBase{
+    public ItemDarktome( String name ) {
         super(name);
+    }
+
+    public boolean isBookEnchantable( ItemStack stack, ItemStack book ) {
+        return true;
     }
 
     /**
@@ -59,24 +70,24 @@ public class ItemSoulEnchanted extends ItemBase{
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-//    @SideOnly(Side.CLIENT)
-//    public void addInformation( ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
-//    {
-//        super.addInformation(stack, worldIn, tooltip, flagIn);
-//        NBTTagList nbttaglist = getEnchantments(stack);
-//
-//        for (int i = 0; i < nbttaglist.tagCount(); ++i)
-//        {
-//            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-//            int j = nbttagcompound.getShort("id");
-//            Enchantment enchantment = Enchantment.getEnchantmentByID(j);
-//
-//            if (enchantment != null)
-//            {
-//                tooltip.add(enchantment.getTranslatedName(nbttagcompound.getShort("lvl")));
-//            }
-//        }
-//    }
+    @SideOnly(Side.CLIENT)
+    public void addInformation( ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
+    {
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+        NBTTagList nbttaglist = getEnchantments(stack);
+
+        for (int i = 0; i < nbttaglist.tagCount(); ++i)
+        {
+            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+            int j = nbttagcompound.getShort("id");
+            Enchantment enchantment = Enchantment.getEnchantmentByID(j);
+
+            if (enchantment != null)
+            {
+                tooltip.add(enchantment.getTranslatedName(nbttagcompound.getShort("lvl")));
+            }
+        }
+    }
 
     /**
      * Adds an stored enchantment to an enchanted book ItemStack
@@ -124,6 +135,7 @@ public class ItemSoulEnchanted extends ItemBase{
     public static ItemStack getEnchantedItemStack(EnchantmentData p_92111_0_)
     {
         ItemStack itemstack = new ItemStack(ModItems.darktome);
+//        ItemStack itemstack = new ItemStack(Items.ENCHANTED_BOOK);
         addEnchantment(itemstack, p_92111_0_);
         return itemstack;
     }

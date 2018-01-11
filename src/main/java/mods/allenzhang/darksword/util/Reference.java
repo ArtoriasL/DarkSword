@@ -29,4 +29,13 @@ public class Reference {
     public static final String VERSION_CHECKER_URL = "";
 
     public static final int[] SOULS_EXP = new int[]{1,8,64,512,4096};
+
+    public static int GetExpByLevel(int level){
+        double exp = 0;
+        if(level<=16) exp=(level*level)+6*level;
+        else if(level<=31)exp=2.5*(level*level)-40*level+360;
+        else exp=4.5*(level*level)-162.5*level+2220;
+
+        return (int)exp;
+    }
 }

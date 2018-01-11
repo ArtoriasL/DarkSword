@@ -17,5 +17,5 @@ public class ModDarkTome {
 
     public static List<DarkTomeBase> darkTomes = new ArrayList<>();
 
-    public static final DarkTomeBase tome_darksword = new DarktomeDarksword("tome_darksword", Enchantment.Rarity.VERY_RARE, EnumEnchantmentType.WEAPON,mainWeapon);
+    public static final DarkTomeBase tome_darksword = new DarktomeDarksword("tome_darksword", Enchantment.Rarity.COMMON, EnumEnchantmentType.WEAPON,mainWeapon);
 }

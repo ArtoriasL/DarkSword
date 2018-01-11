@@ -18,6 +18,7 @@ import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+
 @EventBusSubscriber
 public class RegistryHandler {
 
@@ -35,7 +36,6 @@ public class RegistryHandler {
     @SubscribeEvent
     public static void onEnchantmentRegister( RegistryEvent.Register<Enchantment> event){
         event.getRegistry().registerAll(ModDarkTome.darkTomes.toArray(new Enchantment[0]));
-        Debug.log().info("registerEnchantment");
     }
 
     @SubscribeEvent
@@ -71,7 +71,7 @@ public class RegistryHandler {
         {
             int level = ((EntityPlayer) el).experienceLevel;
             rdmR=(level>=10)?1:0;
-            if(rdmR>0)exp = GetExpByLevel(level) / 2 ;
+            if(rdmR>0)exp = Reference.GetExpByLevel(level) / 2 ;
         }
         double rdm = Math.random();
         if(rdm<=rdmR)LivingDropSouls.DropSoulsByExp(event.getEntity(),exp);
@@ -81,15 +81,5 @@ public class RegistryHandler {
     public static void onLivingDeath( LivingDeathEvent event){
         if(event.getEntity().getEntityId()==5593)
             LivingDropSouls.DropSoulsByExp(event.getEntity(),12000);
-    }
-
-
-    public static int GetExpByLevel(int level){
-        double exp = 0;
-        if(level<=16) exp=(level*level)+6*level;
-        else if(level<=31)exp=2.5*(level*level)-40*level+360;
-        else exp=4.5*(level*level)-162.5*level+2220;
-
-        return (int)exp;
     }
 }
