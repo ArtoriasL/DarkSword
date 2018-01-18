@@ -1,8 +1,7 @@
 package mods.allenzhang.darksword.Object.Items;
 
-import mods.allenzhang.darksword.DarkswordMain;
-import mods.allenzhang.darksword.Object.SkillBase;
-import mods.allenzhang.darksword.init.ModItems;
+import mods.allenzhang.darksword.Object.skills.SkillBase;
+import mods.allenzhang.darksword.Object.skills.SkillSoul;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -24,7 +23,7 @@ public class ItemSoulBase extends ItemBase  {
     //ItemSkills
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        ItemStack itemstack = SkillBase.UseSoul(soulsCount,this,worldIn,playerIn,handIn);
+        ItemStack itemstack = SkillSoul.UseSoul(soulsCount,this,worldIn,playerIn,handIn);
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
     }
 }

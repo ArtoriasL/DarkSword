@@ -1,6 +1,9 @@
 package mods.allenzhang.darksword.handlers;
 
+import mods.allenzhang.darksword.Object.darktomes.DarktomeDarksword;
+import mods.allenzhang.darksword.Object.skills.SkillDarksword;
 import mods.allenzhang.darksword.common.Debug;
+import mods.allenzhang.darksword.common.NBTReader;
 import mods.allenzhang.darksword.init.ModBlocks;
 import mods.allenzhang.darksword.init.ModDarkTome;
 import mods.allenzhang.darksword.init.ModItems;
@@ -15,9 +18,13 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.List;
 
 @EventBusSubscriber
 public class RegistryHandler {
@@ -81,5 +88,20 @@ public class RegistryHandler {
     public static void onLivingDeath( LivingDeathEvent event){
         if(event.getEntity().getEntityId()==5593)
             LivingDropSouls.DropSoulsByExp(event.getEntity(),12000);
+    }
+
+    @SubscribeEvent @SideOnly(Side.CLIENT)
+    public static void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem event){
+        if(event.getItemStack().isItemEnchanted())
+        {
+            List<String> nbtkey = NBTReader.GetEnchantmentNameByNBT(event.getItemStack().getEnchantmentTagList());
+            for(String temp:nbtkey){
+                switch (temp){
+                    case "enchantment.tome_darksword":
+                        SkillDarksword.SoulGreatsword(event);
+                        break;
+                }
+            }
+        }
     }
 }

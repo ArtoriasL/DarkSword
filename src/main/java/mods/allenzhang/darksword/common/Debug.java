@@ -6,12 +6,9 @@ import org.apache.logging.log4j.Logger;
 
 public class Debug {
     private static Logger logger;
-    public static Logger log(){
-        return log("");
-    }
-    public static Logger log(String className) {
+    public static Logger log() {
         if (logger == null) {
-            logger = LogManager.getFormatterLogger(Reference.MODID+className);
+            logger = LogManager.getFormatterLogger(Reference.MODID);
         }
         return logger;
     }
