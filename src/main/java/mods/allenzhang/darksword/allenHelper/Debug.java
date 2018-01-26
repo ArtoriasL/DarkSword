@@ -1,4 +1,4 @@
-package mods.allenzhang.darksword.common;
+package mods.allenzhang.darksword.allenHelper;
 
 import mods.allenzhang.darksword.util.Reference;
 import org.apache.logging.log4j.LogManager;

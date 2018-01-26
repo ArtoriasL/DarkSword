@@ -6,5 +6,8 @@ item.soul_strong.name=Soul of Strong man
 item.soul_largecreature.name=Soul of Large creature
 item.soul_abyss.name=Soul of King
 item.darktome.name=Dark Tome
+item.repairpowder_weak.name=Weak Repair Powder
+item.repairpowder_concentrated.name=Concentrated Repair Powder
+item.repairpowder_perfect.name=Perfect Repair Powder
 
 enchantment.tome_darksword=Darksword

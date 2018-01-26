@@ -1,10 +1,8 @@
 package mods.allenzhang.darksword.handlers;
 
-import mods.allenzhang.darksword.DarkswordMain;
 import mods.allenzhang.darksword.Object.RecipeBase;
-import mods.allenzhang.darksword.common.Debug;
+import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.init.ModRepices;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;

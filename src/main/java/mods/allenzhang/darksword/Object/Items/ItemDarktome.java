@@ -1,14 +1,12 @@
 package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.DarkswordMain;
-import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.init.ModDarkTome;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

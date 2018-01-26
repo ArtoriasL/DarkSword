@@ -18,4 +18,9 @@ public class ModItems {
     public static final Item soul_abyss = new ItemSoulBase("soul_abyss",Reference.SOULS_EXP[4]);
 
     public static final Item darktome = new ItemDarktome("darktome").setMaxStackSize(1);
+
+    public static final Item repairpowder_weak = new ItemRepairpowder("repairpowder_weak");
+    public static final Item repairpowder_concentrated = new ItemRepairpowder("repairpowder_concentrated");
+    public static final Item repairpowder_perfect = new ItemRepairpowder("repairpowder_perfect");
+
 }

@@ -6,5 +6,8 @@ item.soul_strong.name=强大的灵魂
 item.soul_largecreature.name=巨大生灵的灵魂
 item.soul_abyss.name=王的灵魂
 item.darktome.name=黑暗魔典
+item.repairpowder_weak.name=暗淡的修理光粉
+item.repairpowder_concentrated.name=浓缩的修理光粉
+item.repairpowder_perfect.name=完美的修理光粉
 
 enchantment.tome_darksword=黑暗剑

@@ -1,7 +1,6 @@
 package mods.allenzhang.darksword.handlers;
 
 
-import mods.allenzhang.darksword.common.Debug;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.entity.Entity;

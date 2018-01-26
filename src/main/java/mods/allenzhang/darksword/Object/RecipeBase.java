@@ -1,9 +1,6 @@
 package mods.allenzhang.darksword.Object;
 
-import mods.allenzhang.darksword.common.Debug;
-import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.init.ModRepices;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 

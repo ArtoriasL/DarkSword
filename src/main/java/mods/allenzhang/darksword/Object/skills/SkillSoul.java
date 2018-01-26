@@ -2,7 +2,7 @@ package mods.allenzhang.darksword.Object.skills;
 
 import mods.allenzhang.darksword.Object.Items.ItemSoulBase;
 import mods.allenzhang.darksword.Object.entity.EntitySoul;
-import mods.allenzhang.darksword.common.MathA;
+import mods.allenzhang.darksword.allenHelper.AllenMath;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -27,7 +27,7 @@ public class SkillSoul {
         else if(count< Reference.SOULS_EXP[2])pitch=1.5F;
         else if(count< Reference.SOULS_EXP[3])pitch=1.0F;
         else if(count< Reference.SOULS_EXP[4])pitch=0.5F;
-        float volum = MathA.clamp(1F-((pitch+1F)*0.1F+0.5F),0F,1F);
+        float volum = AllenMath.clamp(1F-((pitch+1F)*0.1F+0.5F),0F,1F);
 
 //        Debug.log().info(count+"/"+volum+"/"+pitch);
 

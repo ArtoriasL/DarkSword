@@ -1,4 +1,4 @@
-package mods.allenzhang.darksword.common;
+package mods.allenzhang.darksword.allenHelper;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,10 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NBTReader {
+    public static List<Enchantment> GetEnchantmentByNBT(NBTTagList taglist){
+        List<Enchantment> es = new ArrayList<>();
+        for(NBTTagCompound temp:GetNBTCompound(taglist))
+            es.add(Enchantment.getEnchantmentByID(temp.getShort("id")));
+
+        return es;
+    }
+
     public static List<String> GetEnchantmentNameByNBT( NBTTagList taglist){
-        List<NBTTagCompound> NBTC = GetNBTCompound(taglist);
         List<String> eKey = new ArrayList<>();
-        for(NBTTagCompound temp:NBTC)
+        for(NBTTagCompound temp:GetNBTCompound(taglist))
         {
             Enchantment enchantment = Enchantment.getEnchantmentByID(temp.getShort("id"));
             eKey.add(enchantment.getName());
