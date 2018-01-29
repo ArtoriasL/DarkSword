@@ -1,6 +1,5 @@
 package mods.allenzhang.darksword.handlers;
 
-import mods.allenzhang.darksword.DarkswordMain;
 import mods.allenzhang.darksword.Object.skills.SkillManager;
 import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.init.ModBlocks;
@@ -21,6 +20,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+import java.util.Map;
 
 @EventBusSubscriber
 public class RegistryHandler {
@@ -82,8 +83,9 @@ public class RegistryHandler {
 
     @SubscribeEvent
     public static void onLivingDeath( LivingDeathEvent event){
-        if(event.getEntity().getEntityId()==5593)
-            LivingDropSouls.DropSoulsByExp(event.getEntity(),12000);
+        for (Map.Entry<Integer,Integer>entry:Reference.BOSS_DROP_SOUL.entrySet())
+            if(event.getEntity().getEntityId()==entry.getKey())
+                LivingDropSouls.DropSoulsByExp(event.getEntity(),entry.getValue());
     }
 
     @SubscribeEvent
@@ -96,9 +98,19 @@ public class RegistryHandler {
         SkillManager.UseSkillByLeftClick(event);
     }
 
+
     //Timmer 120/1
     @SubscribeEvent
     public static void OnWorldTick(TickEvent.WorldTickEvent event){
+
+    }
+
+    @SubscribeEvent
+    public static void OnServerTick(TickEvent.ServerTickEvent event) {
+
+    }
+    @SubscribeEvent
+    public static void OnClientTick(TickEvent.ClientTickEvent event) {
 
     }
 }

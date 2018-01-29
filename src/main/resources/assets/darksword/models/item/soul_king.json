@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "darksword:items/soul_abyss"
+        "layer0": "darksword:items/soul_king"
     }
 }

@@ -11,16 +11,16 @@ public class ModItems {
 
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
-    public static final Item soul_weak = new ItemSoulBase("soul_weak", Reference.SOULS_EXP[0]);
-    public static final Item soul_normal = new ItemSoulBase("soul_normal",Reference.SOULS_EXP[1]);
-    public static final Item soul_strong = new ItemSoulBase("soul_strong",Reference.SOULS_EXP[2]);
-    public static final Item soul_largecreature = new ItemSoulBase("soul_largecreature",Reference.SOULS_EXP[3]);
-    public static final Item soul_abyss = new ItemSoulBase("soul_abyss",Reference.SOULS_EXP[4]);
+    public static final Item SOUL_WEAK = new ItemSoulBase("soul_weak", Reference.SOULS_EXP[0]);
+    public static final Item SOUL_NORMAL = new ItemSoulBase("soul_normal",Reference.SOULS_EXP[1]);
+    public static final Item SOUL_STRONG = new ItemSoulBase("soul_strong",Reference.SOULS_EXP[2]);
+    public static final Item SOUL_LARGECREATURE = new ItemSoulBase("soul_largecreature",Reference.SOULS_EXP[3]);
+    public static final Item SOUL_KING = new ItemSoulBase("soul_king",Reference.SOULS_EXP[4]);
 
-    public static final Item darktome = new ItemDarktome("darktome").setMaxStackSize(1);
+    public static final Item DARKTOME = new ItemDarktome("darktome").setMaxStackSize(1);
 
-    public static final Item repairpowder_weak = new ItemRepairpowder("repairpowder_weak");
-    public static final Item repairpowder_concentrated = new ItemRepairpowder("repairpowder_concentrated");
-    public static final Item repairpowder_perfect = new ItemRepairpowder("repairpowder_perfect");
+    public static final Item REPAIRPOWDER_WEAK = new ItemRepairpowder("repairpowder_weak",1);
+    public static final Item REPAIRPOWDER_CONCENTRATED = new ItemRepairpowder("repairpowder_concentrated",2);
+    public static final Item REPAIRPOWDER_PERFECT = new ItemRepairpowder("repairpowder_perfect",3);
 
 }

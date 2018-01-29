@@ -24,12 +24,12 @@ public class LivingDropSouls {
     }
 
     private static void spawnSouls( World world,double x,double y,double z, int soulId, int count){
-        ItemStack tempItems = new ItemStack(ModItems.soul_weak,count);
+        ItemStack tempItems = new ItemStack(ModItems.SOUL_WEAK,count);
         switch (soulId){
-            case 1:tempItems = new ItemStack(ModItems.soul_normal,count);break;
-            case 2:tempItems = new ItemStack(ModItems.soul_strong,count);break;
-            case 3:tempItems = new ItemStack(ModItems.soul_largecreature,count);break;
-            case 4:tempItems = new ItemStack(ModItems.soul_abyss,count);break;
+            case 1:tempItems = new ItemStack(ModItems.SOUL_NORMAL,count);break;
+            case 2:tempItems = new ItemStack(ModItems.SOUL_STRONG,count);break;
+            case 3:tempItems = new ItemStack(ModItems.SOUL_LARGECREATURE,count);break;
+            case 4:tempItems = new ItemStack(ModItems.SOUL_KING,count);break;
         }
         EntityItem temp = new EntityItem(world,x,y,z,tempItems);
         world.spawnEntity(temp);

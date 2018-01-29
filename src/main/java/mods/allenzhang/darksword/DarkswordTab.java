@@ -11,7 +11,7 @@ public class DarkswordTab extends CreativeTabs{
 
 
     public ItemStack getTabIconItem() {
-        return  new ItemStack(ModItems.soul_abyss);
+        return  new ItemStack(ModItems.SOUL_KING);
     }
 
 

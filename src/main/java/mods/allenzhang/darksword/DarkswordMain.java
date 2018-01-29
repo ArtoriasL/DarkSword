@@ -9,26 +9,26 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Mod(
         modid = Reference.MODID,
         name = Reference.NAME,
-        version = DarkswordMain.version
+        version = DarkswordMain.VERSION
         )
 public class DarkswordMain {
-    public static final String version = "@VERSION@";
-    public static final DarkswordTab darkcore = new DarkswordTab("darkcore");
+    public static final String VERSION = "@VERSION@";
+    public static final DarkswordTab DARKCORE = new DarkswordTab("darkcore");
+
     @Mod.Instance
     public static DarkswordMain instance;
 
     @SidedProxy(clientSide = Reference.CLIENT,serverSide = Reference.COMMON,modId = Reference.MODID)
-    public static CommonProxy proxy;
+    public static CommonProxy PROXY;
 
     @Mod.EventHandler
     public static void preInit( FMLPreInitializationEvent event){
+
     }
 
     @Mod.EventHandler

@@ -9,11 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SkillManager {
-    public static enum ClickType {left,right}
+    public enum ClickType {left,right}
     public static void UseSkillByLeftClick(PlayerInteractEvent.LeftClickEmpty event){
         CheckSkill(ClickType.left,event.getWorld(),event.getEntityPlayer(),event.getItemStack());
     }
@@ -24,8 +23,7 @@ public class SkillManager {
     private static void CheckSkill( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
         DarkTomeBase[] skill = GetDarkTomeByPlayer(playerIn);
         if(skill==null)return;
-        for (DarkTomeBase temp:skill)
-            temp.UseSkill(ct,worldIn, playerIn, itemStackIn);
+        skill[0].UseSkill(ct,worldIn, playerIn, itemStackIn);//only use first skill
     }
 
     public static DarkTomeBase[] GetDarkTomeByPlayer( EntityPlayer playerIn){
@@ -46,4 +44,6 @@ public class SkillManager {
 
         return null;
     }
+
+
 }

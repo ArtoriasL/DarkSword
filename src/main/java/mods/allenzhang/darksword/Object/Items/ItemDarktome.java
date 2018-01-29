@@ -132,7 +132,7 @@ public class ItemDarktome extends ItemBase{
      */
     public static ItemStack getEnchantedItemStack(EnchantmentData p_92111_0_)
     {
-        ItemStack itemstack = new ItemStack(ModItems.darktome);
+        ItemStack itemstack = new ItemStack(ModItems.DARKTOME);
 //        ItemStack itemstack = new ItemStack(Items.ENCHANTED_BOOK);
         addEnchantment(itemstack, p_92111_0_);
         return itemstack;
@@ -140,7 +140,7 @@ public class ItemDarktome extends ItemBase{
 
 
     public void getSubItems(CreativeTabs tab,NonNullList<ItemStack> items){
-        if(tab== DarkswordMain.darkcore){
+        if(tab== DarkswordMain.DARKCORE){
             for(Enchantment enchantment: ModDarkTome.darkTomes){
                 if(enchantment.type!=null){
                     for(int i=enchantment.getMinLevel();i<=enchantment.getMaxLevel();++i){

@@ -4,10 +4,12 @@ item.soul_weak.name=Weak Soul
 item.soul_normal.name=Soul of Human
 item.soul_strong.name=Soul of Strong man
 item.soul_largecreature.name=Soul of Large creature
-item.soul_abyss.name=Soul of King
+item.soul_king.name=Soul of King
 item.darktome.name=Dark Tome
 item.repairpowder_weak.name=Weak Repair Powder
 item.repairpowder_concentrated.name=Concentrated Repair Powder
 item.repairpowder_perfect.name=Perfect Repair Powder
+
+tile.block_largeember.name=Large Ember
 
 enchantment.tome_darksword=Darksword

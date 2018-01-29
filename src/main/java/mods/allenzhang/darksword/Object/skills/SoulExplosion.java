@@ -35,7 +35,8 @@ public class SoulExplosion{
             worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posAry[i].x, posAry[i].y, posAry[i].z, 1.3D, 0.0D, 0.0D);
             SoulExplosion se = new SoulExplosion(worldIn,entityIn,posAry[i].x,posAry[i].y,posAry[i].z,size);
 //            se.doExplosionA();
-            if(i==0)worldIn.playSound((EntityPlayer)null, posAry[i].x, posAry[i].y, posAry[i].z, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 4.0F, (1.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
+            if(i==0)
+                worldIn.playSound((EntityPlayer)null, posAry[i].x, posAry[i].y, posAry[i].z, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS, 4.0F, (1.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
         }
         return ses;
     }

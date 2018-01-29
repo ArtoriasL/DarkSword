@@ -1,15 +1,15 @@
 package mods.allenzhang.darksword.Object.darktomes;
 
-import mods.allenzhang.darksword.Object.skills.SkillManager;
 import mods.allenzhang.darksword.Object.skills.SoulExplosion;
+import mods.allenzhang.darksword.allenHelper.AllenPosGetter;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 public class DarktomeDarksword extends DarkTomeBase{
     public DarktomeDarksword( String name, Rarity rarityIn, EnumEnchantmentType typeIn, EntityEquipmentSlot[] slots ) {
@@ -20,24 +20,26 @@ public class DarktomeDarksword extends DarkTomeBase{
         return false;
     }
 
+
     @Override
-    public void OnNormal( SkillManager.ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
-        if(ct== SkillManager.ClickType.right)SoulGreatsword(worldIn, playerIn, itemStackIn);
+    public void OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
+        OnStrike(worldIn,playerIn);
+//        SoulGreatsword(worldIn, playerIn, itemStackIn);
     }
 
-    public static void SoulGreatsword( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
-        double x= playerIn.posX;
-        double y= playerIn.posY+ ((double)playerIn.getEyeHeight()*0.5);
-        double z= playerIn.posZ;
+    public static void SoulGreatsword(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
+        EnumAction ea = itemStackIn.getItemUseAction();
+
+        Vec3d playerPos =new Vec3d(playerIn.posX,AllenPosGetter.GetEyeHeight(playerIn),playerIn.posZ) ;
         Vec3d[] v3ds = new Vec3d[]{
-                new Vec3d(x+2,y,z),
-                new Vec3d(x-2,y,z),
-                new Vec3d(x+1.5,y,z+1.5),
-                new Vec3d(x-1.5,y,z-1.5),
-                new Vec3d(x+1.5,y,z-1.5),
-                new Vec3d(x-1.5,y,z+1.5),
-                new Vec3d(x,y,z+2),
-                new Vec3d(x,y,z-2),
+                new Vec3d(playerPos.x+1,playerPos.y,playerPos.z),
+                new Vec3d(playerPos.x-1,playerPos.y,playerPos.z),
+                new Vec3d(playerPos.x+0.5,playerPos.y,playerPos.z+0.5),
+                new Vec3d(playerPos.x-0.5,playerPos.y,playerPos.z-0.5),
+                new Vec3d(playerPos.x+0.5,playerPos.y,playerPos.z-0.5),
+                new Vec3d(playerPos.x-0.5,playerPos.y,playerPos.z+0.5),
+                new Vec3d(playerPos.x,playerPos.y,playerPos.z+1),
+                new Vec3d(playerPos.x,playerPos.y,playerPos.z-1),
         };
         SoulExplosion.newSoulExplosion(worldIn,playerIn,v3ds,0.8F);
 //        EntitySnowball entitysnowball = new EntitySnowball(worldIn, playerIn);
@@ -46,7 +48,6 @@ public class DarktomeDarksword extends DarkTomeBase{
         itemStackIn.damageItem(1,playerIn);
         playerIn.addStat(StatList.getObjectUseStats(itemStackIn.getItem()));
     }
-
     public static void DarkHand(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
 
     }

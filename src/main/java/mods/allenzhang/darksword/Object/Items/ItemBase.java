@@ -11,13 +11,13 @@ public class ItemBase extends Item implements IHasModel {
         setUnlocalizedName(name);
         setRegistryName(name);
         setMaxStackSize(64);
-        setCreativeTab(DarkswordMain.darkcore);
+        setCreativeTab(DarkswordMain.DARKCORE);
         ModItems.ITEMS.add(this);
     }
 
     @Override
     public void registerModels() {
-        DarkswordMain.proxy.registerItemRenderer(this, 0, "inventory");
+        DarkswordMain.PROXY.registerItemRenderer(this, 0, "inventory");
     }
 }
 

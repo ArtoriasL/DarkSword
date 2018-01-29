@@ -1,5 +1,8 @@
 package mods.allenzhang.darksword.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Reference {
     /**
      * Generic modid used for models and registering textures
@@ -38,4 +41,12 @@ public class Reference {
 
         return (int)exp;
     }
+
+    public static final HashMap<Integer,Integer> BOSS_DROP_SOUL = new HashMap<Integer, Integer>()
+    {
+        {
+            put(5593,2);
+            put(292022,1);
+        }
+    };
 }
