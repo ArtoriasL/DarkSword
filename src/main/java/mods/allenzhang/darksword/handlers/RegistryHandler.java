@@ -68,24 +68,19 @@ public class RegistryHandler {
     public static void onLivingExpDrop( LivingExperienceDropEvent event)
     {
         int exp = event.getOriginalExperience();
-        double rdmR = (exp>= Reference.SOULS_EXP[4])?1.0:0.3;
-        EntityLivingBase el = event.getEntityLiving();
+        for (Map.Entry<Integer,Integer>entry:Reference.BOSS_DROP_SOUL.entrySet())
+            if(event.getEntity().getEntityId()==entry.getKey())
+                return;
 
-        if(el instanceof EntityPlayer)
-        {
-            int level = ((EntityPlayer) el).experienceLevel;
-            rdmR=(level>=10)?1:0;//chance of the player drop [level>=10 100%]
-            if(rdmR>0)exp = Reference.GetExpByLevel(level) / 2 ;//death punishment [1/2] now
-        }
-
-        if(Math.random()<=rdmR)LivingDropSouls.DropSoulsByExp(event.getEntity(),exp);
+        if(Math.random()>0.3)
+            LivingDropSouls.DropSoulsByExp(event.getEntity().world,event.getEntity(),exp);
     }
 
     @SubscribeEvent
     public static void onLivingDeath( LivingDeathEvent event){
         for (Map.Entry<Integer,Integer>entry:Reference.BOSS_DROP_SOUL.entrySet())
             if(event.getEntity().getEntityId()==entry.getKey())
-                LivingDropSouls.DropSoulsByExp(event.getEntity(),entry.getValue());
+                LivingDropSouls.DropSoulsByExp(event.getEntity().world,event.getEntity(),entry.getValue());
     }
 
     @SubscribeEvent

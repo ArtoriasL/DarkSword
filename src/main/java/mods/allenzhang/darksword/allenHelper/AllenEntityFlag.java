@@ -34,10 +34,10 @@ public enum AllenEntityFlag {
                 case sprinting:flags[i]=entityIn.isSprinting();break;
                 case invisible:flags[i]=entityIn.isInvisible();break;
                 case glowing:flags[i]=entityIn.isGlowing();break;
-                case jumping:flags[i]=entityIn.fallDistance>0.1&&entityIn.fallDistance<=5;break;
-                case falling:flags[i]=entityIn.fallDistance>5;break;
-                case dodge:flags[i]= (AllenSkillArrow.GetArrowKey()!= AllenSkillArrow.forward);break;
-                case normal:flags[i]= !(AllenSkillArrow.GetArrowKey()!= AllenSkillArrow.forward);break;
+                case jumping:flags[i]=entityIn.fallDistance>0.1&&entityIn.fallDistance<=1;break;
+                case falling:flags[i]=entityIn.fallDistance>1;break;
+                case dodge:flags[i]= (AllenSkillArrow.GetSkillArrow()!= AllenSkillArrow.forward);break;//player only
+                case normal:flags[i]= true;break;
             }
         }
         return flags;

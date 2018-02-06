@@ -1,7 +1,7 @@
 package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.Object.skills.SkillRepairpowder;
-import mods.allenzhang.darksword.allenHelper.AllenPosGetter;
+import mods.allenzhang.darksword.allenHelper.AllenPosHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -21,7 +21,7 @@ public class ItemRepairpowder extends ItemBase  {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
         if(handIn==EnumHand.MAIN_HAND) {
-            Vec3d playerPos = AllenPosGetter.GetEntityLeftPos(playerIn,true);
+            Vec3d playerPos = AllenPosHelper.GetEntityLeftPos(playerIn,true);
             worldIn.playSound((EntityPlayer) null, playerPos.x, playerPos.y, playerPos.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL, 1F, 0.5F);
             worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB_AMBIENT, playerPos.x, playerPos.y, playerPos.z, 1.0, 1.0, 1.0);
             playerIn.setActiveHand(handIn);

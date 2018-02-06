@@ -1,6 +1,7 @@
 package mods.allenzhang.darksword.Object.skills;
 
 import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
+import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.allenHelper.NBTReader;
 import mods.allenzhang.darksword.init.ModDarkTome;
 import net.minecraft.enchantment.Enchantment;

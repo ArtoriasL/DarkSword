@@ -1,10 +1,11 @@
 package mods.allenzhang.darksword.allenHelper;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 
-public class AllenPosGetter {
-    public static double GetEyeHeight(EntityLivingBase entityIn){
+public class AllenPosHelper {
+    public static double GetEyeHeight(Entity entityIn){
         return entityIn.posY+((double)entityIn.getEyeHeight()*0.5);
     }
     public static Vec3d GetEntityForwardPos( EntityLivingBase entityIn, boolean isEyeHeight){
