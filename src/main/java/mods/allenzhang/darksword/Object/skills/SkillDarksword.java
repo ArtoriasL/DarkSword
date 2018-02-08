@@ -72,16 +72,18 @@ public class SkillDarksword extends SkillBase{
 
     }
     public static void Airborne(World worldIn,EntityLivingBase entityIn){
-        MoveRelative(new Float[]{0F,-forward,0F, friction*100},worldIn,entityIn);}
+        MoveRelative(new Float[]{0F,-forward,0F, friction*100},worldIn,entityIn,false);}
     public static void HeavyHit(World worldIn,EntityLivingBase entityIn){
         MoveRelative(new Float[]{0F,-forward,0F, friction},worldIn,entityIn);}
-    private static void MoveRelative( @Nullable Float[] movePar , World worldIn, EntityLivingBase entityIn){
-        setCooldownEffect(entityIn,null);
+    private static void MoveRelative( @Nullable Float[] movePar , World worldIn, EntityLivingBase entityIn){MoveRelative(movePar,worldIn,entityIn,true);}
+    private static void MoveRelative( @Nullable Float[] movePar , World worldIn, EntityLivingBase entityIn,@Nullable Boolean hasCD){
+        if(hasCD==null)hasCD=true;
+        if(hasCD)setCooldownEffect(entityIn,null);
         if(movePar==null)movePar= new Float[]{0f,up,forward,friction};
 
+        entityIn.moveRelative(movePar[0], movePar[1], movePar[2], movePar[3]);
         if(!worldIn.isRemote) {
             worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, entityIn.posX, entityIn.posY, entityIn.posZ, 1.3D, 0.0D, 0.0D);
-            entityIn.moveRelative(movePar[0], movePar[1], movePar[2], movePar[3]);
             worldIn.playSound((EntityPlayer) null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 4.0F, (3.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
         }
     }
@@ -110,6 +112,7 @@ public class SkillDarksword extends SkillBase{
         {
             EntityLightningBolt elb = new EntityLightningBolt(worldIn,playerIn.posX,playerIn.posY,playerIn.posZ,true);
             worldIn.spawnEntity(elb);
+            worldIn.setBlockState(new BlockPos(playerIn), Blocks.FIRE.getDefaultState(), 11);
         }
     }
 }

@@ -34,14 +34,12 @@ public class SoulExplosion extends Explosion{
         if(posAry.length==0)return null;
         SoulExplosion[] ses = new SoulExplosion[posAry.length];
 
-        if(!worldIn.isRemote) {
-            for (int i = 0; i < ses.length; i++) {
-                worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posAry[i].x, posAry[i].y, posAry[i].z, 1.0D * size, 0.0D, 0.0D);
-                SoulExplosion se = new SoulExplosion(worldIn, entityIn, posAry[i].x, posAry[i].y, posAry[i].z, size);
-                se.doExplosionA();
-                if (i == 0)
-                    worldIn.playSound((EntityPlayer) null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
-            }
+        for (int i = 0; i < ses.length; i++) {
+            worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, posAry[i].x, posAry[i].y, posAry[i].z, 1.0D * size, 0.0D, 0.0D);
+            SoulExplosion se = new SoulExplosion(worldIn, entityIn, posAry[i].x, posAry[i].y, posAry[i].z, size);
+            se.doExplosionA();
+            if (i == 0)
+                worldIn.playSound((EntityPlayer) null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
         }
         return ses;
     }

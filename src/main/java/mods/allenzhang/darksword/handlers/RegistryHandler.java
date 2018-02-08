@@ -4,14 +4,17 @@ import mods.allenzhang.darksword.Object.skills.SkillManager;
 import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.init.ModBlocks;
 import mods.allenzhang.darksword.init.ModDarkTome;
+import mods.allenzhang.darksword.init.ModEffects;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.IHasModel;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.block.Block;
+import net.minecraft.client.model.ModelPolarBear;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -36,7 +39,10 @@ public class RegistryHandler {
     {
         event.getRegistry().registerAll(ModBlocks.BLOCKS.toArray(new Block[0]));
     }
-
+    @SubscribeEvent
+    public static void onPotionRegister( RegistryEvent.Register<Potion> event){
+        event.getRegistry().registerAll(ModEffects.POTIONS.toArray(new Potion[0]));
+    }
     @SubscribeEvent
     public static void onEnchantmentRegister( RegistryEvent.Register<Enchantment> event){
         event.getRegistry().registerAll(ModDarkTome.darkTomes.toArray(new Enchantment[0]));

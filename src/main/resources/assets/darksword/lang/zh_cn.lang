@@ -12,4 +12,6 @@ item.repairpowder_perfect.name=完美的修理光粉
 
 tile.block_largeember.name=大块余烬
 
-enchantment.tome_darksword=黑暗剑
+potion.dodge=移动中
+
+enchantment.tome_darksword=黑暗剑[1.强袭][2.闪躲][3.重击][4.下落攻击][5.黑暗献祭][6.黑暗箭]

@@ -51,7 +51,7 @@ public class LivingDropSouls {
             worldIn.spawnEntity(temp);
 
             BlockPos pos = new BlockPos(entityIn);
-            worldIn.setBlockState(pos, Blocks.FIRE.getDefaultState(), 11);
+
         }
     }
 }
