@@ -21,9 +21,11 @@ public class ItemRepairpowder extends ItemBase  {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
         if(handIn==EnumHand.MAIN_HAND) {
-            Vec3d playerPos = AllenPosHelper.GetEntityLeftPos(playerIn,true);
-            worldIn.playSound((EntityPlayer) null, playerPos.x, playerPos.y, playerPos.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL, 1F, 0.5F);
-            worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB_AMBIENT, playerPos.x, playerPos.y, playerPos.z, 1.0, 1.0, 1.0);
+            Vec3d playerPos = AllenPosHelper.LeftPos(playerIn,true,1);
+            if(worldIn.isRemote){
+                worldIn.playSound((EntityPlayer) null, playerPos.x, playerPos.y, playerPos.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL, 1F, 0.5F);
+                worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB_AMBIENT, playerPos.x, playerPos.y, playerPos.z, 1.0, 1.0, 1.0);
+            }
             playerIn.setActiveHand(handIn);
         }
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));

@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NBTReader {
+public class AllenNBTReader {
     public static List<Enchantment> GetEnchantmentByNBT(NBTTagList taglist){
         List<Enchantment> es = new ArrayList<>();
         for(NBTTagCompound temp:GetNBTCompound(taglist))

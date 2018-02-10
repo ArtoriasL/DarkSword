@@ -50,5 +50,10 @@ public class  BlockLargeEmber extends BlockBase {
     public boolean addDestroyEffects( World world, BlockPos pos, ParticleManager manager ) {
         return true;
     }
+
+    public void onEntityWalk( World worldIn, BlockPos pos, Entity entityIn ) {
+
+        super.onEntityWalk(worldIn, pos, entityIn);
+    }
 }
 

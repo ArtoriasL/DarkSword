@@ -2,6 +2,7 @@ package mods.allenzhang.darksword.init;
 
 import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
 import mods.allenzhang.darksword.Object.darktomes.DarktomeDarksword;
+import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;

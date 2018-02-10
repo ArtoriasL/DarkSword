@@ -4,6 +4,7 @@ import mods.allenzhang.darksword.DarkswordMain;
 import mods.allenzhang.darksword.init.ModBlocks;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.IHasModel;
+import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;

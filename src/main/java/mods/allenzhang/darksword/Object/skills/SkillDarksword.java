@@ -1,9 +1,11 @@
 package mods.allenzhang.darksword.Object.skills;
 
+import mods.allenzhang.darksword.Object.effects.EffectBase;
 import mods.allenzhang.darksword.Object.entity.SoulExplosion;
 import mods.allenzhang.darksword.allenHelper.AllenSkillArrow;
 import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.handlers.LivingDropSouls;
+import mods.allenzhang.darksword.init.ModEffects;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -37,15 +39,15 @@ public class SkillDarksword extends SkillBase{
 
     public static final float up=-0.05f,forward=0.3f,friction=2f;
     public static void Strike( World worldIn, EntityLivingBase entityIn){
-        MoveRelative(null,worldIn,entityIn);
+        MoveRelative(new Float[]{0f,up,forward,friction*2},worldIn,entityIn);
+        EffectBase.AddEffectToEntity(entityIn,ModEffects.STRICK,5,0);
         //makedamage
     }
     public static void Dodge( AllenSkillArrow sd, World worldIn, EntityLivingBase entityIn){
         float str = 0;
         float fwd = 0;
 
-        if(!worldIn.isRemote)   entityIn.addPotionEffect(new PotionEffect(Potion.getPotionById(11),10,4));
-
+        EffectBase.AddEffectToEntity(entityIn,ModEffects.DAMAGEIMMUNE,10,4);
         switch (sd){
             case left:str = forward;break;
             case right:str = -forward;;break;
@@ -68,13 +70,22 @@ public class SkillDarksword extends SkillBase{
                 break;
         }
         MoveRelative(new Float[]{str, up,fwd, friction},worldIn,entityIn);
+        if(!worldIn.isRemote) {
+            worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, entityIn.posX, entityIn.posY, entityIn.posZ, 1.3D, 0.0D, 0.0D);
+            worldIn.playSound((EntityPlayer) null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 4.0F, (3.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
+        }
         //make resistance
 
     }
     public static void Airborne(World worldIn,EntityLivingBase entityIn){
-        MoveRelative(new Float[]{0F,-forward,0F, friction*100},worldIn,entityIn,false);}
+        MoveRelative(new Float[]{0F,-forward,0F, friction*50},worldIn,entityIn,false);
+        EffectBase.AddEffectToEntity(entityIn,Potion.getPotionById(5),10,9);
+    }
+
     public static void HeavyHit(World worldIn,EntityLivingBase entityIn){
-        MoveRelative(new Float[]{0F,-forward,0F, friction},worldIn,entityIn);}
+        MoveRelative(new Float[]{0F,-forward,0F, friction},worldIn,entityIn);
+        SkillDarksword.SoulGreatsword(worldIn, entityIn, 2);
+    }
     private static void MoveRelative( @Nullable Float[] movePar , World worldIn, EntityLivingBase entityIn){MoveRelative(movePar,worldIn,entityIn,true);}
     private static void MoveRelative( @Nullable Float[] movePar , World worldIn, EntityLivingBase entityIn,@Nullable Boolean hasCD){
         if(hasCD==null)hasCD=true;
@@ -82,33 +93,14 @@ public class SkillDarksword extends SkillBase{
         if(movePar==null)movePar= new Float[]{0f,up,forward,friction};
 
         entityIn.moveRelative(movePar[0], movePar[1], movePar[2], movePar[3]);
-        if(!worldIn.isRemote) {
-            worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, entityIn.posX, entityIn.posY, entityIn.posZ, 1.3D, 0.0D, 0.0D);
-            worldIn.playSound((EntityPlayer) null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 4.0F, (3.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
-        }
     }
-    public static void SoulGreatsword( World worldIn, EntityLivingBase entityIn, ItemStack itemStackIn,@Nullable Integer size){
-        EnumAction ea = itemStackIn.getItemUseAction();
-        if(size==null)size =1;
-        Vec3d playerPos =new Vec3d(entityIn.posX, entityIn.posY,entityIn.posZ) ;
-        Vec3d[] v3ds = new Vec3d[]{
-                new Vec3d(playerPos.x+2,playerPos.y,playerPos.z),
-                new Vec3d(playerPos.x-2,playerPos.y,playerPos.z),
-                new Vec3d(playerPos.x+1.5,playerPos.y,playerPos.z+1.5),
-                new Vec3d(playerPos.x-1.5,playerPos.y,playerPos.z-1.5),
-                new Vec3d(playerPos.x+1.5,playerPos.y,playerPos.z-1.5),
-                new Vec3d(playerPos.x-1.5,playerPos.y,playerPos.z+1.5),
-                new Vec3d(playerPos.x,playerPos.y,playerPos.z+2),
-                new Vec3d(playerPos.x,playerPos.y,playerPos.z-2),
-        };
-        SoulExplosion.newSoulExplosion(worldIn,entityIn,v3ds,0.8F*size);
-//        EntitySnowball entitysnowball = new EntitySnowball(worldIn, entityIn);
-//        entitysnowball.shoot(entityIn, entityIn.rotationPitch, entityIn.rotationYaw, -1.0F, 1.0F, 1.0F);
-//        worldIn.spawnEntity(entitysnowball);
+    public static void SoulGreatsword( World worldIn, EntityLivingBase entityIn, @Nullable Integer size){
+        EffectBase.AddEffectToEntity(entityIn,ModEffects.SOULEXPLOSION,10,0);
+        EffectBase.AddEffectToEntity(entityIn,Potion.getPotionById(2),10,3);
     }
     public static void RiteOfDark( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
         int exp = Reference.GetExpByLevel(playerIn.experienceLevel);
-        if(LivingDropSouls.DropSoulsByExp(worldIn,playerIn,exp))
+        if(LivingDropSouls.DropSoulsByExp(worldIn,playerIn,exp)&&!worldIn.isRemote)
         {
             EntityLightningBolt elb = new EntityLightningBolt(worldIn,playerIn.posX,playerIn.posY,playerIn.posZ,true);
             worldIn.spawnEntity(elb);

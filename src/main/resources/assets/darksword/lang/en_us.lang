@@ -12,6 +12,6 @@ item.repairpowder_perfect.name=Perfect Repair Powder
 
 tile.block_largeember.name=Large Ember
 
-effect.dodge=moveing
+potion.effect_dodge=moveing
 
 enchantment.tome_darksword=Dark Sword[1.Strike][2.Dodge][3.Heavy Hit][4.Airborne][5.Rite Of Dark][6.Dark Arrow]

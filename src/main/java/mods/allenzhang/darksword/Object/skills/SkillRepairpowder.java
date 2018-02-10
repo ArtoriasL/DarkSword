@@ -17,7 +17,7 @@ public class SkillRepairpowder {
         ItemStack mainHandIn = playerIn.getHeldItemMainhand();
         ItemStack offHandIn = playerIn.getHeldItemOffhand();
         if(mainHandIn.getItem()==repairpowder) {
-            Vec3d playerPos = AllenPosHelper.GetEntityRightPos(entityLiving,true);
+            Vec3d playerPos = AllenPosHelper.RightPos(entityLiving,true,1);
             worldIn.playSound((EntityPlayer)null, playerPos.x,playerPos.y,playerPos.z, SoundEvents.BLOCK_ANVIL_USE, SoundCategory.NEUTRAL, 0.7F, 2F);
             int repair = repairLv;
             switch (repairLv) {
