@@ -27,7 +27,7 @@ public class SkillBase {
     public static void UseSkill( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
         DarkTomeBase[] skill = GetDarkTomeByPlayer(playerIn);
         if(skill==null)return;
-        skill[0].UseSkill(ct,worldIn, playerIn, itemStackIn);//only use first skill
+        skill[0].UseSkill(ct,worldIn, playerIn, itemStackIn);//only use first darktome
     }
     public static DarkTomeBase[] GetDarkTomeByPlayer( EntityPlayer playerIn){
         ItemStack mainHandIn = playerIn.getHeldItemMainhand();

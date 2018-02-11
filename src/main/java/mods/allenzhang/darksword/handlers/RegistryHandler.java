@@ -21,7 +21,6 @@ import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.Map;
 
@@ -91,7 +90,7 @@ public class RegistryHandler {
     public static void OnEntityUpdate( LivingEvent.LivingUpdateEvent event){
         for (EffectBase temp :
                 ModEffects.EFFECTS) {
-            if(event.getEntityLiving().isPotionActive(temp))EffectBase.CheckEffects(event.getEntityLiving(),temp);
+            if(event.getEntityLiving().isPotionActive(temp))EffectBase.UseSkillByEffect(event.getEntityLiving(),temp);
         }
     }
 }

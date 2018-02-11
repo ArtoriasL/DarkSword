@@ -19,38 +19,37 @@ public class DarktomeDarksword extends DarkTomeBase{
         super(name, rarityIn, typeIn, slots);
     }
     @Override
-    public void OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
-        super.OnNormal(worldIn,playerIn,itemStackIn);
+    public int OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
+        if(!SkillDarksword.DarkArrow(playerIn))return 0;
+        return GetDamageByItem(itemStackIn,playerIn,1D,null);
     }
 
     @Override
-    public void OnDodge( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
-        super.OnDodge(worldIn,playerIn,itemStackIn);
-        SkillDarksword.Dodge(AllenSkillArrow.GetSkillArrow(),worldIn,playerIn);
+    public int OnDodge( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
+        if(!SkillDarksword.Dodge(AllenSkillArrow.GetSkillArrow(),worldIn,playerIn))return 0;
+        return 1;
     }
 
     @Override
-    public void OnJumping( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
-        super.OnJumping(worldIn,playerIn,itemStackIn);
-        SkillDarksword.HeavyHit(worldIn,playerIn);
-
+    public int OnJumping( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
+        if(!SkillDarksword.HeavyHit(worldIn,playerIn))return 0;
+        return GetDamageByItem(itemStackIn,playerIn,2D,null);
     }
 
     @Override
-    public void OnFalling( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
-        super.OnFalling(worldIn,playerIn,itemStackIn);
-        SkillDarksword.Airborne(worldIn,playerIn);
+    public int OnFalling( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
+        if(!SkillDarksword.Airborne(worldIn,playerIn))return 0;
+        return GetDamageByItem(itemStackIn,playerIn,5D,null);
     }
 
     @Override
-    public void OnSneaking( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
-        super.OnSneaking(worldIn, playerIn, itemStackIn);
-        SkillDarksword.RiteOfDark(worldIn, playerIn, itemStackIn);
+    public int OnSneaking( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
+        SkillDarksword.RiteOfDark(playerIn);return 0;
     }
 
     @Override
-    public void OnSprinting( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
-        super.OnSprinting(worldIn, playerIn, itemStackIn);
-        SkillDarksword.Strike(worldIn,playerIn);
+    public int OnSprinting( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
+        if(!SkillDarksword.Strike(worldIn,playerIn))return 0;
+        return GetDamageByItem(itemStackIn,playerIn,1D,null);
     }
 }

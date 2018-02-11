@@ -14,7 +14,10 @@ public class ModEffects {
     public static final EffectBase DAMAGEIMMUNE = new EffectBase(1,"effect_damageimmune",false,6946739,11).setIconIndex(6,1);
     public static final EffectBase POWER = new EffectBase(2,"effect_power",false,16738665,5).setIconIndex(4,0);
 
-    public static final EffectBase SOULEXPLOSION = new EffectBase(101,"skill_soulexplosion",false,6920192,null).setIconIndex(7,1);
+    public static final EffectBase HEAVYHIT = new EffectBase(101,"skill_soulexplosion",false,6920192,null).setIconIndex(7,1);
     public static final EffectBase STRICK = new EffectBase(102,"skill_strick",false,6920193,null).setIconIndex(7,1);
+    public static final EffectBase DARKARROW = new EffectBase(103,"skill_darkarrow",false,6920194,null).setIconIndex(7,1);
+    public static final EffectBase RITEOFDARK = new EffectBase(104,"skill_riteofdark",false,6920195,null).setIconIndex(7,1);
+    public static final EffectBase AIRBORNE = new EffectBase(105,"skill_airborne",false,6920195,null).setIconIndex(7,1);
 //    public static final EffectLargeEmber
 }
