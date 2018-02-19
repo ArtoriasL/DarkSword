@@ -1,13 +1,11 @@
 package mods.allenzhang.darksword.handlers;
 
 
-import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,9 +19,9 @@ public class LivingDropSouls {
             EntityPlayer ep = (EntityPlayer) entityIn;
             int level = ep.experienceLevel;
             if(level<10)return false;
-            ep.experience=0;
-            ep.experienceLevel=0;
             exp = Reference.GetExpByLevel(level) / 2;//death punishment [1/2] now
+            ep.addExperienceLevel(-level);
+            ep.addExperience((int)-ep.experience);
         }
 
         for(int i=4;i>=0;i--)
@@ -47,11 +45,7 @@ public class LivingDropSouls {
         }
         if(!worldIn.isRemote){
             EntityItem temp = new EntityItem(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, tempItems);
-            temp.setInvisible(true);
             worldIn.spawnEntity(temp);
-
-            BlockPos pos = new BlockPos(entityIn);
-
         }
     }
 }

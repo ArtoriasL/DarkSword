@@ -1,12 +1,9 @@
 package mods.allenzhang.darksword.handlers;
 
-import mods.allenzhang.darksword.Object.effects.EffectBase;
-import mods.allenzhang.darksword.Object.skills.SkillBase;
+import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
+import mods.allenzhang.darksword.Object.EffectBase;
 import mods.allenzhang.darksword.allenHelper.Debug;
-import mods.allenzhang.darksword.init.ModBlocks;
-import mods.allenzhang.darksword.init.ModDarkTome;
-import mods.allenzhang.darksword.init.ModEffects;
-import mods.allenzhang.darksword.init.ModItems;
+import mods.allenzhang.darksword.init.*;
 import mods.allenzhang.darksword.util.IHasModel;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.block.Block;
@@ -80,17 +77,22 @@ public class RegistryHandler {
     }
     @SubscribeEvent
     public static void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem event){
-        SkillBase.UseSkill(SkillBase.ClickType.right,event.getWorld(),event.getEntityPlayer(),event.getItemStack());
+        DarkTomeBase.UseDarkTome(DarkTomeBase.ClickType.right,event.getWorld(),event.getEntityPlayer(),event.getItemStack());
     }
     @SubscribeEvent
     public static void onPlayerLeftClickItem(PlayerInteractEvent.LeftClickEmpty event){
-        SkillBase.UseSkill(SkillBase.ClickType.left,event.getWorld(),event.getEntityPlayer(),event.getItemStack());
+        DarkTomeBase.UseDarkTome(DarkTomeBase.ClickType.left,event.getWorld(),event.getEntityPlayer(),event.getItemStack());
     }
     @SubscribeEvent
     public static void OnEntityUpdate( LivingEvent.LivingUpdateEvent event){
         for (EffectBase temp :
                 ModEffects.EFFECTS) {
-            if(event.getEntityLiving().isPotionActive(temp))EffectBase.UseSkillByEffect(event.getEntityLiving(),temp);
+            if(event.getEntityLiving().isPotionActive(temp))DarkTomeBase.UseSkillByEffect(event.getEntity().getEntityWorld(),event.getEntityLiving(),temp);
         }
+    }
+
+    public static void preInitRegisteries(){
+        ModEntitys.registerEntites();
+        RenderHandler.registerEntityRenders();
     }
 }

@@ -1,6 +1,7 @@
 package mods.allenzhang.darksword;
 
 import mods.allenzhang.darksword.handlers.RecipeHandler;
+import mods.allenzhang.darksword.handlers.RegistryHandler;
 import mods.allenzhang.darksword.util.Reference;
 import mods.allenzhang.darksword.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
@@ -27,8 +28,7 @@ public class DarkswordMain {
     public static CommonProxy PROXY;
 
     @Mod.EventHandler
-    public static void preInit( FMLPreInitializationEvent event){
-
+    public static void preInit( FMLPreInitializationEvent event){RegistryHandler.preInitRegisteries();
     }
 
     @Mod.EventHandler
@@ -37,10 +37,6 @@ public class DarkswordMain {
     }
 
     @Mod.EventHandler
-    public static void postInit( FMLPostInitializationEvent event)
-    {
-
+    public static void postInit( FMLPostInitializationEvent event){
     }
-
-
 }

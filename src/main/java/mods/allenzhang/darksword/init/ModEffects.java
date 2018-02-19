@@ -1,8 +1,6 @@
 package mods.allenzhang.darksword.init;
 
-import mods.allenzhang.darksword.Object.effects.EffectBase;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
+import mods.allenzhang.darksword.Object.EffectBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +8,15 @@ import java.util.List;
 public class ModEffects {
     public static List<EffectBase> EFFECTS = new ArrayList<>();
 
-    public static final EffectBase DODGE = new EffectBase(0,"effect_dodge",false,6920191,null).setIconIndex(3,2);
-    public static final EffectBase DAMAGEIMMUNE = new EffectBase(1,"effect_damageimmune",false,6946739,11).setIconIndex(6,1);
-    public static final EffectBase POWER = new EffectBase(2,"effect_power",false,16738665,5).setIconIndex(4,0);
+    public static final EffectBase FATIGUE = new EffectBase("effect_fatigue",false,00000).setIconIndex(1,0).setEffectID(0);
+    public static final EffectBase DODGE = new EffectBase("effect_damageimmune",false,0000000).setIconIndex(3,2).setEffectID(1).setDurationSecond(1).setItemDamage(1).setPotionID(11);
 
-    public static final EffectBase HEAVYHIT = new EffectBase(101,"skill_soulexplosion",false,6920192,null).setIconIndex(7,1);
-    public static final EffectBase STRICK = new EffectBase(102,"skill_strick",false,6920193,null).setIconIndex(7,1);
-    public static final EffectBase DARKARROW = new EffectBase(103,"skill_darkarrow",false,6920194,null).setIconIndex(7,1);
-    public static final EffectBase RITEOFDARK = new EffectBase(104,"skill_riteofdark",false,6920195,null).setIconIndex(7,1);
-    public static final EffectBase AIRBORNE = new EffectBase(105,"skill_airborne",false,6920195,null).setIconIndex(7,1);
+    public static final EffectBase STRICK = new EffectBase("skill_strick",false,0000000).setIconIndex(7,1).setEffectID(102).setDurationSecond(0.5d).setAttackDamage(0.5).setItemDamage(1).setPlayerLevel(10);
+    public static final EffectBase RITEOFDARK = new EffectBase("skill_riteofdark",false,0000000).setIconIndex(7,1).setEffectID(104).setDurationSecond(2).setItemDamage(1).setPlayerLevel(10);
+    public static final EffectBase HEAVYHIT = new EffectBase("skill_soulexplosion",false,0000000).setIconIndex(7,1).setEffectID(101).setDurationSecond(0.5d).setAttackDamage(0.4).setItemDamage(1).setPlayerLevel(20);
+    public static final EffectBase DARKARROW = new EffectBase("skill_darkarrow",false,0000000).setIconIndex(7,1).setEffectID(103).setDurationSecond(1).setAttackDamage(1).setItemDamage(1).setPlayerLevel(30);
+    public static final EffectBase AIRBORNE = new EffectBase("skill_airborne",false,0000000).setIconIndex(7,1).setEffectID(105).setDurationSecond(0.5d).setAttackDamage(2).setItemDamage(5).setPlayerLevel(40);
+
+    public static final EffectBase MRQUINDARKSWORD = new EffectBase("entityskill_mrquindarksword",false,0000000).setIconIndex(7,1).setEffectID(1001).setDurationSecond(15);
 //    public static final EffectLargeEmber
 }

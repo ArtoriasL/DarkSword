@@ -11,6 +11,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntitySoul extends EntityThrowable {
+
+
     public EntitySoul(World worldIn)
     {
         super(worldIn);
@@ -20,7 +22,7 @@ public class EntitySoul extends EntityThrowable {
         super(worldIn, throwerIn);
     }
     public EntitySoul( World worldIn,double x,double y,double z){super(worldIn, x, y, z);}
-    public static void registerFixesExpBottle(DataFixer fixer){
+    public static void registerFixesSoul(DataFixer fixer){
         EntityThrowable.registerFixesThrowable(fixer, "ThrowableSoul");
     }
     public void setSoulsCount(int count)

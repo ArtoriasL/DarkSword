@@ -2,9 +2,13 @@ package mods.allenzhang.darksword.allenHelper;
 
 import com.google.common.collect.Multimap;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -38,5 +42,13 @@ public class AllenAttributeHelper {
             }
         }
         return d0;
+    }
+
+    public static double GetAttackDamageByEntity( EntityLivingBase entityIn){
+        double d = 0;
+        if(entityIn==null)return d;
+        IAttributeInstance iattributeinstance = entityIn.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        d = iattributeinstance.getAttributeValue();
+        return d;
     }
 }
