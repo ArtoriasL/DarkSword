@@ -23,7 +23,7 @@ public class EntityMrQuinFake extends EntityWolf {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(400.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5D);
     }
@@ -57,5 +57,10 @@ public class EntityMrQuinFake extends EntityWolf {
     public void onEntityUpdate() {
         super.onEntityUpdate();
         if(!isPotionActive(ModEffects.MRQUINDARKSWORD)) DarkTomeBase.AddEffectToEntity(this,ModEffects.MRQUINDARKSWORD,ModEffects.MRQUINDARKSWORD.getDuration(),0);
+    }
+
+    @Override
+    public boolean isAngry() {
+        return true;
     }
 }

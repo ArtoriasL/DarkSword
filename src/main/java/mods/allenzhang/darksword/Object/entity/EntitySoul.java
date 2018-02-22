@@ -35,23 +35,21 @@ public class EntitySoul extends EntityThrowable {
      */
     protected float getGravityVelocity()
     {
-        return 0.07F;
+        return 10F;
     }
     /**
      * Called when this EntityThrowable hits a block or entity.
      */
+
     protected void onImpact(RayTraceResult result){
         if (!this.world.isRemote)
         {
-            this.world.playEvent(2002, new BlockPos(this), PotionUtils.getPotionColor(PotionTypes.SLOWNESS));
-
-            while (soulsCount > 0)
+            while (this.soulsCount > 0)
             {
-                int j = EntityXPOrb.getXPSplit(soulsCount);
-                soulsCount -= j;
+                int j = EntityXPOrb.getXPSplit(this.soulsCount);
+                this.soulsCount -= j;
                 this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY, this.posZ, j));
             }
-
             this.setDead();
         }
     }

@@ -12,6 +12,14 @@ item.repairpowder_perfect.name=完美的修理光粉
 
 tile.block_largeember.name=大块余烬
 
-potion.effect_dodge=移动中
+potion.effect_dodge=闪躲
+potion.effect_fatigue=硬直
+potion.skill_strick=强袭
+potion.skill_riteofdark=黑暗献祭
+potion.skill_heavyhit=重击
+potion.skill_darkarrow=黑暗箭
+potion.skill_airborne=下落一击
 
-enchantment.tome_darksword=黑暗剑|强袭|闪躲|重击|下落攻击|黑暗献祭|黑暗箭
+potion.entityskill_mrquindarksword=秦川黑暗剑技
+
+enchantment.tome_darksword=黑暗剑技

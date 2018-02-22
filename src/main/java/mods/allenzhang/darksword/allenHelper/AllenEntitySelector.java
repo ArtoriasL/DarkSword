@@ -18,13 +18,12 @@ import java.util.List;
 public class AllenEntitySelector {
 
     public static List<Entity> SelectEntity( World worldIn, @Nullable Entity entityIn, Vec3d pos, float size){
-        float f3 = size * 2.0F;
-        int k1 = MathHelper.floor(pos.x - (double)f3 - 1.0D);
-        int l1 = MathHelper.floor(pos.x + (double)f3 + 1.0D);
-        int i2 = MathHelper.floor(pos.y - (double)f3 - 1.0D);
-        int i1 = MathHelper.floor(pos.y + (double)f3 + 1.0D);
-        int j2 = MathHelper.floor(pos.z - (double)f3 - 1.0D);
-        int j1 = MathHelper.floor(pos.z + (double)f3 + 1.0D);
+        int k1 = MathHelper.floor(pos.x - (double)size - 1.0D);
+        int l1 = MathHelper.floor(pos.x + (double)size + 1.0D);
+        int i2 = MathHelper.floor(pos.y - (double)size - 1.0D);
+        int i1 = MathHelper.floor(pos.y + (double)size + 1.0D);
+        int j2 = MathHelper.floor(pos.z - (double)size - 1.0D);
+        int j1 = MathHelper.floor(pos.z + (double)size + 1.0D);
         return worldIn.getEntitiesWithinAABBExcludingEntity(entityIn, new AxisAlignedBB((double)k1, (double)i2, (double)j2, (double)l1, (double)i1, (double)j1));
     }
     public static boolean CheckEntityIsSameGroup( Entity e1,Entity e2){
@@ -49,7 +48,6 @@ public class AllenEntitySelector {
                 entityList) {
             temp.attackEntityFrom(source,damage);
             if(hasBlood)DarkTomeBase.BloodEffect(temp);
-            Debug.log().info("[AllenEntitySelector]"+damage);
         }
     }
     public static void AttackEntitysByEffect( World worldIn, EntityLivingBase entityIn, Vec3d p, EffectBase eb,DamageSource ds,float size,boolean hasBlood){

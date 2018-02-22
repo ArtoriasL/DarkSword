@@ -17,6 +17,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -55,7 +56,7 @@ public class DarkTomeBase extends Enchantment{
             case normal:damageItem=OnNormal(worldIn,playerIn,itemStackIn);break;
             }
         }
-        if(damageItem>0)
+        if(damageItem>0&&!worldIn.isRemote)
             itemStackIn.damageItem(damageItem,playerIn);
     }
     public int OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
@@ -81,7 +82,7 @@ public class DarkTomeBase extends Enchantment{
             case 100:
                 DarktomeDarksword.MrQuinDarkSwordEffect(entityIn, duration);break;
             case 101:
-                DarktomeDarksword.HeavyHitEffect(worldIn,entityIn,duration); break;
+                DarktomeDarksword.Reposte(worldIn,entityIn,duration); break;
             case 102:
                 DarktomeDarksword.StrikeEffect(worldIn, entityIn, duration); break;
             case 103:
@@ -95,8 +96,8 @@ public class DarkTomeBase extends Enchantment{
 
         }
     }
-    public static void AddEffectToEntity(EntityLivingBase entityIn, Potion potionIn, int durationIn, int amplifierIn){
-        if(entityIn.isPotionActive(potionIn))return;
+    public static boolean AddEffectToEntity(EntityLivingBase entityIn, Potion potionIn, int durationIn, int amplifierIn){
+        if(entityIn.isPotionActive(potionIn))return false;
 
         EffectBase eb = (potionIn instanceof EffectBase)? (EffectBase) potionIn:null;
         if(eb!=null){
@@ -113,16 +114,16 @@ public class DarkTomeBase extends Enchantment{
             if(!entityIn.isPotionActive(potionIn))
                 entityIn.addPotionEffect(new PotionEffect(potionIn,durationIn,amplifierIn,false,true));
         }
+        return true;
     }
     public static int GetItemDamage( ItemStack item, EntityPlayer playerIn, @Nullable Double ratio, @Nullable Integer add){
         if(ratio==null)ratio=1D;
         add=(add==null)?0:(int)Math.round(add*ratio);
         double dI = AllenAttributeHelper.GetAttackDamageByItem(item,playerIn)*ratio;
-        if(dI<1)return 0;
         dI=Math.round(dI) + add;
         int itemD = item.getItemDamage();
         if(dI>=itemD&&itemD!=1)dI = itemD - 1;
-        return (int)dI;
+        return MathHelper.ceil(dI);
     }
     public static void UseDarkTome( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
         DarkTomeBase[] tome = GetDarkTomeByPlayer(playerIn);
@@ -147,11 +148,7 @@ public class DarkTomeBase extends Enchantment{
         return null;
     }
     public static boolean Dodge( AllenSkillArrow sd, World worldIn, EntityLivingBase entityIn){
-        if(isCoolDown(entityIn, ModEffects.DODGE))return false;
-
-
         AddEffectToEntity(entityIn,ModEffects.DODGE,ModEffects.DODGE.getDuration(),0);
-
         float str = 0;
         float fwd = 0;
         switch (sd){
@@ -188,16 +185,16 @@ public class DarkTomeBase extends Enchantment{
         if(movePar==null)movePar= new Float[]{0f,up,forward,friction};
         entityIn.moveRelative(movePar[0], movePar[1], movePar[2], movePar[3]);
     }
-    protected static Boolean isCoolDown(EntityLivingBase entityIn,EffectBase eb){
-        Map<Potion,PotionEffect> actPotion = entityIn.getActivePotionMap();
-        if(actPotion.containsKey(ModEffects.FATIGUE))return true;
-        return actPotion.containsKey(eb);
+    protected static boolean CanUse(EntityPlayer ep,EffectBase eb){
+        Map<Potion,PotionEffect> actPotion = ep.getActivePotionMap();
+        if(ep.experienceLevel<eb.getPlayerLevel()||
+                actPotion.containsKey(ModEffects.DODGE)||
+                actPotion.containsKey(ModEffects.FATIGUE)||
+                actPotion.containsKey(eb)){
+            return false;
+        }
+        return true;
     }
-    protected static boolean CheckPlayerLevel(EntityPlayer ep,EffectBase eb){
-        Debug.log().info("[DarkTomeBase]"+!(ep.experienceLevel<eb.getPlayerLevel()));
-        return !(ep.experienceLevel<eb.getPlayerLevel());
-    }
-
     //Skill Effects
     public static void PreCast( World worldIn, EntityLivingBase entityIn){
         Vec3d[] pos = AllenPosHelper.GetEntityRoundPos(entityIn,1,1);
@@ -222,12 +219,14 @@ public class DarkTomeBase extends Enchantment{
     }
     public static void DodgeEffect( World worldIn, EntityLivingBase entityIn, int duration ){
         if(duration== ModEffects.DODGE.getDuration())
-            worldIn.playSound((EntityPlayer) null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 4.0F, (3.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
-        if(duration>10||duration<6) {
-            if(duration%2==0)worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.3, entityIn.posZ, 0.0D, 0, 0.0D);
-            return;
-        }else if(duration==6){
+            worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 4.0F, (3.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
+        else if(duration>10&&duration<20) {
+
+            worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.3, entityIn.posZ, 0.0D, 0, 0.0D);
+        }else if(duration==10){
             SetFatigue(entityIn,3);
+        }else if(duration<10){
+
         }
     }
 //    public int OnBurning(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}

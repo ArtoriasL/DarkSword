@@ -45,10 +45,16 @@ public class AllenAttributeHelper {
     }
 
     public static double GetAttackDamageByEntity( EntityLivingBase entityIn){
-        double d = 0;
-        if(entityIn==null)return d;
-        IAttributeInstance iattributeinstance = entityIn.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        d = iattributeinstance.getAttributeValue();
-        return d;
+        if(entityIn==null)return 0;
+        return entityIn.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+    }
+
+    public static double GetAttackSpeedByEntity( EntityLivingBase entityIn){
+        if(entityIn==null)return 0;
+        return entityIn.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getAttributeValue();
+    }
+
+    public static void AddArmorByEntity(EntityLivingBase entityIn,int a){
+
     }
 }
