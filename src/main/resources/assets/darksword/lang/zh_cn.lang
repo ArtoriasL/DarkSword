@@ -16,8 +16,8 @@ potion.effect_dodge=闪躲
 potion.effect_fatigue=硬直
 potion.skill_strick=强袭
 potion.skill_riteofdark=黑暗献祭
-potion.skill_heavyhit=重击
-potion.skill_darkarrow=黑暗箭
+potion.skill_reposte=招架
+potion.skill_darkstorm=黑暗风暴
 potion.skill_airborne=下落一击
 
 potion.entityskill_mrquindarksword=秦川黑暗剑技

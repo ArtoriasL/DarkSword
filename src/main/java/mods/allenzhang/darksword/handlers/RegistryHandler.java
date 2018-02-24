@@ -15,6 +15,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -85,9 +86,18 @@ public class RegistryHandler {
     }
     @SubscribeEvent
     public static void OnEntityUpdate( LivingEvent.LivingUpdateEvent event){
-        for (EffectBase temp :
-                ModEffects.EFFECTS) {
+        for (EffectBase temp : ModEffects.EFFECTS) {
             if(event.getEntityLiving().isPotionActive(temp))DarkTomeBase.UseSkillByEffect(event.getEntity().getEntityWorld(),event.getEntityLiving(),temp);
+        }
+    }
+
+    @SubscribeEvent
+    public static void OnEntityHurt(LivingHurtEvent event){
+
+        for (EffectBase effect : ModEffects.EFFECTS) {
+            if(event.getEntityLiving().isPotionActive(effect)){
+                DarkTomeBase.CheckEffectByHurt( event.getEntityLiving(),effect,event.getSource(),event.getAmount());
+            }
         }
     }
 

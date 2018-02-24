@@ -71,7 +71,7 @@ public class EffectBase extends Potion {
     public int getPotionID(){return potionID;}
     public int getEffectID(){return effectID;}
     public int getDuration(){return duration;}
-    public double getAttackDamage(){return attackdamage;}
+    public double getAttackDamage(double amplify){return attackdamage*amplify;}
     public double getItemDamage(){return itemdamage;}
     public int getPlayerLevel(){return playerLevel;}
 

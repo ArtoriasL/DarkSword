@@ -50,9 +50,9 @@ public class AllenEntitySelector {
             if(hasBlood)DarkTomeBase.BloodEffect(temp);
         }
     }
-    public static void AttackEntitysByEffect( World worldIn, EntityLivingBase entityIn, Vec3d p, EffectBase eb,DamageSource ds,float size,boolean hasBlood){
-        double d = AllenAttributeHelper.GetAttackDamageByEntity(entityIn) * eb.getAttackDamage();
-        AttackEntitys(SelectEnemyEntity(worldIn, entityIn, p,size),ds,(float) d,hasBlood);
-        AttackEntitys(SelectFriendlyEntity(worldIn, entityIn, p,size),ds,(float) d * 0.3f,hasBlood);
+    public static void AttackEntitysByEffect(World worldIn, EntityLivingBase entityIn, Vec3d p, EffectBase eb,double amplify, DamageSource ds, float selectSize, boolean hasBlood){
+        double d = AllenAttributeHelper.GetAttackDamageByEntity(entityIn) * eb.getAttackDamage(amplify);
+        AttackEntitys(SelectEnemyEntity(worldIn, entityIn, p, selectSize),ds,(float) d,hasBlood);
+        AttackEntitys(SelectFriendlyEntity(worldIn, entityIn, p, selectSize),ds,(float) d * 0.3f,hasBlood);
     }
 }

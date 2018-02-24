@@ -29,7 +29,7 @@ public class RenderDarkArrow extends Render<EntityDarkArrow> {
         GL11.glPushMatrix();
         bindTexture(TEXTURES);
         GL11.glTranslated(x,y,z);
-        model.render(entity,0.0f,0.0f,0.0f,0.0f,0.0f,0.06f);
+        model.render(entity,0.0f,0.0f,0.0f,0.0f,0.0f,0.1f);
         GL11.glPopMatrix();
 //        GL11.glRotated(entity.getRotationYawHead(), 0.0F, 1.0F, 0.0F);
 //        GL11.glRotatef(entity.owner.getRotationYawHead(), 0.0F, 1.0F, 0.0F);

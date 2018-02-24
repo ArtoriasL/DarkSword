@@ -15,6 +15,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
@@ -86,7 +87,7 @@ public class DarkTomeBase extends Enchantment{
             case 102:
                 DarktomeDarksword.StrikeEffect(worldIn, entityIn, duration); break;
             case 103:
-                DarktomeDarksword.DarkArrowEffect(worldIn, entityIn,duration);break;
+                DarktomeDarksword.DarkStormEffect(worldIn, entityIn,duration);break;
             case 104:
                 if(entityIn instanceof EntityPlayer)
                     DarktomeDarksword.RiteOfDarkEffect(worldIn,(EntityPlayer)entityIn,duration);
@@ -94,6 +95,12 @@ public class DarkTomeBase extends Enchantment{
             case 105:
                 DarktomeDarksword.AirBorneEffect(worldIn,entityIn,duration);break;
 
+        }
+    }
+
+    public static void CheckEffectByHurt(EntityLivingBase entityIn , EffectBase eb, DamageSource source, float amount){
+        switch (eb.getEffectID()){
+            case 101:if (source.isProjectile()||source.getDamageType()=="mob") DoReposte(entityIn,amount); break;
         }
     }
     public static boolean AddEffectToEntity(EntityLivingBase entityIn, Potion potionIn, int durationIn, int amplifierIn){
@@ -210,16 +217,20 @@ public class DarkTomeBase extends Enchantment{
     public static void BloodEffect(Entity entityIn){
         World worldIn = entityIn.world;
 
+        worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE,entityIn.posX,entityIn.posY+entityIn.getEyeHeight()*1.5,entityIn.posZ,0,0.1,0);
         Vec3d[] d = AllenPosHelper.GetRoundDirection(entityIn);
         for (int i = 0; i < d.length; i++) {
-            worldIn.spawnParticle(EnumParticleTypes.CRIT_MAGIC, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.7, entityIn.posZ,d[i].x, -0.005, d[i].z);
+            worldIn.spawnParticle(EnumParticleTypes.SPELL_WITCH,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,d[i].x*0.005,0.1,d[i].z*0.005);
+            worldIn.spawnParticle(EnumParticleTypes.CRIT_MAGIC, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.7, entityIn.posZ,d[i].x*2, -0.005, d[i].z*2);
         }
 //        worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE,entityIn.posX,entityIn.posY,entityIn.posZ,0,1,0);
         worldIn.playSound((EntityPlayer) null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_BIG_FALL, SoundCategory.NEUTRAL, 4.0F, (0.3F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
     }
     public static void DodgeEffect( World worldIn, EntityLivingBase entityIn, int duration ){
-        if(duration== ModEffects.DODGE.getDuration())
+        if(duration== ModEffects.DODGE.getDuration()) {
+            AddEffectToEntity(entityIn, Potion.getPotionById(11),10,5);
             worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 4.0F, (3.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
+        }
         else if(duration>10&&duration<20) {
 
             worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.3, entityIn.posZ, 0.0D, 0, 0.0D);
@@ -227,6 +238,15 @@ public class DarkTomeBase extends Enchantment{
             SetFatigue(entityIn,3);
         }else if(duration<10){
 
+        }
+    }
+
+    //Do Effect
+    public static void DoReposte(EntityLivingBase entityIn,float amount){
+        double d = AllenAttributeHelper.GetAttackDamageByItem(null,entityIn);
+        if(entityIn.getHealth()> amount){
+            if(amount<d)d=amount;
+            entityIn.heal((float)d);
         }
     }
 //    public int OnBurning(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
