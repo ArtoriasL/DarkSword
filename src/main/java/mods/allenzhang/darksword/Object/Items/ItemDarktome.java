@@ -88,53 +88,12 @@ public class ItemDarktome extends ItemBase{
     }
 
     /**
-     * Adds an stored enchantment to an enchanted book ItemStack
-     */
-    public static void addEnchantment(ItemStack p_92115_0_, EnchantmentData stack)
-    {
-        NBTTagList nbttaglist = getEnchantments(p_92115_0_);
-        boolean flag = true;
-
-        for (int i = 0; i < nbttaglist.tagCount(); ++i)
-        {
-            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-
-            if (Enchantment.getEnchantmentByID(nbttagcompound.getShort("id")) == stack.enchantment)
-            {
-                if (nbttagcompound.getShort("lvl") < stack.enchantmentLevel)
-                {
-                    nbttagcompound.setShort("lvl", (short)stack.enchantmentLevel);
-                }
-
-                flag = false;
-                break;
-            }
-        }
-
-        if (flag)
-        {
-            NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-            nbttagcompound1.setShort("id", (short)Enchantment.getEnchantmentID(stack.enchantment));
-            nbttagcompound1.setShort("lvl", (short)stack.enchantmentLevel);
-            nbttaglist.appendTag(nbttagcompound1);
-        }
-
-        if (!p_92115_0_.hasTagCompound())
-        {
-            p_92115_0_.setTagCompound(new NBTTagCompound());
-        }
-
-        p_92115_0_.getTagCompound().setTag("StoredEnchantments", nbttaglist);
-    }
-
-    /**
      * Returns the ItemStack of an enchanted version of this item.
      */
-    public static ItemStack getEnchantedItemStack(EnchantmentData p_92111_0_)
+    public static ItemStack getEnchantedItemStack(EnchantmentData enchant)
     {
         ItemStack itemstack = new ItemStack(ModItems.DARKTOME);
-//        ItemStack itemstack = new ItemStack(Items.ENCHANTED_BOOK);
-        addEnchantment(itemstack, p_92111_0_);
+        itemstack.addEnchantment(enchant.enchantment,enchant.enchantmentLevel);
         return itemstack;
     }
 

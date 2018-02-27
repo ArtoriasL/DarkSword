@@ -1,17 +1,27 @@
-itemGroup.darkcore=Dark Core
+itemGroup.darkcore=Dark Sword
+
+entity.mrquinfake.name=Mr Qin
 
 item.soul_weak.name=Weak Soul
 item.soul_normal.name=Soul of Human
 item.soul_strong.name=Soul of Strong man
 item.soul_largecreature.name=Soul of Large creature
 item.soul_king.name=Soul of King
-item.darktome.name=Dark Tome
+item.darktome.name=Dark Divine Tome
 item.repairpowder_weak.name=Weak Repair Powder
 item.repairpowder_concentrated.name=Concentrated Repair Powder
 item.repairpowder_perfect.name=Perfect Repair Powder
 
 tile.block_largeember.name=Large Ember
 
-potion.effect_dodge=moveing
+potion.effect_dodge=Dodgeing
+potion.effect_fatigue=Tired
+potion.skill_strick=Assault
+potion.skill_riteofdark=Rite Of Dark
+potion.skill_reposte=Reposte
+potion.skill_darkstorm=Dark Strom
+potion.skill_airborne=Air Borne
+
+potion.entityskill_mrquindarksword=Mr Qin's Dark Sword
 
 enchantment.tome_darksword=Dark Sword

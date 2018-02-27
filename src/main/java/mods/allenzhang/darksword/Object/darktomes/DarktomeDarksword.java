@@ -1,21 +1,19 @@
 package mods.allenzhang.darksword.Object.darktomes;
 
 import mods.allenzhang.darksword.Object.entity.EntityDarkArrow;
-import mods.allenzhang.darksword.allenHelper.AllenEntitySelector;
-import mods.allenzhang.darksword.allenHelper.AllenPosHelper;
-import mods.allenzhang.darksword.allenHelper.AllenSkillArrow;
-import mods.allenzhang.darksword.allenHelper.Debug;
-import mods.allenzhang.darksword.handlers.LivingDropSouls;
+import mods.allenzhang.darksword.Object.entity.render.EntityDarkStorm;
+import mods.allenzhang.darksword.allenHelper.*;
+import mods.allenzhang.darksword.handlers.LivingDropHandler;
 import mods.allenzhang.darksword.init.ModEffects;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
@@ -24,7 +22,6 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class DarktomeDarksword extends DarkTomeBase{
@@ -48,7 +45,7 @@ public class DarktomeDarksword extends DarkTomeBase{
     @Override
     public int OnJumping( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.DARKSTORM))return 0;
-        PreCast(worldIn,playerIn);
+        PreCast(worldIn,playerIn,1,1, AllenPosition.RoundType.horizontal);
         AddEffectToEntity(playerIn, ModEffects.DARKSTORM,ModEffects.DARKSTORM.getDuration(),0);
         return GetItemDamage(itemStackIn,playerIn, ModEffects.DARKSTORM.getItemDamage(),null);
     }
@@ -75,33 +72,29 @@ public class DarktomeDarksword extends DarkTomeBase{
     }
 
     //Effect
-    public static void Reposte(World worldIn , EntityLivingBase entityIn, @Nullable Integer duration){
+    public static void ReposteEffect(World worldIn , EntityLivingBase entityIn, @Nullable Integer duration){
         int maxdur = ModEffects.REPOSTE.getDuration();
         if(duration==maxdur){
-            SetFatigue(entityIn,maxdur-1);
-            //spawn darkswordreposte entity
-            if (!worldIn.isRemote)
-            {
-                Vec3d[] round = AllenPosHelper.GetEntityRoundPos(entityIn,1,1);
-                for (Vec3d vec3d : round) {
-                    EntityDarkArrow tempThrowable = new EntityDarkArrow(worldIn,entityIn,vec3d.x,vec3d.y,vec3d.z,maxdur/20);
-                    worldIn.spawnEntity(tempThrowable);
-                }
-            }
+            PreCast(worldIn, entityIn,1,1, AllenPosition.RoundType.vertical);
+            SetFatigue(entityIn,10);
+//            AllenAttributeHelper.AddAttribute(entityIn, SharedMonsterAttributes.MAX_HEALTH,20,dodgeArmorUUID,"dodge",null);
+            if(!worldIn.isRemote)AllenAttributeHelper.AddAttribute(entityIn, SharedMonsterAttributes.ARMOR,20,dodgeArmorUUID,"darksword",null);
+        }else if(duration==maxdur-10){
+//            AllenAttributeHelper.RemoveAttribut(entityIn,SharedMonsterAttributes.MAX_HEALTH,dodgeArmorUUID);
+            if(!worldIn.isRemote)AllenAttributeHelper.RemoveAttribut(entityIn,SharedMonsterAttributes.ARMOR,dodgeArmorUUID);
         }
     }
-    public static void StrikeEffect( World worldIn , EntityLivingBase entityIn, int duration ){
+    public static void StrikeEffect( World worldIn , EntityLivingBase entityIn, int duration){
         int maxduration = ModEffects.STRICK.getDuration();
         if(duration==maxduration)MoveRelative(new Float[]{0f,forward,0f,friction*0.5f},entityIn);
         if(duration<maxduration-12||duration%2!=0)return;
-        Vec3d pp = new Vec3d(entityIn.posX,AllenPosHelper.GetEyeHeight(entityIn,eyeHeight), entityIn.posZ);
+        Vec3d pp = new Vec3d(entityIn.posX,entityIn.posY+entityIn.getEyeHeight(), entityIn.posZ);
         double amplify = 0.8d;
         float selectSize = 0.5f;
-        Vec3d p = AllenPosHelper.ForwardPos(entityIn,1,1);
-        DamageSource ds = (entityIn instanceof EntityPlayer)?DamageSource.causePlayerDamage((EntityPlayer)entityIn):DamageSource.causeMobDamage(entityIn);
+        Vec3d p = AllenPosition.GetPos(entityIn,entityIn.getEyeHeight(),1,AllenPosition.Forward);
 
         if(duration>maxduration-10){
-            Vec3d f = AllenPosHelper.GetForward(entityIn,1);
+            Vec3d f = AllenPosition.GetDirectionByType(entityIn,AllenPosition.Forward);
             worldIn.playSound(null, p.x, p.y, p.z, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 0.3F, (1F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
             worldIn.spawnParticle(EnumParticleTypes.SWEEP_ATTACK, p.x,p.y,p.z, f.x , f.y, f.z);
         }else if(duration == maxduration-10) {
@@ -114,27 +107,24 @@ public class DarktomeDarksword extends DarkTomeBase{
             worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, pp.x, pp.y, pp.z, 0.5D, 0.0D, 0.0D);
             SetFatigue(entityIn, 3);
         }
-        AllenEntitySelector.AttackEntitysByEffect(worldIn, entityIn, p,ModEffects.STRICK,amplify,ds,selectSize,true);
+        AllenEntitySelector.AttackEntitysByEffect(worldIn, entityIn, p,ModEffects.STRICK,amplify,selectSize,true);
     }
     public static void RiteOfDarkEffect(World worldIn,EntityPlayer playerIn,int duration){
         if(!playerIn.onGround)return;
         if(duration==ModEffects.RITEOFDARK.getDuration()) SetFatigue(playerIn, ModEffects.RITEOFDARK.getDuration());
         if(duration!=1)return;
         int exp = Reference.GetExpByLevel(playerIn.experienceLevel);
-        if(LivingDropSouls.DropSoulsByExp(worldIn,playerIn,exp))
+        if(LivingDropHandler.DropSoulsByExp(worldIn,playerIn,exp))
         {
-            worldIn.playSound((EntityPlayer) null, playerIn.posX, AllenPosHelper.GetEyeHeight(playerIn,eyeHeight), playerIn.posZ, SoundEvents.ENTITY_PLAYER_BIG_FALL, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 3F);
+            worldIn.playSound((EntityPlayer) null, playerIn.posX, playerIn.posY+playerIn.getEyeHeight(), playerIn.posZ, SoundEvents.ENTITY_PLAYER_BIG_FALL, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 3F);
             playerIn.setFire(2);
-
-            if(!worldIn.isRemote){
-                EntityLightningBolt elb = new EntityLightningBolt(worldIn,playerIn.posX,playerIn.posY,playerIn.posZ,true);
+            if(worldIn.isRemote) {
+                EntityLightningBolt elb = new EntityLightningBolt(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, true);
                 worldIn.spawnEntity(elb);
             }
         }
     }
     public static void DarkStormEffect(World worldIn, EntityLivingBase entityIn, Integer duration){
-        if(worldIn.isRemote)return;
-
         int maxDuration = ModEffects.DARKSTORM.getDuration();
         if(duration==maxDuration){
             SetFatigue(entityIn,5);
@@ -144,36 +134,50 @@ public class DarktomeDarksword extends DarkTomeBase{
         worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.NEUTRAL, 5.0F, 1F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F);
         worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_GUARDIAN_ATTACK, SoundCategory.NEUTRAL, 5.0F, 2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F);
 
+
+        if(worldIn.isRemote)return;
         int far =(maxDuration/10) - (duration/10);
-        for (Vec3d vec3d : AllenPosHelper.GetEntityRoundPos(entityIn, 0, far)){
-            EntityDarkArrow tempThrowable = new EntityDarkArrow(worldIn, entityIn, vec3d.x, vec3d.y, vec3d.z, 2);
+        for (Vec3d vec3d : AllenPosition.GetEntityRoundPos(entityIn,entityIn.getEyeHeight()*0.5,far, AllenPosition.RoundType.horizontal)){
+            EntityDarkStorm tempThrowable = new EntityDarkStorm(worldIn, entityIn, vec3d.x, vec3d.y, vec3d.z, 2);
             tempThrowable.shoot(entityIn, entityIn.rotationPitch, entityIn.rotationYaw, 0.0F, 0.0F, 1.0F);
             worldIn.spawnEntity(tempThrowable);
         }
     }
     public static void AirBorneEffect( World worldIn , EntityLivingBase entityIn, int duration){
         List<Vec3d> v3ds = new ArrayList<>();
-
+        double height = entityIn.getEyeHeight()*eyeHeight;
         if(duration==ModEffects.AIRBORNE.getDuration())
             MoveRelative(new Float[]{0F,-forward,0F, friction*20},entityIn);
         else if(duration==5){
-            worldIn.playSound((EntityPlayer) null, entityIn.posX, AllenPosHelper.GetEyeHeight(entityIn,eyeHeight), entityIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
-            v3ds.add(AllenPosHelper.ForwardPos(entityIn,eyeHeight,2));
-            v3ds.add(AllenPosHelper.RightPos(entityIn,eyeHeight,2));
-            v3ds.add(AllenPosHelper.BackPos(entityIn,eyeHeight,2));
-            v3ds.add(AllenPosHelper.LeftPos(entityIn,eyeHeight,2));
+            worldIn.playSound((EntityPlayer) null, entityIn.posX, height, entityIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
+            v3ds.add(AllenPosition.GetPos(entityIn,height,2,AllenPosition.Forward));
+            v3ds.add(AllenPosition.GetPos(entityIn,height,2,AllenPosition.Right));
+            v3ds.add(AllenPosition.GetPos(entityIn,height,2,AllenPosition.Back));
+            v3ds.add(AllenPosition.GetPos(entityIn,height,2,AllenPosition.Left));
         }else if(duration==3){
-            worldIn.playSound((EntityPlayer) null, entityIn.posX, AllenPosHelper.GetEyeHeight(entityIn,eyeHeight), entityIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
-            v3ds = Arrays.asList(AllenPosHelper.GetEntityRoundPos(entityIn,eyeHeight,3));
+            worldIn.playSound((EntityPlayer) null, entityIn.posX, height, entityIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
+            v3ds = Arrays.asList(AllenPosition.GetEntityRoundPos(entityIn,0,3, AllenPosition.RoundType.horizontal));
         }
 
         for(int i=0;i<v3ds.size();i++) {
-            AllenEntitySelector.AttackEntitysByEffect(worldIn, entityIn, v3ds.get(i),ModEffects.AIRBORNE,1,DamageSource.MAGIC,0.5f,true);
+            AllenEntitySelector.AttackEntitysByEffect(worldIn, entityIn, v3ds.get(i),ModEffects.AIRBORNE,1,0.5f,true);
             worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, v3ds.get(i).x, v3ds.get(i).y, v3ds.get(i).z, 0.8D, 0.0D, 0.0D);
         }
     }
     public static void MrQuinDarkSwordEffect(EntityLivingBase entityIn, int duration){
         if(duration==100)AddEffectToEntity(entityIn,ModEffects.STRICK,ModEffects.STRICK.getDuration(),0);
-        if(duration==200)AddEffectToEntity(entityIn,ModEffects.DARKSTORM,ModEffects.DARKSTORM.getDuration(),0);
+        if(duration==200)AddEffectToEntity(entityIn,ModEffects.AIRBORNE,ModEffects.AIRBORNE.getDuration(),0);
+    }
+
+    //Do Effect
+    public static void DoReposte(EntityLivingBase entityIn,float hurt){
+        if(!entityIn.isPotionActive(ModEffects.FATIGUE))return;
+        World worldIn = entityIn.getEntityWorld();
+        if (!worldIn.isRemote)
+        {
+            EntityDarkArrow tempThrowable = new EntityDarkArrow(worldIn,entityIn,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,ModEffects.REPOSTE.getDuration()/20,0);
+            tempThrowable.shoot(entityIn, entityIn.rotationPitch, entityIn.rotationYaw, 0.0F, 0.5F, 1.0F);
+            worldIn.spawnEntity(tempThrowable);
+        }
     }
 }

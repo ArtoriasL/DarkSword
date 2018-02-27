@@ -34,9 +34,11 @@ public class DarkswordMain {
     @Mod.EventHandler
     public static void init( FMLInitializationEvent event){
         RecipeHandler.Init();
+        RegistryHandler.InitRegisteries();
     }
 
     @Mod.EventHandler
     public static void postInit( FMLPostInitializationEvent event){
+        RegistryHandler.PostRegisteries();
     }
 }

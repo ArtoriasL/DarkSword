@@ -1,6 +1,9 @@
 package mods.allenzhang.darksword.allenHelper;
 
+import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -15,7 +18,14 @@ public class AllenNBTReader {
 
         return es;
     }
+    public static DarkTomeBase GetDarkTomeByItemStack(ItemStack item){
+        for (Enchantment enchantment : GetEnchantmentByNBT(item.getEnchantmentTagList())) {
+            if(enchantment instanceof DarkTomeBase)
+                return (DarkTomeBase) enchantment;
+        }
 
+        return null;
+    }
     public static List<String> GetEnchantmentNameByNBT( NBTTagList taglist){
         List<String> eKey = new ArrayList<>();
         for(NBTTagCompound temp:GetNBTCompound(taglist))

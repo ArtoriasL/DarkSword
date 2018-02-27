@@ -9,13 +9,12 @@ import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -61,6 +60,7 @@ public class RegistryHandler {
 
         Debug.log().info("ModelRegister");
     }
+
     @SubscribeEvent
     public static void onLivingExpDrop( LivingExperienceDropEvent event){
         for (Map.Entry<Integer,Integer>entry:Reference.BOSS_DROP_SOUL.entrySet())
@@ -68,13 +68,14 @@ public class RegistryHandler {
                 return;
 
         if(Math.random()>0.3)
-            LivingDropSouls.DropSoulsByExp(event.getEntity().world,event.getEntity(),event.getOriginalExperience());
+            LivingDropHandler.DropSoulsByExp(event.getEntity().world,event.getEntity(),event.getOriginalExperience());
     }
     @SubscribeEvent
     public static void onLivingDeath( LivingDeathEvent event){
+
         for (Map.Entry<Integer,Integer>entry:Reference.BOSS_DROP_SOUL.entrySet())
             if(event.getEntity().getEntityId()==entry.getKey())
-                LivingDropSouls.DropSoulsByExp(event.getEntity().world,event.getEntity(),entry.getValue());
+                LivingDropHandler.DropSoulsByExp(event.getEntity().world,event.getEntity(),entry.getValue());
     }
     @SubscribeEvent
     public static void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem event){
@@ -90,7 +91,6 @@ public class RegistryHandler {
             if(event.getEntityLiving().isPotionActive(temp))DarkTomeBase.UseSkillByEffect(event.getEntity().getEntityWorld(),event.getEntityLiving(),temp);
         }
     }
-
     @SubscribeEvent
     public static void OnEntityHurt(LivingHurtEvent event){
 
@@ -100,9 +100,20 @@ public class RegistryHandler {
             }
         }
     }
+    @SubscribeEvent
+    public static void OnAnvilUpdate(AnvilUpdateEvent event){
+        if(event.getLeft()==null||event.getRight()==null||event.getOutput()!=ItemStack.EMPTY)return;
+        RecipeHandler.CheckDarkTomeRecipeByAnvil(event);
+    }
 
     public static void preInitRegisteries(){
         ModEntitys.registerEntites();
         RenderHandler.registerEntityRenders();
+    }
+    public static void InitRegisteries(){
+
+    }
+    public static void PostRegisteries(){
+
     }
 }

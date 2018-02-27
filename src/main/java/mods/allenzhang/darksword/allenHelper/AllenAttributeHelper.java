@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,7 @@ import net.minecraft.util.EnumHand;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.UUID;
 
 public class AllenAttributeHelper {
     public static double GetAttackDamageByItem(@Nullable ItemStack item, EntityLivingBase entityIn){
@@ -44,18 +46,14 @@ public class AllenAttributeHelper {
         }
         return d0;
     }
-
-    public static double GetAttackDamageByEntity( EntityLivingBase entityIn){
+    public static double GetAttribute(EntityLivingBase entityIn, IAttribute sharedMA){
         if(entityIn==null)return 0;
-        return entityIn.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        return entityIn.getEntityAttribute(sharedMA).getAttributeValue();
     }
-
-    public static double GetAttackSpeedByEntity( EntityLivingBase entityIn){
-        if(entityIn==null)return 0;
-        return entityIn.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).getAttributeValue();
+    public static void AddAttribute(EntityLivingBase entityIn, IAttribute sharedMA, int a, UUID uuid,String name,@Nullable Integer operation){
+        entityIn.getEntityAttribute(sharedMA).applyModifier(new AttributeModifier(uuid,name,a,0));
     }
-
-    public static void AddArmorByEntity(EntityLivingBase entityIn,int a){
-
+    public static void RemoveAttribut(EntityLivingBase entityIn, IAttribute sharedMA,UUID uuid){
+        entityIn.getEntityAttribute((sharedMA)).removeModifier(uuid);
     }
 }

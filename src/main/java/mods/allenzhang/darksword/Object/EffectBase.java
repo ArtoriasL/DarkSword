@@ -1,23 +1,11 @@
 package mods.allenzhang.darksword.Object;
 
-import mods.allenzhang.darksword.Object.darktomes.DarktomeDarksword;
-import mods.allenzhang.darksword.allenHelper.AllenPosHelper;
-import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.init.ModEffects;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 public class EffectBase extends Potion {
     public static final ResourceLocation icon = new ResourceLocation(Reference.MODID.toLowerCase(), "textures/gui/container/effect.png");

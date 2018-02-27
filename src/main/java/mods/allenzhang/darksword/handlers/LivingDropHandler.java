@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 import java.util.HashMap;
 
-public class LivingDropSouls {
+public class LivingDropHandler {
     public static boolean DropSoulsByExp(World worldIn,Entity entityIn,int exp){
         if(entityIn instanceof EntityPlayer)
         {
