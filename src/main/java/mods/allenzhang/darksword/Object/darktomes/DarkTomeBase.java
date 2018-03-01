@@ -9,7 +9,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -60,8 +59,10 @@ public class DarkTomeBase extends Enchantment{
             case normal:damageItem=OnNormal(worldIn,playerIn,itemStackIn);break;
             }
         }
-        if(damageItem>0&&!worldIn.isRemote)
-            itemStackIn.damageItem(damageItem,playerIn);
+        if(damageItem>0) {
+            PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.5f,1);
+            itemStackIn.damageItem(damageItem, playerIn);
+        }
     }
     public int OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
         return 0;
@@ -78,6 +79,7 @@ public class DarkTomeBase extends Enchantment{
     public static void UseSkillByEffect( World worldIn, EntityLivingBase entityIn, EffectBase eb){
         int duration = entityIn.getActivePotionEffect(eb).getDuration();
         if(duration<1)entityIn.removePotionEffect(eb);
+
         switch (eb.getEffectID()){
             case 0:
                 FatigueEffect(entityIn);break;
@@ -192,18 +194,13 @@ public class DarkTomeBase extends Enchantment{
         return true;
     }
     //Skill Effects
-    public static void PreCast( World worldIn, EntityLivingBase entityIn,int height,int far,AllenPosition.RoundType rt){
-        Vec3d[] pos = AllenPosition.GetEntityRoundPos(entityIn,height,far,rt);
-        Vec3d[] dir = AllenPosition.GetEntityRoundDirection(entityIn,rt);
-        double speed = 0.02;
+    public static void PreCast( World worldIn, EntityLivingBase entityIn,float height,int far){
+        worldIn.spawnParticle(EnumParticleTypes.CLOUD,entityIn.posX,entityIn.posY+2,entityIn.posZ,0,0,0);
+        Vec3d[] pos = AllenPosition.GetEntityRoundPos(entityIn,height,far);
+        Vec3d[] dir = AllenPosition.GetEntityRoundYaw(entityIn,far);
+        double speed = 0.06;
         for(int i=0;i<pos.length;i++){
-            double y=-dir[i].y* speed;
-            double z=-dir[i].z* speed;
-            switch (rt){
-                case horizontal:y=0;break;
-                case vertical:z=0; break;
-            }
-            worldIn.spawnParticle(EnumParticleTypes.DRAGON_BREATH,pos[i].x,pos[i].y,pos[i].z,-dir[i].x*speed,y,z);
+            worldIn.spawnParticle(EnumParticleTypes.DRAGON_BREATH,pos[i].x,pos[i].y+height,pos[i].z,0,0,0);
         }
         worldIn.playSound(null,entityIn.posX,entityIn.posY,entityIn.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL,4.0F,0.5F);
     }
@@ -215,7 +212,7 @@ public class DarkTomeBase extends Enchantment{
         World worldIn = entityIn.world;
 
         worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE,entityIn.posX,entityIn.posY+entityIn.getEyeHeight()*1.5,entityIn.posZ,0,0.1,0);
-        Vec3d[] d = AllenPosition.GetEntityRoundDirection(entityIn);
+        Vec3d[] d = AllenPosition.GetEntityRoundYaw(entityIn,1);
         for (int i = 0; i < d.length; i++) {
             worldIn.spawnParticle(EnumParticleTypes.SPELL_WITCH,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,d[i].x*0.005,0.1,d[i].z*0.005);
             worldIn.spawnParticle(EnumParticleTypes.CRIT_MAGIC, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.7, entityIn.posZ,d[i].x*2, -0.005, d[i].z*2);

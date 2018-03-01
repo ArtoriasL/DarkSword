@@ -45,7 +45,7 @@ public class DarktomeDarksword extends DarkTomeBase{
     @Override
     public int OnJumping( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.DARKSTORM))return 0;
-        PreCast(worldIn,playerIn,1,1, AllenPosition.RoundType.horizontal);
+
         AddEffectToEntity(playerIn, ModEffects.DARKSTORM,ModEffects.DARKSTORM.getDuration(),0);
         return GetItemDamage(itemStackIn,playerIn, ModEffects.DARKSTORM.getItemDamage(),null);
     }
@@ -75,7 +75,6 @@ public class DarktomeDarksword extends DarkTomeBase{
     public static void ReposteEffect(World worldIn , EntityLivingBase entityIn, @Nullable Integer duration){
         int maxdur = ModEffects.REPOSTE.getDuration();
         if(duration==maxdur){
-            PreCast(worldIn, entityIn,1,1, AllenPosition.RoundType.vertical);
             SetFatigue(entityIn,10);
 //            AllenAttributeHelper.AddAttribute(entityIn, SharedMonsterAttributes.MAX_HEALTH,20,dodgeArmorUUID,"dodge",null);
             if(!worldIn.isRemote)AllenAttributeHelper.AddAttribute(entityIn, SharedMonsterAttributes.ARMOR,20,dodgeArmorUUID,"darksword",null);
@@ -91,10 +90,10 @@ public class DarktomeDarksword extends DarkTomeBase{
         Vec3d pp = new Vec3d(entityIn.posX,entityIn.posY+entityIn.getEyeHeight(), entityIn.posZ);
         double amplify = 0.8d;
         float selectSize = 0.5f;
-        Vec3d p = AllenPosition.GetPos(entityIn,entityIn.getEyeHeight(),1,AllenPosition.Forward);
+        Vec3d p = AllenPosition.GetPos(entityIn,entityIn.getEyeHeight(),AllenPosition.GetYawByType(entityIn,1,AllenPosition.Forward));
 
         if(duration>maxduration-10){
-            Vec3d f = AllenPosition.GetDirectionByType(entityIn,AllenPosition.Forward);
+            Vec3d f = AllenPosition.GetYawByType(entityIn,1,AllenPosition.Forward);
             worldIn.playSound(null, p.x, p.y, p.z, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 0.3F, (1F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
             worldIn.spawnParticle(EnumParticleTypes.SWEEP_ATTACK, p.x,p.y,p.z, f.x , f.y, f.z);
         }else if(duration == maxduration-10) {
@@ -125,6 +124,7 @@ public class DarktomeDarksword extends DarkTomeBase{
         }
     }
     public static void DarkStormEffect(World worldIn, EntityLivingBase entityIn, Integer duration){
+
         int maxDuration = ModEffects.DARKSTORM.getDuration();
         if(duration==maxDuration){
             SetFatigue(entityIn,5);
@@ -134,10 +134,10 @@ public class DarktomeDarksword extends DarkTomeBase{
         worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.NEUTRAL, 5.0F, 1F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F);
         worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_GUARDIAN_ATTACK, SoundCategory.NEUTRAL, 5.0F, 2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F);
 
-
         if(worldIn.isRemote)return;
         int far =(maxDuration/10) - (duration/10);
-        for (Vec3d vec3d : AllenPosition.GetEntityRoundPos(entityIn,entityIn.getEyeHeight()*0.5,far, AllenPosition.RoundType.horizontal)){
+        for (Vec3d vec3d : AllenPosition.GetEntityRoundPos(entityIn,entityIn.getEyeHeight()*0.5,far)){
+            Debug.log().info(vec3d);
             EntityDarkStorm tempThrowable = new EntityDarkStorm(worldIn, entityIn, vec3d.x, vec3d.y, vec3d.z, 2);
             tempThrowable.shoot(entityIn, entityIn.rotationPitch, entityIn.rotationYaw, 0.0F, 0.0F, 1.0F);
             worldIn.spawnEntity(tempThrowable);
@@ -150,13 +150,13 @@ public class DarktomeDarksword extends DarkTomeBase{
             MoveRelative(new Float[]{0F,-forward,0F, friction*20},entityIn);
         else if(duration==5){
             worldIn.playSound((EntityPlayer) null, entityIn.posX, height, entityIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
-            v3ds.add(AllenPosition.GetPos(entityIn,height,2,AllenPosition.Forward));
-            v3ds.add(AllenPosition.GetPos(entityIn,height,2,AllenPosition.Right));
-            v3ds.add(AllenPosition.GetPos(entityIn,height,2,AllenPosition.Back));
-            v3ds.add(AllenPosition.GetPos(entityIn,height,2,AllenPosition.Left));
+            v3ds.add(AllenPosition.GetPos(entityIn,height,AllenPosition.GetYawByType(entityIn,2, AllenPosition.Forward)));
+            v3ds.add(AllenPosition.GetPos(entityIn,height,AllenPosition.GetYawByType(entityIn,2, AllenPosition.Right)));
+            v3ds.add(AllenPosition.GetPos(entityIn,height,AllenPosition.GetYawByType(entityIn,2, AllenPosition.Back)));
+            v3ds.add(AllenPosition.GetPos(entityIn,height,AllenPosition.GetYawByType(entityIn,2, AllenPosition.Left)));
         }else if(duration==3){
             worldIn.playSound((EntityPlayer) null, entityIn.posX, height, entityIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
-            v3ds = Arrays.asList(AllenPosition.GetEntityRoundPos(entityIn,0,3, AllenPosition.RoundType.horizontal));
+            v3ds = Arrays.asList(AllenPosition.GetEntityRoundPos(entityIn,0,3));
         }
 
         for(int i=0;i<v3ds.size();i++) {

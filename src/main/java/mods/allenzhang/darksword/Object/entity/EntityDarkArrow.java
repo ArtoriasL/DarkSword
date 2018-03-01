@@ -31,7 +31,7 @@ public class EntityDarkArrow extends EntityThrowable {
         this.owner=entityIn;
         this.life=life*20;
         this.maxLife=this.life;
-        this.preCast= (int) Math.ceil(preCast*20);
+        this.preCast=100;
     }
 
     @Override
@@ -48,7 +48,8 @@ public class EntityDarkArrow extends EntityThrowable {
 
     @Override
     public void onImpact( RayTraceResult result ) {
-        if (result.entityHit != null) {
+        boolean hitEnitty = result.entityHit != null;
+        if (hitEnitty) {
             Entity e = result.entityHit;
 
             if(!this.world.isRemote) {
@@ -61,7 +62,7 @@ public class EntityDarkArrow extends EntityThrowable {
 
         if (!this.world.isRemote)
         {
-            if(this.life>this.maxLife-preCast)return;
+            if(this.life>this.maxLife-preCast&&!hitEnitty)return;
             DarkTomeBase.BloodEffect(this);
             this.world.setEntityState(this, (byte)3);
             this.setDead();
