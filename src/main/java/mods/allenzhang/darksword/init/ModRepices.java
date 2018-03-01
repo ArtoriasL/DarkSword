@@ -45,11 +45,11 @@ public class ModRepices {
 
     public static final RecipeBase enchanteddivinetome = new RecipeBase(RecipeBase.resType.resultrecipe,ItemEnchantedDivienTome.getEnchantedItemStack(new EnchantmentData(ModDarkTome.tome_darksword,1)),new Object[]{
             "SES",
-            "EDE",
+            "EBE",
             "SES",
             'E', Items.ENDER_EYE,
             'S', ModItems.SOUL_STRONG,
-            'D', ModItems.DIVINETOME
+            'B', Items.BOOK
     });
 
     //smelting recipe
