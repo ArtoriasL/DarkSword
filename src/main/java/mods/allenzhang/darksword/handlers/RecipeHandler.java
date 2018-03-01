@@ -1,25 +1,18 @@
 package mods.allenzhang.darksword.handlers;
 
-import mods.allenzhang.darksword.Object.EffectBase;
-import mods.allenzhang.darksword.Object.Items.ItemDarktome;
 import mods.allenzhang.darksword.Object.RecipeBase;
+import mods.allenzhang.darksword.Object.SmeltingBase;
 import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
-import mods.allenzhang.darksword.allenHelper.AllenAttributeHelper;
 import mods.allenzhang.darksword.allenHelper.AllenNBTReader;
 import mods.allenzhang.darksword.allenHelper.Debug;
-import mods.allenzhang.darksword.init.ModDarkTome;
-import mods.allenzhang.darksword.init.ModEffects;
-import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.init.ModRepices;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import scala.collection.DebugUtils;
 
 public class RecipeHandler {
     public static void Init(){
@@ -37,6 +30,10 @@ public class RecipeHandler {
         Debug.log().info("Registered Crafting Recipes!");
     }
     public static void RegisterFurnaceRepices(){
+        for (SmeltingBase smeltingbase : ModRepices.SMELTINGBASES) {
+            registerSmeltingRecipe(smeltingbase.input, smeltingbase.output,smeltingbase.xp);
+        }
+
         Debug.log().info("Registered Furnace Recipes!");
     }
 
@@ -54,7 +51,9 @@ public class RecipeHandler {
                 params
         );
     }
-
+    private static void registerSmeltingRecipe(Item input,ItemStack output,float xp){
+        GameRegistry.addSmelting(input,output,xp);
+    }
     public static void CheckDarkTomeRecipeByAnvil(AnvilUpdateEvent event){
         ItemStack left = event.getLeft();
         ItemStack right = event.getRight();

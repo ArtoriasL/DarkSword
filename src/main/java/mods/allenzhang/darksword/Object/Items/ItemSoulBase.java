@@ -21,6 +21,7 @@ public class ItemSoulBase extends ItemBase  {
         super(name);
         setSoulsCount(souls);
     }
+    public int brunTime=1;
     public int soulsCount=1;
     public void setSoulsCount(int i)
     {

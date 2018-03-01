@@ -20,8 +20,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemDarktome extends ItemBase{
-    public ItemDarktome( String name ) {
+public class ItemEnchantedDivienTome extends ItemBase{
+    public ItemEnchantedDivienTome(String name ) {
         super(name);
     }
 
@@ -92,7 +92,7 @@ public class ItemDarktome extends ItemBase{
      */
     public static ItemStack getEnchantedItemStack(EnchantmentData enchant)
     {
-        ItemStack itemstack = new ItemStack(ModItems.DARKTOME);
+        ItemStack itemstack = new ItemStack(ModItems.ENCHANTEDDIVIENTOME);
         itemstack.addEnchantment(enchant.enchantment,enchant.enchantmentLevel);
         return itemstack;
     }

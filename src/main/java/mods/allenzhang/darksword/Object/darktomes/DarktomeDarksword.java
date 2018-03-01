@@ -45,7 +45,6 @@ public class DarktomeDarksword extends DarkTomeBase{
     @Override
     public int OnJumping( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.DARKSTORM))return 0;
-
         AddEffectToEntity(playerIn, ModEffects.DARKSTORM,ModEffects.DARKSTORM.getDuration(),0);
         return GetItemDamage(itemStackIn,playerIn, ModEffects.DARKSTORM.getItemDamage(),null);
     }
@@ -124,7 +123,6 @@ public class DarktomeDarksword extends DarkTomeBase{
         }
     }
     public static void DarkStormEffect(World worldIn, EntityLivingBase entityIn, Integer duration){
-
         int maxDuration = ModEffects.DARKSTORM.getDuration();
         if(duration==maxDuration){
             SetFatigue(entityIn,5);

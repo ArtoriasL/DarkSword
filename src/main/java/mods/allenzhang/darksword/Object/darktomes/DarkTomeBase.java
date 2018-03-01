@@ -10,8 +10,10 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -27,6 +29,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DarkTomeBase extends Enchantment{
+    public enum DarkTomeType{
+        DARKSWORD
+    }
     public enum ClickType {left,right}
     public static final float up=-0.05f,forward=0.3f,friction=2f;
     protected static final double eyeHeight = 0.5;
@@ -76,9 +81,29 @@ public class DarkTomeBase extends Enchantment{
     public int OnFalling(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
 
     //manager
-    public static void UseSkillByEffect( World worldIn, EntityLivingBase entityIn, EffectBase eb){
+    public static void UseDarkTome( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
+//        if(playerIn.getHeldItemOffhand()==ItemStack.EMPTY)return;
+
+        DarkTomeBase tome = AllenNBTReader.GetDarkTomeByItemStack(playerIn.getHeldItemMainhand());
+        if(tome ==null)return;
+        if(tome instanceof DarktomeDarksword&&!isOnlyMainHand(playerIn, itemStackIn))return;
+
+        tome.UseSkill(ct,worldIn, playerIn, itemStackIn);
+    }
+    public static boolean isOnlyMainHand(EntityPlayer playerIn,ItemStack itemIn){
+        if(playerIn.getHeldItemOffhand().getItem()==Items.AIR&&itemIn == playerIn.getHeldItemMainhand())return true;
+        return false;
+    }
+    public static boolean isOnlyOffHand(EntityPlayer playerIn,ItemStack itemIn){
+        if(playerIn.getHeldItemMainhand().getItem()==Items.AIR&&itemIn == playerIn.getHeldItemOffhand())return true;
+        return false;
+    }
+
+    public static void PlayEffectByDuration(World worldIn, EntityLivingBase entityIn, EffectBase eb){
         int duration = entityIn.getActivePotionEffect(eb).getDuration();
         if(duration<1)entityIn.removePotionEffect(eb);
+
+
 
         switch (eb.getEffectID()){
             case 0:
@@ -102,7 +127,6 @@ public class DarkTomeBase extends Enchantment{
 
         }
     }
-
     public static void CheckEffectByHurt(EntityLivingBase entityIn , EffectBase eb, DamageSource source, float amount){
         switch (eb.getEffectID()){
             case 1:if(source.isProjectile()||source.getDamageType()=="mob")DoDodge(entityIn, amount);break;
@@ -129,6 +153,7 @@ public class DarkTomeBase extends Enchantment{
         }
         return true;
     }
+
     public static int GetItemDamage( ItemStack item, EntityPlayer playerIn, @Nullable Double ratio, @Nullable Integer add){
         if(ratio==null)ratio=1D;
         add=(add==null)?0:(int)Math.round(add*ratio);
@@ -138,12 +163,7 @@ public class DarkTomeBase extends Enchantment{
         if(dI>=itemD&&itemD!=1)dI = itemD - 1;
         return MathHelper.ceil(dI);
     }
-    public static void UseDarkTome( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
-//        if(playerIn.getHeldItemOffhand()==ItemStack.EMPTY)return;
-        DarkTomeBase tome = AllenNBTReader.GetDarkTomeByItemStack(playerIn.getHeldItemMainhand());
-        if(tome ==null)return;
-        tome.UseSkill(ct,worldIn, playerIn, itemStackIn);
-    }
+
 
     public static boolean Dodge( AllenSkillArrow sd, World worldIn, EntityLivingBase entityIn){
         AddEffectToEntity(entityIn,ModEffects.DODGE,ModEffects.DODGE.getDuration(),0);
@@ -195,12 +215,12 @@ public class DarkTomeBase extends Enchantment{
     }
     //Skill Effects
     public static void PreCast( World worldIn, EntityLivingBase entityIn,float height,int far){
-        worldIn.spawnParticle(EnumParticleTypes.CLOUD,entityIn.posX,entityIn.posY+2,entityIn.posZ,0,0,0);
+        worldIn.spawnParticle(EnumParticleTypes.CLOUD,entityIn.posX,entityIn.posY+2,entityIn.posZ,0,0.01,0);
         Vec3d[] pos = AllenPosition.GetEntityRoundPos(entityIn,height,far);
         Vec3d[] dir = AllenPosition.GetEntityRoundYaw(entityIn,far);
         double speed = 0.06;
         for(int i=0;i<pos.length;i++){
-            worldIn.spawnParticle(EnumParticleTypes.DRAGON_BREATH,pos[i].x,pos[i].y+height,pos[i].z,0,0,0);
+            worldIn.spawnParticle(EnumParticleTypes.DRAGON_BREATH,pos[i].x,pos[i].y+height,pos[i].z,-dir[i].x*speed,-0.01,-dir[i].z*speed);
         }
         worldIn.playSound(null,entityIn.posX,entityIn.posY,entityIn.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL,4.0F,0.5F);
     }

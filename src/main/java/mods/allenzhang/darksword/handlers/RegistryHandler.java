@@ -16,6 +16,7 @@ import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -88,7 +89,8 @@ public class RegistryHandler {
     @SubscribeEvent
     public static void OnEntityUpdate( LivingEvent.LivingUpdateEvent event){
         for (EffectBase temp : ModEffects.EFFECTS) {
-            if(event.getEntityLiving().isPotionActive(temp))DarkTomeBase.UseSkillByEffect(event.getEntity().getEntityWorld(),event.getEntityLiving(),temp);
+            if(event.getEntityLiving().isPotionActive(temp))
+                DarkTomeBase.PlayEffectByDuration(event.getEntity().getEntityWorld(),event.getEntityLiving(),temp);
         }
     }
     @SubscribeEvent
@@ -104,6 +106,12 @@ public class RegistryHandler {
     public static void OnAnvilUpdate(AnvilUpdateEvent event){
         if(event.getLeft()==null||event.getRight()==null||event.getOutput()!=ItemStack.EMPTY)return;
         RecipeHandler.CheckDarkTomeRecipeByAnvil(event);
+    }
+    @SubscribeEvent
+    public static void OnFurnaceBurn(FurnaceFuelBurnTimeEvent event){
+        Debug.log().info(event.getItemStack().getItem()+"/"+event.getBurnTime());
+//        if(event.getItemStack().getItem()==ModItems.&&event.getBurnTime())
+
     }
 
     public static void preInitRegisteries(){

@@ -17,7 +17,9 @@ public class ModItems {
     public static final Item SOUL_LARGECREATURE = new ItemSoulBase("soul_largecreature",Reference.SOULS_EXP[3]);
     public static final Item SOUL_KING = new ItemSoulBase("soul_king",Reference.SOULS_EXP[4]);
 
-    public static final Item DARKTOME = new ItemDarktome("darktome").setMaxStackSize(1);
+    public static final Item DIVINETOME = new ItemDivienTome("divinetome").setMaxStackSize(1);
+    public static final Item ENCHANTEDDIVIENTOME = new ItemEnchantedDivienTome("enchanteddivinetome").setMaxStackSize(1);
+
 
     public static final Item REPAIRPOWDER_WEAK = new ItemRepairpowder("repairpowder_weak",1);
     public static final Item REPAIRPOWDER_CONCENTRATED = new ItemRepairpowder("repairpowder_concentrated",2);

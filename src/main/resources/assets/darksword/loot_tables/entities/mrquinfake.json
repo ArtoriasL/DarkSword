@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "item",
-          "name": "minecraft:enchanted_book",
+          "name": "darksword:divinetome",
           "weight": 1,
           "functions": [
             {
