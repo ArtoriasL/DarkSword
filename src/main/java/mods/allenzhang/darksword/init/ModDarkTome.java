@@ -1,8 +1,7 @@
 package mods.allenzhang.darksword.init;
 
-import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
-import mods.allenzhang.darksword.Object.darktomes.DarktomeDarksword;
-import mods.allenzhang.darksword.util.Reference;
+import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
+import mods.allenzhang.darksword.Object.divinetome.DivinetomeDarksword;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -11,12 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModDarkTome {
+    public enum EquipmentSlots{
+        mainWeapon(1,new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND}),
+        offWeapon(1,new EntityEquipmentSlot[] {EntityEquipmentSlot.OFFHAND}),
+        dualWieldweapon(1,new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND,EntityEquipmentSlot.OFFHAND});
 
-    public static final EntityEquipmentSlot[] mainWeapon = new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND};
-    public static final EntityEquipmentSlot[] offWeapon = new EntityEquipmentSlot[] {EntityEquipmentSlot.OFFHAND};
-    public static final EntityEquipmentSlot[] dualWieldweapon = new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND,EntityEquipmentSlot.OFFHAND};
+        public final int id;
+        public final EntityEquipmentSlot[] slots;
 
-    public static List<DarkTomeBase> darkTomes = new ArrayList<>();
+        EquipmentSlots(int id, EntityEquipmentSlot[] slots) {
+            this.id=id;
+            this.slots=slots;
+        }
+    }
 
-    public static final DarkTomeBase tome_darksword = new DarktomeDarksword("tome_darksword", Enchantment.Rarity.COMMON, EnumEnchantmentType.WEAPON,mainWeapon);
+    public static List<DivineTomeBase> darkTomes = new ArrayList<>();
+
+    public static final DivineTomeBase tome_darksword = new DivinetomeDarksword("tome_darksword", Enchantment.Rarity.COMMON, EnumEnchantmentType.WEAPON,EquipmentSlots.mainWeapon);
 }

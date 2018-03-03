@@ -1,6 +1,6 @@
 package mods.allenzhang.darksword.handlers;
 
-import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
+import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.Object.EffectBase;
 import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.init.*;
@@ -80,17 +80,17 @@ public class RegistryHandler {
     }
     @SubscribeEvent
     public static void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem event){
-        DarkTomeBase.UseDarkTome(DarkTomeBase.ClickType.right,event.getWorld(),event.getEntityPlayer(),event.getItemStack());
+        DivineTomeBase.UseDarkTome(DivineTomeBase.ClickType.right,event.getWorld(),event.getEntityPlayer(),event.getItemStack());
     }
     @SubscribeEvent
     public static void onPlayerLeftClickItem(PlayerInteractEvent.LeftClickEmpty event){
-        DarkTomeBase.UseDarkTome(DarkTomeBase.ClickType.left,event.getWorld(),event.getEntityPlayer(),event.getItemStack());
+        DivineTomeBase.UseDarkTome(DivineTomeBase.ClickType.left,event.getWorld(),event.getEntityPlayer(),event.getItemStack());
     }
     @SubscribeEvent
     public static void OnEntityUpdate( LivingEvent.LivingUpdateEvent event){
         for (EffectBase temp : ModEffects.EFFECTS) {
             if(event.getEntityLiving().isPotionActive(temp))
-                DarkTomeBase.PlayEffectByDuration(event.getEntity().getEntityWorld(),event.getEntityLiving(),temp);
+                DivineTomeBase.PlayEffectByDuration(event.getEntity().getEntityWorld(),event.getEntityLiving(),temp);
         }
     }
     @SubscribeEvent
@@ -98,7 +98,7 @@ public class RegistryHandler {
 
         for (EffectBase effect : ModEffects.EFFECTS) {
             if(event.getEntityLiving().isPotionActive(effect)){
-                DarkTomeBase.CheckEffectByHurt( event.getEntityLiving(),effect,event.getSource(),event.getAmount());
+                DivineTomeBase.CheckEffectByHurt( event.getEntityLiving(),effect,event.getSource(),event.getAmount());
             }
         }
     }

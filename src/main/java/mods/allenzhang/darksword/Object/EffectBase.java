@@ -1,6 +1,6 @@
 package mods.allenzhang.darksword.Object;
 
-import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
+import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.init.ModEffects;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.client.Minecraft;
@@ -16,7 +16,7 @@ public class EffectBase extends Potion {
     private double attackdamage=0;
     private double itemdamage=0;
     private int playerLevel=0;
-    private DarkTomeBase.DarkTomeType tomeType;
+    private DivineTomeBase.DarkTomeType tomeType;
 
     public EffectBase(String name,boolean isBadEffectIn, int liquidColorIn) {
         super(isBadEffectIn, liquidColorIn);
@@ -53,7 +53,7 @@ public class EffectBase extends Potion {
         super.setIconIndex(x, y);
         return this;
     }
-    public EffectBase setTomeType(DarkTomeBase.DarkTomeType type){
+    public EffectBase setTomeType(DivineTomeBase.DarkTomeType type){
         this.tomeType =type;
         return this;
     }
@@ -68,7 +68,7 @@ public class EffectBase extends Potion {
     public double getAttackDamage(double amplify){return attackdamage*amplify;}
     public double getItemDamage(){return itemdamage;}
     public int getPlayerLevel(){return playerLevel;}
-    public DarkTomeBase.DarkTomeType getTomeType() {
+    public DivineTomeBase.DarkTomeType getTomeType() {
         return tomeType;
     }
 }

@@ -1,10 +1,8 @@
 package mods.allenzhang.darksword.Object.entity;
 
-import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
-import mods.allenzhang.darksword.allenHelper.Debug;
+import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.handlers.LootTableHandler;
 import mods.allenzhang.darksword.init.ModEffects;
-import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBreakDoor;
@@ -88,13 +86,13 @@ public class EntityMrQuinFake extends EntityZombie {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        DarkTomeBase.AddEffectToEntity(this,ModEffects.MRQUINDARKSWORD,ModEffects.MRQUINDARKSWORD.getDuration(),0);
+        DivineTomeBase.AddEffectToEntity(this,ModEffects.MRQUINDARKSWORD,ModEffects.MRQUINDARKSWORD.getDuration(),0);
         return super.attackEntityFrom(source, amount);
     }
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        DarkTomeBase.AddEffectToEntity(this,ModEffects.DARKSTORM,ModEffects.DARKSTORM.getDuration(),0);
+        DivineTomeBase.AddEffectToEntity(this,ModEffects.DARKSTORM,ModEffects.DARKSTORM.getDuration(),0);
         return super.attackEntityAsMob(entityIn);
     }
 
@@ -115,6 +113,7 @@ public class EntityMrQuinFake extends EntityZombie {
     public void onEntityUpdate() {
         super.onEntityUpdate();
         if(this.isPotionActive(Potion.getPotionById(12)))return;
+        this.addPotionEffect(new PotionEffect(ModEffects.MRQUINDARKSWORD,9999,1));
         this.addPotionEffect(new PotionEffect(Potion.getPotionById(12),9999,15));
         this.addPotionEffect(new PotionEffect(Potion.getPotionById(13),9999,15));
     }

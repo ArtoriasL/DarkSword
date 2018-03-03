@@ -1,6 +1,6 @@
 package mods.allenzhang.darksword.Object.Items;
 
-import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
+import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.allenHelper.AllenPosition;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -67,7 +67,7 @@ public class ItemRepairpowder extends ItemBase  {
                     mainHandIn.shrink(1);
                 offHandIn.damageItem(-repair, playerIn);
                 if(repairpowder.repair>1)
-                    DarkTomeBase.PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.5f,repairpowder.repair*0.25, DarkTomeBase.CastParticleTypes.cast,EnumParticleTypes.LAVA,SoundEvents.BLOCK_LAVA_POP);
+                    DivineTomeBase.PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.5f,repairpowder.repair*0.25, DivineTomeBase.CastParticleTypes.cast,EnumParticleTypes.LAVA,SoundEvents.BLOCK_LAVA_POP);
             }
 //        Debug.log().info(Reference.GetExpByLevel(3));
             playerIn.addStat(StatList.getObjectUseStats(repairpowder));

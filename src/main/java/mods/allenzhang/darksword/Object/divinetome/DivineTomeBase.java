@@ -1,6 +1,6 @@
 //20 tick = 1 second
 
-package mods.allenzhang.darksword.Object.darktomes;
+package mods.allenzhang.darksword.Object.divinetome;
 import mods.allenzhang.darksword.Object.EffectBase;
 import mods.allenzhang.darksword.allenHelper.*;
 import mods.allenzhang.darksword.init.ModDarkTome;
@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -32,23 +31,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class DarkTomeBase extends Enchantment{
+public class DivineTomeBase extends Enchantment{
+    public enum ClickType {left,right}
     public enum DarkTomeType{
         DARKSWORD
     }
-    public enum ClickType {left,right}
     public enum CastParticleTypes{
         cast,
         absorb
     }
+
     public static final float up=-0.05f,forward=0.3f,friction=2f;
     protected static final double eyeHeight = 0.5;
     protected static final UUID dodgeArmorUUID = UUID.randomUUID();
     protected static final UUID dodgeArmorToughnessUUID = UUID.randomUUID();
-    public DarkTomeBase( String name, Rarity rarityIn, EnumEnchantmentType typeIn, EntityEquipmentSlot[] slots ) {
-        super(rarityIn, typeIn,slots);
+
+    public ModDarkTome.EquipmentSlots slots;
+    public DivineTomeBase(String name, Rarity rarityIn, EnumEnchantmentType typeIn, ModDarkTome.EquipmentSlots slots) {
+        super(rarityIn, typeIn,slots.slots);
         setRegistryName(name);
         this.setName(name);
+        this.slots=slots;
         ModDarkTome.darkTomes.add(this);
     }
     @Override
@@ -91,10 +94,13 @@ public class DarkTomeBase extends Enchantment{
     public static void UseDarkTome( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
 //        if(playerIn.getHeldItemOffhand()==ItemStack.EMPTY)return;
 
-        DarkTomeBase tome = AllenNBTReader.GetDarkTomeByItemStack(playerIn.getHeldItemMainhand());
+        DivineTomeBase tome = AllenNBTReader.GetDarkTomeByItemStack(playerIn.getHeldItemMainhand());
         if(tome ==null)return;
-        if(tome instanceof DarktomeDarksword&&!isOnlyMainHand(playerIn, itemStackIn))return;
-
+        switch (tome.slots.id){
+            case 1: if (!isOnlyMainHand(playerIn, itemStackIn))return;break;
+            case 2:break;
+            case 3:break;
+        }
         tome.UseSkill(ct,worldIn, playerIn, itemStackIn);
     }
     public static boolean isOnlyMainHand(EntityPlayer playerIn,ItemStack itemIn){
@@ -118,26 +124,26 @@ public class DarkTomeBase extends Enchantment{
             case 1:
                 DodgeEffect(worldIn,entityIn, duration);break;
             case 100:
-                DarktomeDarksword.MrQuinDarkSwordEffect(entityIn, duration);break;
+                DivinetomeDarksword.MrQuinDarkSwordEffect(entityIn, duration);break;
             case 101:
-                DarktomeDarksword.ReposteEffect(worldIn,entityIn,duration); break;
+                DivinetomeDarksword.ReposteEffect(worldIn,entityIn,duration); break;
             case 102:
-                DarktomeDarksword.StrikeEffect(worldIn, entityIn, duration); break;
+                DivinetomeDarksword.StrikeEffect(worldIn, entityIn, duration); break;
             case 103:
-                DarktomeDarksword.DarkStormEffect(worldIn, entityIn,duration);break;
+                DivinetomeDarksword.DarkStormEffect(worldIn, entityIn,duration);break;
             case 104:
                 if(entityIn instanceof EntityPlayer)
-                    DarktomeDarksword.RiteOfDarkEffect(worldIn,(EntityPlayer)entityIn,duration);
+                    DivinetomeDarksword.RiteOfDarkEffect(worldIn,(EntityPlayer)entityIn,duration);
                 break;
             case 105:
-                DarktomeDarksword.AirBorneEffect(worldIn,entityIn,duration);break;
+                DivinetomeDarksword.AirBorneEffect(worldIn,entityIn,duration);break;
 
         }
     }
     public static void CheckEffectByHurt(EntityLivingBase entityIn , EffectBase eb, DamageSource source, float amount){
         switch (eb.getEffectID()){
             case 1:if(source.isProjectile()||source.getDamageType()=="mob")DoDodge(entityIn, amount);break;
-            case 101:if(source.isProjectile()||source.getDamageType()=="mob")DarktomeDarksword.DoReposte(entityIn, amount);break;
+            case 101:if(source.isProjectile()||source.getDamageType()=="mob") DivinetomeDarksword.DoReposte(entityIn, amount);break;
         }
     }
     public static boolean AddEffectToEntity(EntityLivingBase entityIn, Potion potionIn, int durationIn, int amplifierIn){

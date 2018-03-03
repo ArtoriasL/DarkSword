@@ -1,7 +1,7 @@
 package mods.allenzhang.darksword.allenHelper;
 
 import mods.allenzhang.darksword.Object.EffectBase;
-import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
+import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -48,13 +48,16 @@ public class AllenEntitySelector {
         for (Entity temp :
                 entityList) {
             temp.attackEntityFrom(source,damage);
-            if(hasBlood)DarkTomeBase.BloodEffect(temp);
+            if(hasBlood) DivineTomeBase.BloodEffect(temp);
         }
     }
     public static void AttackEntitysByEffect(World worldIn, EntityLivingBase entityIn, Vec3d p, EffectBase eb,double amplify, float selectSize, boolean hasBlood){
         double d = AllenAttributeHelper.GetAttribute(entityIn, SharedMonsterAttributes.ATTACK_DAMAGE) * eb.getAttackDamage(amplify);
-        DamageSource ds = (entityIn instanceof EntityPlayer)?DamageSource.causePlayerDamage((EntityPlayer)entityIn):DamageSource.causeMobDamage(entityIn);
-        AttackEntitys(SelectEnemyEntity(worldIn, entityIn, p, selectSize),ds,(float) d,hasBlood);
-        AttackEntitys(SelectFriendlyEntity(worldIn, entityIn, p, selectSize),ds,(float) d * 0.3f,hasBlood);
+        AttackEntitys(SelectEnemyEntity(worldIn, entityIn, p, selectSize),CheckDamageSourceByEntity(entityIn),(float) d,hasBlood);
+        AttackEntitys(SelectFriendlyEntity(worldIn, entityIn, p, selectSize),CheckDamageSourceByEntity(entityIn),(float) d * 0.3f,hasBlood);
+    }
+
+    public static DamageSource CheckDamageSourceByEntity(EntityLivingBase entityIn){
+        return (entityIn instanceof EntityPlayer)?DamageSource.causePlayerDamage((EntityPlayer)entityIn):DamageSource.causeMobDamage(entityIn);
     }
 }

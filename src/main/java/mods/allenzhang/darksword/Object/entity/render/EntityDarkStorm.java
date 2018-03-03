@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 public class EntityDarkStorm extends EntityDarkArrow{
     public EntityDarkStorm(World worldIn, EntityLivingBase entityIn, double x, double y, double z, int life) {
-        super(worldIn, entityIn, x, y, z, life,life*0.2);
+        super(worldIn, entityIn, x, y, z, life);
     }
     public EntityDarkStorm( World worldIn ) {
         super(worldIn);

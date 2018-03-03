@@ -2,13 +2,11 @@ package mods.allenzhang.darksword.handlers;
 
 import mods.allenzhang.darksword.Object.RecipeBase;
 import mods.allenzhang.darksword.Object.SmeltingBase;
-import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
+import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.allenHelper.AllenNBTReader;
 import mods.allenzhang.darksword.allenHelper.Debug;
-import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.init.ModRepices;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -60,15 +58,14 @@ public class RecipeHandler {
         ItemStack out = IsDarkTome(event.getLeft(),event.getRight());
         if(out==null)out = IsSoul(event.getLeft(),event.getRight());
 
-
         if(out!=null){
             event.setCost(1);
             event.setOutput(out);
         }
     }
     private static ItemStack IsDarkTome(ItemStack left,ItemStack right){
-        DarkTomeBase leftTome = AllenNBTReader.GetDarkTomeByItemStack(left);
-        DarkTomeBase rightTome = AllenNBTReader.GetDarkTomeByItemStack(right);
+        DivineTomeBase leftTome = AllenNBTReader.GetDarkTomeByItemStack(left);
+        DivineTomeBase rightTome = AllenNBTReader.GetDarkTomeByItemStack(right);
         if(leftTome!=null&&rightTome!=null)return null;
         if(leftTome==null&&rightTome==null)return null;
         ItemStack source = null;
@@ -90,9 +87,9 @@ public class RecipeHandler {
                 out.setItemDamage(source.getItemDamage());
             else
                 out.setItemDamage(material.getItemDamage());
-
-            if(out.getItemDamage()==0)out.setItemDamage(1);
         }
+
+        if(out.getItemDamage()==0)out.setItemDamage(1);
         out.addEnchantment(AllenNBTReader.GetDarkTomeByItemStack(source),1);
         return out;
     }

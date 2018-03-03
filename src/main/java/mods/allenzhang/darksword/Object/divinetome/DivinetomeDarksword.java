@@ -1,9 +1,10 @@
-package mods.allenzhang.darksword.Object.darktomes;
+package mods.allenzhang.darksword.Object.divinetome;
 
 import mods.allenzhang.darksword.Object.entity.EntityDarkArrow;
 import mods.allenzhang.darksword.Object.entity.render.EntityDarkStorm;
 import mods.allenzhang.darksword.allenHelper.*;
 import mods.allenzhang.darksword.handlers.LivingDropHandler;
+import mods.allenzhang.darksword.init.ModDarkTome;
 import mods.allenzhang.darksword.init.ModEffects;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -25,8 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DarktomeDarksword extends DarkTomeBase{
-    public DarktomeDarksword( String name, Rarity rarityIn, EnumEnchantmentType typeIn, EntityEquipmentSlot[] slots ) {
+public class DivinetomeDarksword extends DivineTomeBase {
+    public DivinetomeDarksword(String name, Rarity rarityIn, EnumEnchantmentType typeIn, ModDarkTome.EquipmentSlots slots) {
         super(name, rarityIn, typeIn, slots);
     }
     @Override
@@ -139,6 +140,7 @@ public class DarktomeDarksword extends DarkTomeBase{
         int far =(maxDuration/10) - (duration/10);
         for (Vec3d vec3d : AllenPosition.GetEntityRoundPos(entityIn,entityIn.getEyeHeight()*0.5,far)){
             EntityDarkStorm tempThrowable = new EntityDarkStorm(worldIn, entityIn, vec3d.x, vec3d.y, vec3d.z, 2);
+            tempThrowable.setDamage((float) (AllenAttributeHelper.GetAttribute(entityIn, SharedMonsterAttributes.ATTACK_DAMAGE)*ModEffects.DARKSTORM.getAttackDamage(1)));
             tempThrowable.shoot(entityIn, entityIn.rotationPitch, entityIn.rotationYaw, 0.0F, 0.0F, 1.0F);
             worldIn.spawnEntity(tempThrowable);
             worldIn.spawnParticle(EnumParticleTypes.ENCHANTMENT_TABLE,vec3d.x,vec3d.y+1,vec3d.z,0,0.01,0);
@@ -176,7 +178,9 @@ public class DarktomeDarksword extends DarkTomeBase{
         World worldIn = entityIn.getEntityWorld();
         if (!worldIn.isRemote)
         {
-            EntityDarkArrow tempThrowable = new EntityDarkArrow(worldIn,entityIn,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,ModEffects.REPOSTE.getDuration()/20,0);
+            PreCast(worldIn, entityIn, entityIn.getEyeHeight(),1,CastParticleTypes.cast,EnumParticleTypes.DRAGON_BREATH,SoundEvents.ENTITY_ENDERMEN_TELEPORT);
+            EntityDarkArrow tempThrowable = new EntityDarkArrow(worldIn,entityIn,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,ModEffects.REPOSTE.getDuration()/20);
+            tempThrowable.setDamage((float) (AllenAttributeHelper.GetAttribute(entityIn, SharedMonsterAttributes.ATTACK_DAMAGE)*ModEffects.REPOSTE.getAttackDamage(1)));
             tempThrowable.shoot(entityIn, entityIn.rotationPitch, entityIn.rotationYaw, 0.0F, 0.5F, 1.0F);
             worldIn.spawnEntity(tempThrowable);
         }
