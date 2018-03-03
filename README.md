@@ -1,5 +1,6 @@
 # DarkSword
 A minecraft mod
+1.12.2-14.23.2.2618
 
 ### Wiki https://github.com/ArtoriasL/DarkSword/wiki
 ### 下载 https://github.com/ArtoriasL/DarkSword/tree/master/build_/
