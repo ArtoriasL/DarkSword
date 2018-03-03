@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModRepices {
-
-
     public static final List<RecipeBase> RECIPES = new ArrayList<>();
     public static final List<RecipeBase> RESULTRECIPES = new ArrayList<>();
     public static final List<SmeltingBase> SMELTINGBASES = new ArrayList();
@@ -53,5 +51,7 @@ public class ModRepices {
     });
 
     //smelting recipe
-    public static final SmeltingBase divinetome = new SmeltingBase(ModItems.SOUL_LARGECREATURE,new ItemStack(ModItems.DIVINETOME),0);
+    public static final SmeltingBase repairPowderPerfect = new SmeltingBase(ModItems.SOUL_LARGECREATURE,new ItemStack(ModItems.REPAIRPOWDER_PERFECT),0);
+    public static final SmeltingBase repairPowderConcentrated = new SmeltingBase(ModItems.SOUL_STRONG,new ItemStack(ModItems.REPAIRPOWDER_CONCENTRATED),0);
+    public static final SmeltingBase repairPowderWeak = new SmeltingBase(ModItems.SOUL_WEAK,new ItemStack(ModItems.REPAIRPOWDER_WEAK),0);
 }

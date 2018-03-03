@@ -109,9 +109,7 @@ public class RegistryHandler {
     }
     @SubscribeEvent
     public static void OnFurnaceBurn(FurnaceFuelBurnTimeEvent event){
-        Debug.log().info(event.getItemStack().getItem()+"/"+event.getBurnTime());
 //        if(event.getItemStack().getItem()==ModItems.&&event.getBurnTime())
-
     }
 
     public static void preInitRegisteries(){

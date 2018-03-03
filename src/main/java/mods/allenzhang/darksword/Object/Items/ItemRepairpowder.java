@@ -1,5 +1,6 @@
 package mods.allenzhang.darksword.Object.Items;
 
+import mods.allenzhang.darksword.Object.darktomes.DarkTomeBase;
 import mods.allenzhang.darksword.allenHelper.AllenPosition;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,10 +22,8 @@ public class ItemRepairpowder extends ItemBase  {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
         if(handIn==EnumHand.MAIN_HAND) {
-            Vec3d playerPos = AllenPosition.GetPos(playerIn,playerIn.getEyeHeight()*0.5,AllenPosition.GetYawByType(playerIn, 1,AllenPosition.Left));
-            worldIn.playSound((EntityPlayer) null, playerPos.x, playerPos.y, playerPos.z, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL, 1F, 0.5F);
-            worldIn.spawnParticle(EnumParticleTypes.REDSTONE, playerPos.x, playerPos.y, playerPos.z, 1.0, 1.0, 1.0);
             playerIn.setActiveHand(handIn);
+
         }
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
@@ -50,7 +49,7 @@ public class ItemRepairpowder extends ItemBase  {
         ItemStack mainHandIn = playerIn.getHeldItemMainhand();
         ItemStack offHandIn = playerIn.getHeldItemOffhand();
         if(mainHandIn.getItem()==repairpowder) {
-            Vec3d playerPos =AllenPosition.GetPos(entityLiving,entityLiving.getEyeHeight()*0.5,AllenPosition.GetYawByType(entityLiving,1,AllenPosition.Right));
+            Vec3d playerPos =AllenPosition.GetPos(entityLiving,entityLiving.getEyeHeight()*0.5,AllenPosition.GetYawByType(entityLiving,1,AllenPosition.Right,false));
             worldIn.playSound((EntityPlayer)null, playerPos.x,playerPos.y,playerPos.z, SoundEvents.BLOCK_ANVIL_USE, SoundCategory.NEUTRAL, 0.7F, 2F);
             int repair = repairLv;
             switch (repairLv) {
@@ -67,6 +66,8 @@ public class ItemRepairpowder extends ItemBase  {
                 if (!playerIn.capabilities.isCreativeMode)
                     mainHandIn.shrink(1);
                 offHandIn.damageItem(-repair, playerIn);
+                if(repairpowder.repair>1)
+                    DarkTomeBase.PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.5f,repairpowder.repair*0.25, DarkTomeBase.CastParticleTypes.cast,EnumParticleTypes.LAVA,SoundEvents.BLOCK_LAVA_POP);
             }
 //        Debug.log().info(Reference.GetExpByLevel(3));
             playerIn.addStat(StatList.getObjectUseStats(repairpowder));

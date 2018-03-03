@@ -20,11 +20,15 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import scala.actors.threadpool.Arrays;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,6 +37,10 @@ public class DarkTomeBase extends Enchantment{
         DARKSWORD
     }
     public enum ClickType {left,right}
+    public enum CastParticleTypes{
+        cast,
+        absorb
+    }
     public static final float up=-0.05f,forward=0.3f,friction=2f;
     protected static final double eyeHeight = 0.5;
     protected static final UUID dodgeArmorUUID = UUID.randomUUID();
@@ -65,7 +73,6 @@ public class DarkTomeBase extends Enchantment{
             }
         }
         if(damageItem>0) {
-            PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.5f,1);
             itemStackIn.damageItem(damageItem, playerIn);
         }
     }
@@ -214,15 +221,28 @@ public class DarkTomeBase extends Enchantment{
         return true;
     }
     //Skill Effects
-    public static void PreCast( World worldIn, EntityLivingBase entityIn,float height,int far){
-        worldIn.spawnParticle(EnumParticleTypes.CLOUD,entityIn.posX,entityIn.posY+2,entityIn.posZ,0,0.01,0);
-        Vec3d[] pos = AllenPosition.GetEntityRoundPos(entityIn,height,far);
-        Vec3d[] dir = AllenPosition.GetEntityRoundYaw(entityIn,far);
+    public static void PreCast( World worldIn, EntityLivingBase entityIn,float height,double far,CastParticleTypes castType,EnumParticleTypes praticle,SoundEvent sound){
+//        worldIn.spawnParticle(EnumParticleTypes.CLOUD,entityIn.posX,entityIn.posY+entityIn.getEyeHeight()*0.7,entityIn.posZ,0,0.01,0);
+        List<Vec3d> pos = new ArrayList<Vec3d>(Arrays.asList(AllenPosition.GetEntityRoundPos(entityIn,height,far)));
+        List<Vec3d> dir =  new ArrayList<Vec3d>(Arrays.asList(AllenPosition.GetEntityRoundYaw(entityIn,1,true)));
         double speed = 0.06;
-        for(int i=0;i<pos.length;i++){
-            worldIn.spawnParticle(EnumParticleTypes.DRAGON_BREATH,pos[i].x,pos[i].y+height,pos[i].z,-dir[i].x*speed,-0.01,-dir[i].z*speed);
+        double yspeed = -0.01;
+        switch (castType){
+            case absorb:
+                pos.clear();
+                dir.clear();
+                for (Vec3d vec3d : AllenPosition.GetEntityRoundPos(entityIn, height+1,far)) {pos.add(vec3d);}
+                for (Vec3d vec3d : AllenPosition.GetEntityRoundPos(entityIn, height,far)) {pos.add(vec3d);}
+                for (Vec3d po : pos) {dir.add(Vec3d.ZERO);}
+                speed = 0.01;
+                yspeed = 0.01;
+                break;
         }
-        worldIn.playSound(null,entityIn.posX,entityIn.posY,entityIn.posZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.NEUTRAL,4.0F,0.5F);
+
+        for(int i=0;i<pos.size();i++){
+            worldIn.spawnParticle(praticle,pos.get(i).x,pos.get(i).y+height,pos.get(i).z,dir.get(i).x*speed,yspeed,dir.get(i).z*speed);
+        }
+        worldIn.playSound(null,entityIn.posX,entityIn.posY,entityIn.posZ, sound, SoundCategory.NEUTRAL,4.0F,0.5F);
     }
     public static void FatigueEffect(Entity entity){
         entity.setInWeb();
@@ -232,7 +252,7 @@ public class DarkTomeBase extends Enchantment{
         World worldIn = entityIn.world;
 
         worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE,entityIn.posX,entityIn.posY+entityIn.getEyeHeight()*1.5,entityIn.posZ,0,0.1,0);
-        Vec3d[] d = AllenPosition.GetEntityRoundYaw(entityIn,1);
+        Vec3d[] d = AllenPosition.GetEntityRoundYaw(entityIn,1,false);
         for (int i = 0; i < d.length; i++) {
             worldIn.spawnParticle(EnumParticleTypes.SPELL_WITCH,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,d[i].x*0.005,0.1,d[i].z*0.005);
             worldIn.spawnParticle(EnumParticleTypes.CRIT_MAGIC, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.7, entityIn.posZ,d[i].x*2, -0.005, d[i].z*2);
