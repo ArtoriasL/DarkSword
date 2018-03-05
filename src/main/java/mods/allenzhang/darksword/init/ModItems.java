@@ -25,4 +25,5 @@ public class ModItems {
     public static final Item REPAIRPOWDER_CONCENTRATED = new ItemRepairpowder("repairpowder_concentrated",2);
     public static final Item REPAIRPOWDER_PERFECT = new ItemRepairpowder("repairpowder_perfect",3);
 
+    public static final Item UNDEADFLASK_EMPTY = new ItemUndeadFlask("undeadflask");
 }
