@@ -11,9 +11,10 @@ import java.util.List;
 
 public class ModDarkTome {
     public enum EquipmentSlots{
+        other(0,null),
         mainWeapon(1,new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND}),
-        offWeapon(1,new EntityEquipmentSlot[] {EntityEquipmentSlot.OFFHAND}),
-        dualWieldweapon(1,new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND,EntityEquipmentSlot.OFFHAND});
+        offWeapon(2,new EntityEquipmentSlot[] {EntityEquipmentSlot.OFFHAND}),
+        dualWieldweapon(3,new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND,EntityEquipmentSlot.OFFHAND});
 
         public final int id;
         public final EntityEquipmentSlot[] slots;
@@ -23,6 +24,7 @@ public class ModDarkTome {
             this.slots=slots;
         }
     }
+
 
     public static List<DivineTomeBase> darkTomes = new ArrayList<>();
 

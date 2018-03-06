@@ -1,12 +1,15 @@
 package mods.allenzhang.darksword.handlers;
 
+import mods.allenzhang.darksword.Object.Items.ItemUndeadFlask;
 import mods.allenzhang.darksword.Object.RecipeBase;
 import mods.allenzhang.darksword.Object.SmeltingBase;
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.allenHelper.AllenNBTReader;
 import mods.allenzhang.darksword.allenHelper.Debug;
+import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.init.ModRepices;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -56,7 +59,9 @@ public class RecipeHandler {
     }
     public static void CheckDarkTomeRecipeByAnvil(AnvilUpdateEvent event){
         ItemStack out = IsDarkTome(event.getLeft(),event.getRight());
-        if(out==null)out = IsSoul(event.getLeft(),event.getRight());
+        Item leftItem = event.getLeft().getItem();
+        if(leftItem==Items.GLASS_BOTTLE)out = IsFlask(event.getRight());
+//        else if(leftItem==ModItems.SOUL_LARGECREATURE)out = AddLevel(event.getRight().getItem());
 
         if(out!=null){
             event.setCost(1);
@@ -93,11 +98,18 @@ public class RecipeHandler {
         out.addEnchantment(AllenNBTReader.GetDarkTomeByItemStack(source),1);
         return out;
     }
-    private static ItemStack IsSoul(ItemStack left,ItemStack right){
+    private static ItemStack IsFlask(ItemStack right){
         ItemStack out = null;
-
-//        if(left== ModItems.)
-
+        if(right.getItem()== ModItems.SOUL_NORMAL){
+            out = new ItemStack(ModItems.UNDEADFLASK_EMPTY,2);
+        }
+        return out;
+    }
+    private static ItemStack AddLevel(Item right){
+        ItemStack out = null;
+        ItemUndeadFlask r = null;
+        if(right instanceof ItemUndeadFlask)r = ((ItemUndeadFlask) right);
+        if(r.SetLevel())out=new ItemStack(r);
         return out;
     }
     private static ItemStack enchantItem(ItemStack items, Enchantment enchantment,int level){

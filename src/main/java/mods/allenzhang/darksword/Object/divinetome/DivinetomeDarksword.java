@@ -14,6 +14,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -120,10 +121,10 @@ public class DivinetomeDarksword extends DivineTomeBase {
         {
             worldIn.playSound((EntityPlayer) null, playerIn.posX, playerIn.posY+playerIn.getEyeHeight(), playerIn.posZ, SoundEvents.ENTITY_PLAYER_BIG_FALL, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 3F);
             playerIn.setFire(2);
-            if(worldIn.isRemote) {
-                EntityLightningBolt elb = new EntityLightningBolt(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, true);
-                worldIn.spawnEntity(elb);
-            }
+            float hp = playerIn.getHealth();
+            if(hp>1)playerIn.attackEntityFrom(DamageSource.causePlayerDamage(playerIn),hp/2);
+            EntityLightningBolt elb = new EntityLightningBolt(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, true);
+            worldIn.spawnEntity(elb);
         }
     }
     public static void DarkStormEffect(World worldIn, EntityLivingBase entityIn, Integer duration){

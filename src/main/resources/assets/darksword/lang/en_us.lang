@@ -13,6 +13,7 @@ item.repairpowder_weak.name=Weak Repair Powder
 item.repairpowder_concentrated.name=Concentrated Repair Powder
 item.repairpowder_perfect.name=Perfect Repair Powder
 item.undeadflask.name=Undead Flask
+item.undeadflask_empty.name=Empty Undead Flask
 
 tile.block_largeember.name=Large Ember
 

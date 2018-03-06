@@ -80,15 +80,15 @@ public class DivineTomeBase extends Enchantment{
         }
     }
     public int OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
-        return 0;
+        return 1;
     }
     public int OnDodge(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
-        return 0;
+        return 1;
     }
-    public int OnSneaking(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
-    public int OnSprinting(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
-    public int OnJumping(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
-    public int OnFalling(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
+    public int OnSneaking(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 1;}
+    public int OnSprinting(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 1;}
+    public int OnJumping(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 1;}
+    public int OnFalling(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 1;}
 
     //manager
     public static void UseDarkTome( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
@@ -111,7 +111,6 @@ public class DivineTomeBase extends Enchantment{
         if(playerIn.getHeldItemMainhand().getItem()==Items.AIR&&itemIn == playerIn.getHeldItemOffhand())return true;
         return false;
     }
-
     public static void PlayEffectByDuration(World worldIn, EntityLivingBase entityIn, EffectBase eb){
         int duration = entityIn.getActivePotionEffect(eb).getDuration();
         if(duration<1)entityIn.removePotionEffect(eb);

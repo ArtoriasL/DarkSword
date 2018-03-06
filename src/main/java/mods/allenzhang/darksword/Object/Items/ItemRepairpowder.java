@@ -2,8 +2,10 @@ package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.allenHelper.AllenPosition;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -23,23 +25,21 @@ public class ItemRepairpowder extends ItemBase  {
     {
         if(handIn==EnumHand.MAIN_HAND) {
             playerIn.setActiveHand(handIn);
+            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+        }else
+            return new ActionResult<ItemStack>(EnumActionResult.FAIL, playerIn.getHeldItem(handIn));
 
-        }
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
 
-    @Override
     public EnumAction getItemUseAction( ItemStack stack ) {
         return EnumAction.BOW;
     }
 
-    @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
         return 32;
     }
 
-    @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving){
         return UseRepairpowder(repair,this,worldIn,entityLiving);
     }
@@ -63,8 +63,14 @@ public class ItemRepairpowder extends ItemBase  {
 
 //        Debug.log().info(repair);
             if (offHandIn.getMaxDamage() - offHandIn.getItemDamage() < offHandIn.getMaxDamage()) {
-                if (!playerIn.capabilities.isCreativeMode)
+                if (playerIn==null||!playerIn.capabilities.isCreativeMode) {
                     mainHandIn.shrink(1);
+                }
+                if(playerIn instanceof EntityPlayerMP){
+                    CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP)playerIn, mainHandIn);
+                }
+
+
                 offHandIn.damageItem(-repair, playerIn);
                 if(repairpowder.repair>1)
                     DivineTomeBase.PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.5f,repairpowder.repair*0.25, DivineTomeBase.CastParticleTypes.cast,EnumParticleTypes.LAVA,SoundEvents.BLOCK_LAVA_POP);
