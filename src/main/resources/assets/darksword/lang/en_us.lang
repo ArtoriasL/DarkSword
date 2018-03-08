@@ -14,6 +14,8 @@ item.repairpowder_concentrated.name=Concentrated Repair Powder
 item.repairpowder_perfect.name=Perfect Repair Powder
 item.undeadflask.name=Undead Flask
 item.undeadflask_empty.name=Empty Undead Flask
+item.undeadflask_shards.name=Undead Flask Shards
+
 
 tile.block_largeember.name=Large Ember
 
@@ -28,3 +30,7 @@ potion.skill_airborne=Air Borne
 potion.entityskill_mrquindarksword=Mr Qin's Dark Sword
 
 enchantment.tome_darksword=Dark Sword
+enchantment.intensify_level=Intensify
+
+infotext.item.repairpowder=Lightly enchanted golden powder_nUsed to repair equipment in the off-hand(%d)
+infotext.item.undeadflask_shards=A shard soaked in Undead Flask._nIn the old days, it was rare to see an Undead Flask far from its owner, but this shard offers hope, however shattered._nThe Undead Flask be strengthened on the anvil.

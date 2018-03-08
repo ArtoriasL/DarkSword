@@ -3,7 +3,7 @@
 package mods.allenzhang.darksword.Object.divinetome;
 import mods.allenzhang.darksword.Object.EffectBase;
 import mods.allenzhang.darksword.allenHelper.*;
-import mods.allenzhang.darksword.init.ModDarkTome;
+import mods.allenzhang.darksword.init.ModEnchantments;
 import mods.allenzhang.darksword.init.ModEffects;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -46,13 +45,13 @@ public class DivineTomeBase extends Enchantment{
     protected static final UUID dodgeArmorUUID = UUID.randomUUID();
     protected static final UUID dodgeArmorToughnessUUID = UUID.randomUUID();
 
-    public ModDarkTome.EquipmentSlots slots;
-    public DivineTomeBase(String name, Rarity rarityIn, EnumEnchantmentType typeIn, ModDarkTome.EquipmentSlots slots) {
+    public ModEnchantments.EquipmentSlots slots;
+    public DivineTomeBase(String name, Rarity rarityIn, EnumEnchantmentType typeIn, ModEnchantments.EquipmentSlots slots) {
         super(rarityIn, typeIn,slots.slots);
         setRegistryName(name);
         this.setName(name);
         this.slots=slots;
-        ModDarkTome.darkTomes.add(this);
+        ModEnchantments.enchantments.add(this);
     }
     @Override
     public boolean isAllowedOnBooks() {
@@ -62,6 +61,8 @@ public class DivineTomeBase extends Enchantment{
     public boolean canApply( ItemStack stack ) {
         return false;
     }
+
+
     public void UseSkill( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
         AllenEntityFlag aef = AllenEntityFlag.GetEntityFlag(playerIn);
         int damageItem = 0;
@@ -80,15 +81,15 @@ public class DivineTomeBase extends Enchantment{
         }
     }
     public int OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
-        return 1;
+        return 0;
     }
     public int OnDodge(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
-        return 1;
+        return 0;
     }
-    public int OnSneaking(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 1;}
-    public int OnSprinting(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 1;}
-    public int OnJumping(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 1;}
-    public int OnFalling(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 1;}
+    public int OnSneaking(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
+    public int OnSprinting(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
+    public int OnJumping(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
+    public int OnFalling(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
 
     //manager
     public static void UseDarkTome( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
@@ -104,11 +105,17 @@ public class DivineTomeBase extends Enchantment{
         tome.UseSkill(ct,worldIn, playerIn, itemStackIn);
     }
     public static boolean isOnlyMainHand(EntityPlayer playerIn,ItemStack itemIn){
-        if(playerIn.getHeldItemOffhand().getItem()==Items.AIR&&itemIn == playerIn.getHeldItemMainhand())return true;
+        if(playerIn.getHeldItemOffhand().getItem()==Items.AIR&&
+                itemIn == playerIn.getHeldItemMainhand()&&
+                itemIn.getMaxDamage()>0
+                )return true;
         return false;
     }
     public static boolean isOnlyOffHand(EntityPlayer playerIn,ItemStack itemIn){
-        if(playerIn.getHeldItemMainhand().getItem()==Items.AIR&&itemIn == playerIn.getHeldItemOffhand())return true;
+        if(playerIn.getHeldItemMainhand().getItem()==Items.AIR&&
+                itemIn == playerIn.getHeldItemOffhand()&&
+                itemIn.getMaxDamage()>0
+                )return true;
         return false;
     }
     public static void PlayEffectByDuration(World worldIn, EntityLivingBase entityIn, EffectBase eb){
@@ -166,12 +173,11 @@ public class DivineTomeBase extends Enchantment{
         return true;
     }
 
-    public static int GetItemDamage( ItemStack item, EntityPlayer playerIn, @Nullable Double ratio, @Nullable Integer add){
+    public static int GetItemDamage( ItemStack item, EntityPlayer playerIn, @Nullable Double ratio){
         if(ratio==null)ratio=1D;
-        add=(add==null)?0:(int)Math.round(add*ratio);
         double dI = AllenAttributeHelper.GetAttackDamageByItem(item,playerIn)*ratio;
-        dI=Math.round(dI) + add;
-        int itemD = item.getItemDamage();
+        dI=Math.round(dI);
+        int itemD =item.getMaxDamage()-item.getItemDamage();
         if(dI>=itemD&&itemD!=1)dI = itemD - 1;
         return MathHelper.ceil(dI);
     }

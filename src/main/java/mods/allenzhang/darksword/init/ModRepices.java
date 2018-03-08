@@ -4,6 +4,7 @@ import mods.allenzhang.darksword.Object.Items.ItemEnchantedDivienTome;
 import mods.allenzhang.darksword.Object.RecipeBase;
 import mods.allenzhang.darksword.Object.SmeltingBase;
 import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
@@ -41,13 +42,22 @@ public class ModRepices {
             'W',ModItems.SOUL_STRONG
     });
 
-    public static final RecipeBase enchanteddivinetome = new RecipeBase(RecipeBase.resType.resultrecipe,ItemEnchantedDivienTome.getEnchantedItemStack(new EnchantmentData(ModDarkTome.tome_darksword,1)),new Object[]{
+    public static final RecipeBase enchanteddivinetome = new RecipeBase(RecipeBase.resType.resultrecipe,ItemEnchantedDivienTome.getEnchantedItemStack(new EnchantmentData(ModEnchantments.tome_darksword,1)),new Object[]{
             "SES",
             "EBE",
             "SES",
             'E', Items.ENDER_EYE,
             'S', ModItems.SOUL_STRONG,
             'B', Items.BOOK
+    });
+
+    public static final RecipeBase undeadflask = new RecipeBase(RecipeBase.resType.resultrecipe,new ItemStack(ModItems.UNDEADFLASK_EMPTY),new Object[]{
+            "gwg",
+            "gfg",
+            "ggg",
+            'g', Blocks.GLASS,
+            'w', Blocks.WOODEN_BUTTON,
+            'f', ModItems.SOUL_NORMAL
     });
 
     //smelting recipe

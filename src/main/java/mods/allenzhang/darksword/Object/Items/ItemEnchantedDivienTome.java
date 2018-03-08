@@ -2,7 +2,7 @@ package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.DarkswordMain;
 import mods.allenzhang.darksword.init.ModItems;
-import mods.allenzhang.darksword.init.ModDarkTome;
+import mods.allenzhang.darksword.init.ModEnchantments;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
@@ -100,7 +100,7 @@ public class ItemEnchantedDivienTome extends ItemBase{
 
     public void getSubItems(CreativeTabs tab,NonNullList<ItemStack> items){
         if(tab== DarkswordMain.DARKCORE){
-            for(Enchantment enchantment: ModDarkTome.darkTomes){
+            for(Enchantment enchantment: ModEnchantments.enchantments){
                 if(enchantment.type!=null){
                     for(int i=enchantment.getMinLevel();i<=enchantment.getMaxLevel();++i){
                         items.add(getEnchantedItemStack(new EnchantmentData(enchantment,i)));

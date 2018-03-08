@@ -39,7 +39,7 @@ public class RegistryHandler {
     }
     @SubscribeEvent
     public static void onEnchantmentRegister( RegistryEvent.Register<Enchantment> event){
-        event.getRegistry().registerAll(ModDarkTome.darkTomes.toArray(new Enchantment[0]));
+        event.getRegistry().registerAll(ModEnchantments.enchantments.toArray(new Enchantment[0]));
     }
     @SubscribeEvent
     public static void onModelRegister(ModelRegistryEvent event){

@@ -9,12 +9,14 @@ import mods.allenzhang.darksword.init.ModItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
@@ -32,47 +34,50 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemUndeadFlask extends ItemBase{
-    public Integer level=1;
-    public int flaskSize=2;
-
+    private final Item.ToolMaterial material;
+    public boolean isEmpty=false;
+    public PotionTypes potion;
     public ItemUndeadFlask(String name) {
         super(name);
+        this.setMaxStackSize(1);
+        this.setMaxDamage(2);
+        this.material=ToolMaterial.GOLD;
     }
-    public boolean SetLevel(){
-        if(this.level>15)return false;
-
-        this.level++;
-        SetMaxSize();
-        return true;
-    }
-    public ItemUndeadFlask SetMaxSize(){
-        this.maxStackSize=level+1;
+    public ItemUndeadFlask setEmpty(boolean isEmpty){
+        this.isEmpty=isEmpty;
         return this;
     }
-
+    public ItemUndeadFlask setPotion(PotionTypes potion){
+        this.potion=potion;
+        return this;
+    }
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        if(!playerIn.isPotionActive(ModEffects.FLASK)){
-            playerIn.setActiveHand(handIn);
-            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
-        }else
+        ItemStack is = playerIn.getHeldItem(handIn);
+//        playerIn.isPotionActive(ModEffects.FLASK)||
+        if(this.isEmpty||is.getMaxDamage()-is.getItemDamage()<1) {
             return new ActionResult<ItemStack>(EnumActionResult.FAIL, playerIn.getHeldItem(handIn));
+        }
+
+        playerIn.setActiveHand(handIn);
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
     public EnumAction getItemUseAction(ItemStack stack) {
         return EnumAction.DRINK;
     }
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
 
+        stack.damageItem(1,entityLiving);
         EntityPlayer entityplayer = entityLiving instanceof EntityPlayer ? (EntityPlayer)entityLiving : null;
 
-        if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)
-        {
-            stack.shrink(1);
-        }
+//        if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)
+//        {
+//            stack.shrink(1);
+//        }
 
-        if (entityplayer instanceof EntityPlayerMP)
-        {
-            CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP)entityplayer, stack);
-        }
+//        if (entityplayer instanceof EntityPlayerMP)
+//        {
+//            CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP)entityplayer, stack);
+//        }
 
         if (!worldIn.isRemote)
         {
@@ -96,7 +101,7 @@ public class ItemUndeadFlask extends ItemBase{
 
         if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)
         {
-            if (stack.isEmpty())
+            if (stack.isEmpty()||stack.getItemDamage()>=stack.getMaxDamage())
             {
                 return new ItemStack(ModItems.UNDEADFLASK_EMPTY);
             }
@@ -130,11 +135,23 @@ public class ItemUndeadFlask extends ItemBase{
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
         PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
-        tooltip.add("Lv "+level.toString());
     }
 
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack stack) {
         return super.hasEffect(stack) || !PotionUtils.getEffectsFromStack(stack).isEmpty();
+    }
+
+    /**
+     * Return whether this item is repairable in an anvil.
+     *
+     * @param toRepair the {@code ItemStack} being repaired
+     * @param repair the {@code ItemStack} being used to perform the repair
+     */
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+    {
+        ItemStack mat = this.material.getRepairItemStack();
+        if (!mat.isEmpty() && net.minecraftforge.oredict.OreDictionary.itemMatches(mat, repair, false)) return true;
+        return super.getIsRepairable(toRepair, repair);
     }
 }

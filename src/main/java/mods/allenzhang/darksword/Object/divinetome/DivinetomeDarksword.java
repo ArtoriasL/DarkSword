@@ -4,7 +4,7 @@ import mods.allenzhang.darksword.Object.entity.EntityDarkArrow;
 import mods.allenzhang.darksword.Object.entity.render.EntityDarkStorm;
 import mods.allenzhang.darksword.allenHelper.*;
 import mods.allenzhang.darksword.handlers.LivingDropHandler;
-import mods.allenzhang.darksword.init.ModDarkTome;
+import mods.allenzhang.darksword.init.ModEnchantments;
 import mods.allenzhang.darksword.init.ModEffects;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DivinetomeDarksword extends DivineTomeBase {
-    public DivinetomeDarksword(String name, Rarity rarityIn, EnumEnchantmentType typeIn, ModDarkTome.EquipmentSlots slots) {
+    public DivinetomeDarksword(String name, Rarity rarityIn, EnumEnchantmentType typeIn, ModEnchantments.EquipmentSlots slots) {
         super(name, rarityIn, typeIn, slots);
     }
     @Override
@@ -51,14 +51,14 @@ public class DivinetomeDarksword extends DivineTomeBase {
         if(!CanUse(playerIn, ModEffects.DARKSTORM))return 0;
         AddEffectToEntity(playerIn, ModEffects.DARKSTORM,ModEffects.DARKSTORM.getDuration(),0);
         PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.5f,1,CastParticleTypes.cast,EnumParticleTypes.DRAGON_BREATH,SoundEvents.ENTITY_ENDERMEN_TELEPORT);
-        return GetItemDamage(itemStackIn,playerIn, ModEffects.DARKSTORM.getItemDamage(),null);
+        return GetItemDamage(itemStackIn,playerIn, ModEffects.DARKSTORM.getItemDamage());
     }
 
     @Override
     public int OnFalling( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.AIRBORNE))return 0;
         AddEffectToEntity(playerIn,ModEffects.AIRBORNE,ModEffects.AIRBORNE.getDuration(),0);
-        return GetItemDamage(itemStackIn,playerIn,ModEffects.AIRBORNE.getItemDamage(),null);
+        return GetItemDamage(itemStackIn,playerIn,ModEffects.AIRBORNE.getItemDamage());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class DivinetomeDarksword extends DivineTomeBase {
     public int OnSprinting( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.STRICK))return 0;
         AddEffectToEntity(playerIn,ModEffects.STRICK,ModEffects.STRICK.getDuration(),0);
-        return GetItemDamage(itemStackIn,playerIn,ModEffects.STRICK.getItemDamage(),null);
+        return GetItemDamage(itemStackIn,playerIn,ModEffects.STRICK.getItemDamage());
     }
 
     //Effect
