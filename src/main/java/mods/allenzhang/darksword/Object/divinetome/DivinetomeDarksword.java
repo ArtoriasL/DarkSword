@@ -34,6 +34,7 @@ public class DivinetomeDarksword extends DivineTomeBase {
     public int OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.REPOSTE)||!playerIn.onGround)return 0;
         AddEffectToEntity(playerIn, ModEffects.REPOSTE,ModEffects.REPOSTE.getDuration(),0);
+        playerIn.renderBrokenItemStack(itemStackIn);
         PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.2f,0.7,CastParticleTypes.absorb,EnumParticleTypes.ENCHANTMENT_TABLE,SoundEvents.ENTITY_ENDERMEN_TELEPORT);
         worldIn.playSound(playerIn,new BlockPos(playerIn),SoundEvents.ITEM_SHIELD_BLOCK,SoundCategory.NEUTRAL,1,1);
         return 1;

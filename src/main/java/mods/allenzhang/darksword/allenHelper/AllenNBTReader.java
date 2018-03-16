@@ -4,6 +4,7 @@ import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
@@ -11,8 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllenNBTReader {
-
-    public static List<EnchantmentData> GetEnchantmentDataByNBT(NBTTagList tagList){
+    public static EnchantmentData GetEnchantmentDataByNBT(NBTTagList tagList,Enchantment enchantment){
+        for (EnchantmentData enchantmentData : GetEnchantmentDatasByNBT(tagList)) {
+            if(enchantmentData.enchantment == enchantment)
+                return enchantmentData;
+        }
+        return null;
+    }
+    public static List<EnchantmentData> GetEnchantmentDatasByNBT(NBTTagList tagList){
         List<EnchantmentData>eds = new ArrayList<>();
         for (NBTTagCompound temp : GetNBTCompound(tagList))
             eds.add(new EnchantmentData(Enchantment.getEnchantmentByID(temp.getShort("id")),temp.getShort("lvl")));

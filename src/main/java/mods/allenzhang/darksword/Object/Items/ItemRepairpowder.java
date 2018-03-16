@@ -97,7 +97,8 @@ public class ItemRepairpowder extends ItemBase  {
     }
 
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        String s =TextFormatting.GRAY+I18n.format("infotext.item.repairpowder", TextFormatting.GOLD + String.valueOf(this.repair)+TextFormatting.GRAY);
+        String v = (this.repair>1)?String.valueOf(this.repair*100)+"%":String.valueOf(1);
+        String s =TextFormatting.GRAY+I18n.format("infotext.item.repairpowder", TextFormatting.GOLD + v +TextFormatting.GRAY);
         List<String> ts = Arrays.asList(s.split("_n"));
         for (String t : ts) {
             tooltip.add(t);

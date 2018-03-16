@@ -1,5 +1,6 @@
 package mods.allenzhang.darksword.handlers;
 
+import mods.allenzhang.darksword.Object.Items.ItemUndeadFlask;
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.Object.EffectBase;
 import mods.allenzhang.darksword.allenHelper.Debug;
@@ -47,7 +48,12 @@ public class RegistryHandler {
         {
             if(item instanceof IHasModel)
             {
+                if(item instanceof ItemUndeadFlask){
+                ((IHasModel)item).registerModelsBySplitName("_full");
+                }
+                else {
                 ((IHasModel)item).registerModels();
+                }
             }
         }
 
@@ -58,10 +64,8 @@ public class RegistryHandler {
                 ((IHasModel)block).registerModels();
             }
         }
-
         Debug.log().info("ModelRegister");
     }
-
     @SubscribeEvent
     public static void onLivingExpDrop( LivingExperienceDropEvent event){
         for (Map.Entry<Integer,Integer>entry:Reference.BOSS_DROP_SOUL.entrySet())

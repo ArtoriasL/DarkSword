@@ -99,7 +99,7 @@ public class ItemEnchantedDivienTome extends ItemBase{
 
 
     public void getSubItems(CreativeTabs tab,NonNullList<ItemStack> items){
-        if(tab== DarkswordMain.DARKCORE){
+        if(tab== DarkswordMain.DARKSWORD){
             for(Enchantment enchantment: ModEnchantments.enchantments){
                 if(enchantment.type!=null){
                     for(int i=enchantment.getMinLevel();i<=enchantment.getMaxLevel();++i){

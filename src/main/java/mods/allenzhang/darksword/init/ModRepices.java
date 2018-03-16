@@ -1,8 +1,10 @@
 package mods.allenzhang.darksword.init;
 
 import mods.allenzhang.darksword.Object.Items.ItemEnchantedDivienTome;
+import mods.allenzhang.darksword.Object.Items.ItemUndeadFlask;
 import mods.allenzhang.darksword.Object.RecipeBase;
 import mods.allenzhang.darksword.Object.SmeltingBase;
+import mods.allenzhang.darksword.handlers.EnumHandler;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -51,7 +53,7 @@ public class ModRepices {
             'B', Items.BOOK
     });
 
-    public static final RecipeBase undeadflask = new RecipeBase(RecipeBase.resType.resultrecipe,new ItemStack(ModItems.UNDEADFLASK_EMPTY),new Object[]{
+    public static final RecipeBase undeadflask = new RecipeBase(RecipeBase.resType.resultrecipe, ModItems.UNDEADFLASK.getDefaultInstance(),new Object[]{
             "gwg",
             "gfg",
             "ggg",

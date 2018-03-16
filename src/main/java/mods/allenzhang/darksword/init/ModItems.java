@@ -25,7 +25,11 @@ public class ModItems {
     public static final Item REPAIRPOWDER_CONCENTRATED = new ItemRepairpowder("repairpowder_concentrated",2).setRepair(0.1);
     public static final Item REPAIRPOWDER_PERFECT = new ItemRepairpowder("repairpowder_perfect",3).setRepair(1);
 
+
+
+    public static final List<ItemUndeadFlask> FLASKS = ItemUndeadFlask.NewFlasks();
+
     public static final Item UNDEADFLASK = new ItemUndeadFlask("undeadflask");
-    public static final Item UNDEADFLASK_EMPTY = new ItemUndeadFlask("undeadflask_empty").setEmpty(true);
+
     public static final Item UNDEADFLASK_SHARDS = new ItemUndeadFlaskShards("undeadflask_shards").setMaxStackSize(1);
 }

@@ -1,6 +1,5 @@
 package mods.allenzhang.darksword.proxy;
 
-import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -15,13 +14,14 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void registerVariantRenderer(Item item, int meta, String filename, String id)
+    public void registerItemRendererBySplitName(Item item, int meta, String id, String split)
     {
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(new ResourceLocation(Reference.MODID, filename), id));
-    }
-
-    @Override
-    public void registerRenderThings(){
-
+        ResourceLocation rl = item.getRegistryName();
+        String domain = rl.getResourceDomain();
+        String pathin = rl.getResourcePath();
+        String[] ss = pathin.split(split);
+        if(ss.length>1)pathin = ss[0]+split;
+        rl=new ResourceLocation(domain,pathin);
+        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(rl, id));
     }
 }

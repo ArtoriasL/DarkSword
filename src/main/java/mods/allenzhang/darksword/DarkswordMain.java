@@ -19,7 +19,7 @@ import java.util.HashMap;
         )
 public class DarkswordMain {
     public static final String VERSION = "dev";
-    public static final DarkswordTab DARKCORE = new DarkswordTab("darkcore");
+    public static final DarkswordTab DARKSWORD = new DarkswordTab("darksword");
 
     @Mod.Instance
     public static DarkswordMain instance;

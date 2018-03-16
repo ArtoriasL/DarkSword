@@ -179,6 +179,7 @@ public class DivineTomeBase extends Enchantment{
         dI=Math.round(dI);
         int itemD =item.getMaxDamage()-item.getItemDamage();
         if(dI>=itemD&&itemD!=1)dI = itemD - 1;
+        Debug.log().info(MathHelper.ceil(dI));
         return MathHelper.ceil(dI);
     }
 
@@ -273,7 +274,8 @@ public class DivineTomeBase extends Enchantment{
     }
     public static void DodgeEffect( World worldIn, EntityLivingBase entityIn, int duration ){
         if(duration== ModEffects.DODGE.getDuration()) {
-            worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 4.0F, (3.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
+            worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.NEUTRAL, 0.3F, (3.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
+            worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.NEUTRAL, 4.0F, (3.0F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
         }
         else if(duration>10&&duration<20) {
             worldIn.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.3, entityIn.posZ, 0.0D, 0, 0.0D);

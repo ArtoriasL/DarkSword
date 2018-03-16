@@ -1,26 +1,21 @@
 package mods.allenzhang.darksword.handlers;
 
+import mods.allenzhang.darksword.Object.Items.ItemUndeadFlask;
 import mods.allenzhang.darksword.Object.RecipeBase;
 import mods.allenzhang.darksword.Object.SmeltingBase;
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
-import mods.allenzhang.darksword.Object.divinetome.IntensifyLevel;
 import mods.allenzhang.darksword.allenHelper.AllenNBTReader;
 import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.init.ModEnchantments;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.init.ModRepices;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RecipeHandler {
     public static void Init(){
@@ -65,10 +60,14 @@ public class RecipeHandler {
     public static void CheckDarkTomeRecipeByAnvil(AnvilUpdateEvent event){
         ItemStack out = IsDarkTome(event.getLeft(),event.getRight());
         Item leftItem = event.getLeft().getItem();
-        if(leftItem==ModItems.UNDEADFLASK_SHARDS)out = AddLevel(event.getRight(),15);
+        int cost = 1;
+        if(leftItem==ModItems.UNDEADFLASK_SHARDS){
+            out =ItemUndeadFlask.AddLevel(event.getRight());
+            cost = AllenNBTReader.GetEnchantmentDataByNBT(out.getEnchantmentTagList(),ModEnchantments.intensify_level).enchantmentLevel;
+        }
 
         if(out!=null){
-            event.setCost(1);
+            event.setCost(cost);
             event.setOutput(out);
         }
     }
@@ -102,32 +101,11 @@ public class RecipeHandler {
         out.addEnchantment(AllenNBTReader.GetDarkTomeByItemStack(source),1);
         return out;
     }
-    private static ItemStack AddLevel(ItemStack right,int maxLevel){
-        if(right.getItem()!=ModItems.UNDEADFLASK&&right.getItem()!=ModItems.UNDEADFLASK_EMPTY)return null;
-        ItemStack out = new ItemStack(right.getItem());
-        EnchantmentData level = null;
-        List<EnchantmentData> eds = new ArrayList<>();
-        for (EnchantmentData ed : AllenNBTReader.GetEnchantmentDataByNBT(right.getEnchantmentTagList())) {
-            if(ed.enchantment instanceof IntensifyLevel) {
-                level = ed;
-            }else
-                eds.add(ed);
-        }
-        if(level==null){
-            level = new EnchantmentData(ModEnchantments.intensify_level,2);
-        }else{
-            if(level.enchantmentLevel>=maxLevel)return null;
 
-            level = new EnchantmentData(level.enchantment,level.enchantmentLevel+1);
-        }
-        out.addEnchantment(level.enchantment,level.enchantmentLevel);
-        for (EnchantmentData ed : eds)
-            out.addEnchantment(ed.enchantment,ed.enchantmentLevel);
-        return out;
-    }
-    private static ItemStack enchantItem(ItemStack items, Enchantment enchantment,int level){
-        ItemStack out = items;
-        out.addEnchantment(enchantment,level);
-        return out;
+    public class AnvilOut{
+        public int cost;
+        public ItemStack out;
     }
 }
+
+
