@@ -95,7 +95,7 @@ public class DivineTomeBase extends Enchantment{
     public static void UseDarkTome( ClickType ct, World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){
 //        if(playerIn.getHeldItemOffhand()==ItemStack.EMPTY)return;
 
-        DivineTomeBase tome = AllenNBTReader.GetDarkTomeByItemStack(playerIn.getHeldItemMainhand());
+        DivineTomeBase tome = AllenAttributeHelper.GetDarkTomeByItemStack(playerIn.getHeldItemMainhand());
         if(tome ==null)return;
         switch (tome.slots.id){
             case 1: if (!isOnlyMainHand(playerIn, itemStackIn))return;break;

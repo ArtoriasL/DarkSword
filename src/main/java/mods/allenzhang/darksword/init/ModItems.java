@@ -30,6 +30,5 @@ public class ModItems {
     public static final List<ItemUndeadFlask> FLASKS = ItemUndeadFlask.NewFlasks();
 
     public static final Item UNDEADFLASK = new ItemUndeadFlask("undeadflask");
-
     public static final Item UNDEADFLASK_SHARDS = new ItemUndeadFlaskShards("undeadflask_shards").setMaxStackSize(1);
 }

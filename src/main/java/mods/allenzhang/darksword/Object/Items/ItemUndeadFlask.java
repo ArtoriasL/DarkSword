@@ -1,8 +1,7 @@
 package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
-import mods.allenzhang.darksword.Object.divinetome.IntensifyLevel;
-import mods.allenzhang.darksword.allenHelper.AllenNBTReader;
+import mods.allenzhang.darksword.allenHelper.AllenAttributeHelper;
 import mods.allenzhang.darksword.handlers.EnumHandler;
 import mods.allenzhang.darksword.init.ModEffects;
 import mods.allenzhang.darksword.init.ModEnchantments;
@@ -17,12 +16,14 @@ import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,13 +32,14 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemUndeadFlask extends ItemBase{
+import static mods.allenzhang.darksword.allenHelper.AllenAttributeHelper.LEVEL;
+
+public class ItemUndeadFlask extends ItemBase {
     private static final String undeadflask_full = "undeadflask_full";
     private final Item.ToolMaterial material;
-    public static final int maxLevel = 16;
+    public  static final int maxLevel = 20;
     public PotionTypes potion;
     public EnumHandler.FlaskTypes types= EnumHandler.FlaskTypes.EMPTY;
-    public int level;
     public ItemUndeadFlask(String name){
         super(name);
         this.setMaxStackSize(1);
@@ -48,9 +50,8 @@ public class ItemUndeadFlask extends ItemBase{
         super(name,name+"_"+level);
         this.setMaxStackSize(1);
         this.material=ToolMaterial.GOLD;
-        this.level=level;
         this.setType(EnumHandler.FlaskTypes.FULL);
-        setMaxDamage(level+1);
+        setMaxDamage(level);
 //        this.hasSubtypes=true;
     }
     public ItemUndeadFlask setType(EnumHandler.FlaskTypes types){
@@ -61,25 +62,12 @@ public class ItemUndeadFlask extends ItemBase{
     public static List<ItemUndeadFlask> NewFlasks(){
         List<ItemUndeadFlask> iuf = new ArrayList<>();
 
-        for (int i = 0; i < 64; i++) {
+        for (int i = 0; i < maxLevel; i++) {
             iuf.add(new ItemUndeadFlask(undeadflask_full,i+1));
         }
 
         return iuf;
     }
-//    @Override
-//    public String getUnlocalizedName(ItemStack stack){
-//        for (int i = 0; i < EnumHandler.ChipTypes.values().length; i++) {
-//            if(stack.getItemDamage()==i){
-//                return this.getUnlocalizedName()+"."+ EnumHandler.ChipTypes.values()[i].getName();
-//            }
-//            else{
-//                continue;
-//            }
-//        }
-//        return super.getUnlocalizedName()+"."+ EnumHandler.ChipTypes.FULL.getName();
-//    }
-
     public ItemUndeadFlask setPotion(PotionTypes potion){
         this.potion=potion;
         return this;
@@ -89,11 +77,7 @@ public class ItemUndeadFlask extends ItemBase{
             return new ActionResult<ItemStack>(EnumActionResult.FAIL, playerIn.getHeldItem(handIn));
         }
 
-        ItemStack is = playerIn.getHeldItem(handIn);
-        if(is.getItemDamage()>=is.getMaxDamage()){
-            is.damageItem(999,playerIn);
-            return new ActionResult<ItemStack>(EnumActionResult.FAIL, playerIn.getHeldItem(handIn));
-        }
+
 
         playerIn.setActiveHand(handIn);
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
@@ -104,9 +88,7 @@ public class ItemUndeadFlask extends ItemBase{
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
 
         EntityPlayer entityplayer = entityLiving instanceof EntityPlayer ? (EntityPlayer)entityLiving : null;
-        int level =0;
-        EnchantmentData ed = AllenNBTReader.GetEnchantmentDataByNBT(stack.getEnchantmentTagList(),ModEnchantments.intensify_level);
-        if(ed!=null)level=ed.enchantmentLevel;
+        int level = AllenAttributeHelper.GetNBTInteger(stack,"level");
 
         if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)
         {
@@ -142,7 +124,7 @@ public class ItemUndeadFlask extends ItemBase{
         {
             if (stack.isEmpty()){
                 ItemStack is = ModItems.UNDEADFLASK.getDefaultInstance();
-                if(level>0)is.addEnchantment(ModEnchantments.intensify_level,level);
+                AllenAttributeHelper.SetNBTInteger(is,LEVEL,level);
                 return is;
             }
 //            if (entityplayer != null)
@@ -163,7 +145,9 @@ public class ItemUndeadFlask extends ItemBase{
     @SideOnly(Side.CLIENT)
     public ItemStack getDefaultInstance()
     {
-        return PotionUtils.addPotionToItemStack(super.getDefaultInstance(), PotionTypes.HEALING);
+        ItemStack is =PotionUtils.addPotionToItemStack(super.getDefaultInstance(), PotionTypes.STRONG_HEALING);
+        AllenAttributeHelper.AddNBTInteger(is,LEVEL,1);
+        return is;
     }
 //    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 //        if(tab== DarkswordMain.DARKCORE){
@@ -176,38 +160,29 @@ public class ItemUndeadFlask extends ItemBase{
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn){
         PotionUtils.addPotionTooltip(stack, tooltip, 1.0F);
     }
+    @SideOnly(Side.CLIENT)
+    public String getItemStackDisplayName(ItemStack stack)
+    {
+        String displayName =  net.minecraft.util.text.translation.I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name").trim();
+        int level =1;
+        if(stack.hasTagCompound()){
+            NBTTagCompound nbt =stack.getTagCompound();
+            if(nbt.hasKey("level"))
+                level = nbt.getInteger("level");
+        }
 
+        if(level>1){displayName+=TextFormatting.BOLD + (TextFormatting.GOLD + " +"+ level);}
+        return displayName;
+    }
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(ItemStack stack) {
-        return super.hasEffect(stack) || !PotionUtils.getEffectsFromStack(stack).isEmpty();
+        if(AllenAttributeHelper.GetNBTInteger(stack,"level")>0)return true;
+        else return false;
     }
 
     @Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
         return false;
-    }
-
-
-    public static ItemStack AddLevel(ItemStack itemIn){
-        EnchantmentData level = null;
-        for (EnchantmentData ed : AllenNBTReader.GetEnchantmentDatasByNBT(itemIn.getEnchantmentTagList())) {
-            if(ed.enchantment instanceof IntensifyLevel) {
-                level = ed;
-            }
-        }
-
-        if(level==null){
-            level = new EnchantmentData(ModEnchantments.intensify_level,2);
-        }else{
-            if(level.enchantmentLevel>=ItemUndeadFlask.maxLevel)return null;
-
-            level = new EnchantmentData(level.enchantment,level.enchantmentLevel+1);
-        }
-
-        ItemStack out = ModItems.FLASKS.get(level.enchantmentLevel).getDefaultInstance();
-        out.addEnchantment(level.enchantment,level.enchantmentLevel);
-
-        return out;
     }
 }

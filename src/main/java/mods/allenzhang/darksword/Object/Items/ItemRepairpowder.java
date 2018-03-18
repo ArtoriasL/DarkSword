@@ -1,9 +1,8 @@
 package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
-import mods.allenzhang.darksword.allenHelper.AllenNBTReader;
+import mods.allenzhang.darksword.allenHelper.AllenAttributeHelper;
 import mods.allenzhang.darksword.allenHelper.AllenPosition;
-import mods.allenzhang.darksword.init.ModItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -13,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
@@ -27,7 +25,7 @@ import java.util.List;
 
 public class ItemRepairpowder extends ItemBase  {
 
-    private int repairLv=1;
+    private int repairLv;
     private double repair =1;
     public ItemRepairpowder( String name,int repairLv) {
         super(name);
@@ -45,7 +43,7 @@ public class ItemRepairpowder extends ItemBase  {
         if(playerIn.getHeldItemOffhand().getItem() instanceof ItemUndeadFlask)return arisF;//not undeadflask
 
         DivineTomeBase dtb = null;//have not divine tome
-        for (Enchantment enchantment : AllenNBTReader.GetEnchantmentByNBT(playerIn.getHeldItemOffhand().getEnchantmentTagList()))
+        for (Enchantment enchantment : AllenAttributeHelper.GetEnchantmentByNBT(playerIn.getHeldItemOffhand().getEnchantmentTagList()))
             if(enchantment instanceof DivineTomeBase)dtb=(DivineTomeBase) enchantment;
         if(dtb==null)return arisF;
 
@@ -97,7 +95,7 @@ public class ItemRepairpowder extends ItemBase  {
     }
 
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        String v = (this.repair>1)?String.valueOf(this.repair*100)+"%":String.valueOf(1);
+        String v = (this.repairLv>1)?String.valueOf(this.repair*100)+"%":String.valueOf(1);
         String s =TextFormatting.GRAY+I18n.format("infotext.item.repairpowder", TextFormatting.GOLD + v +TextFormatting.GRAY);
         List<String> ts = Arrays.asList(s.split("_n"));
         for (String t : ts) {

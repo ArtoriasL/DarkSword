@@ -4,18 +4,18 @@ import mods.allenzhang.darksword.Object.Items.ItemUndeadFlask;
 import mods.allenzhang.darksword.Object.RecipeBase;
 import mods.allenzhang.darksword.Object.SmeltingBase;
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
-import mods.allenzhang.darksword.allenHelper.AllenNBTReader;
+import mods.allenzhang.darksword.allenHelper.AllenAttributeHelper;
 import mods.allenzhang.darksword.allenHelper.Debug;
-import mods.allenzhang.darksword.init.ModEnchantments;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.init.ModRepices;
-import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import static mods.allenzhang.darksword.allenHelper.AllenAttributeHelper.LEVEL;
 
 public class RecipeHandler {
     public static void Init(){
@@ -61,9 +61,10 @@ public class RecipeHandler {
         ItemStack out = IsDarkTome(event.getLeft(),event.getRight());
         Item leftItem = event.getLeft().getItem();
         int cost = 1;
-        if(leftItem==ModItems.UNDEADFLASK_SHARDS){
-            out =ItemUndeadFlask.AddLevel(event.getRight());
-            cost = AllenNBTReader.GetEnchantmentDataByNBT(out.getEnchantmentTagList(),ModEnchantments.intensify_level).enchantmentLevel;
+        if(leftItem==ModItems.UNDEADFLASK_SHARDS&&event.getRight().getItem() instanceof ItemUndeadFlask){
+            out=event.getRight().copy();
+            AllenAttributeHelper.AddNBTInteger(out,LEVEL,1);
+            cost = AllenAttributeHelper.GetNBTInteger(out,LEVEL);
         }
 
         if(out!=null){
@@ -72,8 +73,8 @@ public class RecipeHandler {
         }
     }
     private static ItemStack IsDarkTome(ItemStack left,ItemStack right){
-        DivineTomeBase leftTome = AllenNBTReader.GetDarkTomeByItemStack(left);
-        DivineTomeBase rightTome = AllenNBTReader.GetDarkTomeByItemStack(right);
+        DivineTomeBase leftTome = AllenAttributeHelper.GetDarkTomeByItemStack(left);
+        DivineTomeBase rightTome = AllenAttributeHelper.GetDarkTomeByItemStack(right);
         if(leftTome!=null&&rightTome!=null)return null;
         if(leftTome==null&&rightTome==null)return null;
         ItemStack source = null;
@@ -98,13 +99,8 @@ public class RecipeHandler {
         }
 
         if(out.getItemDamage()==0)out.setItemDamage(1);
-        out.addEnchantment(AllenNBTReader.GetDarkTomeByItemStack(source),1);
+        out.addEnchantment(AllenAttributeHelper.GetDarkTomeByItemStack(source),1);
         return out;
-    }
-
-    public class AnvilOut{
-        public int cost;
-        public ItemStack out;
     }
 }
 

@@ -29,7 +29,7 @@ potion.skill_airborne=下落一击
 potion.entityskill_mrquindarksword=秦川黑暗剑技
 
 enchantment.tome_darksword=黑暗剑技
-enchantment.intensify_level=强化
 
+infotext.item.level=等级:
 infotext.item.repairpowder=轻轻的撒上金色粉末_n修复副手装备(%s)的耐久度
 infotext.item.undeadflask_shards=一片元素碎片_n被原来主人遗弃的烧瓶，曾给人带来过希望，但是它破碎了_n通过铁砧可以增强不死人的烧瓶

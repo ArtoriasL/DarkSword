@@ -1,7 +1,6 @@
 package mods.allenzhang.darksword.init;
 
 import mods.allenzhang.darksword.Object.divinetome.DivinetomeDarksword;
-import mods.allenzhang.darksword.Object.divinetome.IntensifyLevel;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -27,8 +26,6 @@ public class ModEnchantments {
 
 
     public static List<Enchantment> enchantments = new ArrayList<>();
-
-    public static final Enchantment intensify_level = new IntensifyLevel("intensify_level",Enchantment.Rarity.COMMON,null,EquipmentSlots.other);
 
     public static final Enchantment tome_darksword = new DivinetomeDarksword("tome_darksword", Enchantment.Rarity.COMMON, EnumEnchantmentType.WEAPON,EquipmentSlots.mainWeapon);
 

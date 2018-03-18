@@ -21,6 +21,7 @@ public class ItemBase extends Item implements IHasModel {
         setCreativeTab(DarkswordMain.DARKSWORD);
         ModItems.ITEMS.add(this);
     }
+
     @Override
     public void registerModels() {
         DarkswordMain.PROXY.registerItemRenderer(this, 0, "inventory");
