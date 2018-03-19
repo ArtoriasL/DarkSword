@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 
 public class DarkswordTab extends CreativeTabs{
     public DarkswordTab(String label){
-        super("darkcore");
+        super("darksword");
     }
 
 

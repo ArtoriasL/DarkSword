@@ -12,7 +12,7 @@ item.enchanteddivinetome.name=圣典
 item.repairpowder_weak.name=暗淡的修理光粉
 item.repairpowder_concentrated.name=浓缩的修理光粉
 item.repairpowder_perfect.name=完美的修理光粉
-item.undeadflask_full.name=不死人的烧瓶
+item.undeadflask_healing.name=不死人的烧瓶
 item.undeadflask.name=空的不死人的烧瓶
 item.undeadflask_shards.name=烧瓶的元素碎片
 

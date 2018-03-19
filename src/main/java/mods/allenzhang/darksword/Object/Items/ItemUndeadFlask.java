@@ -2,13 +2,12 @@ package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.allenHelper.AllenAttributeHelper;
-import mods.allenzhang.darksword.handlers.EnumHandler;
+import mods.allenzhang.darksword.allenHelper.Debug;
+import mods.allenzhang.darksword.handlers.EnumHandler.FlaskTypes;
 import mods.allenzhang.darksword.init.ModEffects;
-import mods.allenzhang.darksword.init.ModEnchantments;
 import mods.allenzhang.darksword.init.ModItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,13 +16,16 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -32,55 +34,50 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mods.allenzhang.darksword.allenHelper.AllenAttributeHelper.ATTRIBUTENAME;
 import static mods.allenzhang.darksword.allenHelper.AllenAttributeHelper.LEVEL;
 
 public class ItemUndeadFlask extends ItemBase {
-    private static final String undeadflask_full = "undeadflask_full";
     private final Item.ToolMaterial material;
     public  static final int maxLevel = 20;
-    public PotionTypes potion;
-    public EnumHandler.FlaskTypes types= EnumHandler.FlaskTypes.EMPTY;
+    public FlaskTypes types;
+    public int level = 1;
     public ItemUndeadFlask(String name){
         super(name);
         this.setMaxStackSize(1);
-        setMaxDamage(0);
         this.material=ToolMaterial.GOLD;
+        this.setType(FlaskTypes.EMPTY);
+        setMaxDamage(0);
     }
-    public ItemUndeadFlask(String name,int level) {
-        super(name,name+"_"+level);
+    public ItemUndeadFlask(FlaskTypes type,int level) {
+        super("undeadflask_"+type.getName(),"undeadflask_"+type.getName()+"_"+level,false);
+        this.level = level;
         this.setMaxStackSize(1);
         this.material=ToolMaterial.GOLD;
-        this.setType(EnumHandler.FlaskTypes.FULL);
+        this.setType(type);
         setMaxDamage(level);
 //        this.hasSubtypes=true;
     }
-    public ItemUndeadFlask setType(EnumHandler.FlaskTypes types){
+    public ItemUndeadFlask setType(FlaskTypes types){
         this.types = types;
         return this;
     }
 
     public static List<ItemUndeadFlask> NewFlasks(){
         List<ItemUndeadFlask> iuf = new ArrayList<>();
-
         for (int i = 0; i < maxLevel; i++) {
-            iuf.add(new ItemUndeadFlask(undeadflask_full,i+1));
+            iuf.add(new ItemUndeadFlask(FlaskTypes.HEALING,i+1));
         }
-
         return iuf;
     }
-    public ItemUndeadFlask setPotion(PotionTypes potion){
-        this.potion=potion;
-        return this;
-    }
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        if(this.types == EnumHandler.FlaskTypes.EMPTY) {
-            return new ActionResult<ItemStack>(EnumActionResult.FAIL, playerIn.getHeldItem(handIn));
+        ItemStack item = playerIn.getHeldItem(handIn);
+        if(this.types == FlaskTypes.EMPTY||PotionUtils.getPotionFromItem(item)== PotionTypes.EMPTY) {
+            return new ActionResult<ItemStack>(EnumActionResult.FAIL, item);
         }
 
-
-
         playerIn.setActiveHand(handIn);
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, item);
     }
     public EnumAction getItemUseAction(ItemStack stack) {
         return EnumAction.DRINK;
@@ -88,8 +85,7 @@ public class ItemUndeadFlask extends ItemBase {
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
 
         EntityPlayer entityplayer = entityLiving instanceof EntityPlayer ? (EntityPlayer)entityLiving : null;
-        int level = AllenAttributeHelper.GetNBTInteger(stack,"level");
-
+        NBTTagCompound nbt = AllenAttributeHelper.GetNBT(stack);
         if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)
         {
             stack.damageItem(1,entityLiving);
@@ -106,7 +102,7 @@ public class ItemUndeadFlask extends ItemBase {
             {
                 if (potioneffect.getPotion().isInstant())
                 {
-                    potioneffect.getPotion().affectEntity(entityplayer, entityplayer, entityLiving, potioneffect.getAmplifier(), 1.0D);
+                    potioneffect.getPotion().affectEntity(entityplayer, entityplayer, entityLiving, potioneffect.getAmplifier(), 1.0);
                 }
                 else
                 {
@@ -124,13 +120,11 @@ public class ItemUndeadFlask extends ItemBase {
         {
             if (stack.isEmpty()){
                 ItemStack is = ModItems.UNDEADFLASK.getDefaultInstance();
-                AllenAttributeHelper.SetNBTInteger(is,LEVEL,level);
+                if(nbt.hasKey("Potion"))
+                    nbt.removeTag("Potion");
+                is.setTagCompound(nbt);
                 return is;
             }
-//            if (entityplayer != null)
-//            {
-//                entityplayer.inventory.addItemStackToInventory(new ItemStack(ModItems.UNDEADFLASK_EMPTY));
-//            }
         }
 
         return stack;
@@ -140,15 +134,6 @@ public class ItemUndeadFlask extends ItemBase {
         return 32;
     }
 
-
-
-    @SideOnly(Side.CLIENT)
-    public ItemStack getDefaultInstance()
-    {
-        ItemStack is =PotionUtils.addPotionToItemStack(super.getDefaultInstance(), PotionTypes.STRONG_HEALING);
-        AllenAttributeHelper.AddNBTInteger(is,LEVEL,1);
-        return is;
-    }
 //    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 //        if(tab== DarkswordMain.DARKCORE){
 //            for (EnumHandler.ChipTypes chipTypes : EnumHandler.ChipTypes.values()) {
@@ -163,15 +148,20 @@ public class ItemUndeadFlask extends ItemBase {
     @SideOnly(Side.CLIENT)
     public String getItemStackDisplayName(ItemStack stack)
     {
-        String displayName =  net.minecraft.util.text.translation.I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name").trim();
-        int level =1;
-        if(stack.hasTagCompound()){
-            NBTTagCompound nbt =stack.getTagCompound();
-            if(nbt.hasKey("level"))
-                level = nbt.getInteger("level");
+        List<String> names = new ArrayList<>();
+        names.add(I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name").trim());
+
+        int lv = AllenAttributeHelper.GetNBTInteger(stack,LEVEL);
+        if(lv>1)names.add(TextFormatting.GOLD + "+"+ lv);
+
+        String pn = AllenAttributeHelper.GetNBTString(stack,ATTRIBUTENAME);
+        if(!pn.isEmpty())names.add(TextFormatting.AQUA + pn);
+
+        String displayName = "";
+        for (String s : names) {
+            displayName+=s+" ";
         }
 
-        if(level>1){displayName+=TextFormatting.BOLD + (TextFormatting.GOLD + " +"+ level);}
         return displayName;
     }
     @SideOnly(Side.CLIENT)
@@ -184,5 +174,26 @@ public class ItemUndeadFlask extends ItemBase {
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
         return false;
+    }
+
+    public static ItemStack getFlaskInstanceByLevel(int level, @Nullable NBTTagCompound nbt, ItemStack left, FlaskTypes types){
+        if(level<1)return null;
+        ItemUndeadFlask iuf = null;
+        switch (types){
+            case EMPTY:iuf = (ItemUndeadFlask) ModItems.UNDEADFLASK; break;
+            case HEALING:iuf = ModItems.FLASKS.get(level-1);break;
+        }
+        if(iuf==null)return null;
+
+        ItemStack o =new ItemStack(iuf);
+        o.setTagCompound(nbt);
+
+        PotionType pt = PotionUtils.getPotionFromItem(left);
+        if(pt!=PotionTypes.EMPTY) {
+            AllenAttributeHelper.SetNBTString(o, ATTRIBUTENAME, left.getDisplayName());
+        }
+        AllenAttributeHelper.SetNBTInteger(o,LEVEL,level);
+        PotionUtils.addPotionToItemStack(o,pt);
+        return o;
     }
 }

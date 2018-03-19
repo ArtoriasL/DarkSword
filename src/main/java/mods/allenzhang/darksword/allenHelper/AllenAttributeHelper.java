@@ -24,6 +24,7 @@ import java.util.UUID;
 
 public class AllenAttributeHelper {
     public static final String LEVEL = "level";
+    public static final String ATTRIBUTENAME = "attributename";
     //Entity
     public static double GetAttackDamageByItem(@Nullable ItemStack item, EntityLivingBase entityIn){
         if(item==null)item = entityIn.getHeldItem(EnumHand.MAIN_HAND);
@@ -70,6 +71,13 @@ public class AllenAttributeHelper {
         else
             return 0;
     }
+    public static String GetNBTString(ItemStack item,String key){
+        NBTTagCompound nbt = GetNBT(item);
+        if(nbt.hasKey(key))
+            return nbt.getString(key);
+        else
+            return "";
+    }
 
     public static ItemStack AddNBTInteger(ItemStack item, String key, int add){
         NBTTagCompound nbt = GetNBT(item);
@@ -83,6 +91,12 @@ public class AllenAttributeHelper {
     public static ItemStack SetNBTInteger(ItemStack item,String key,int set){
         NBTTagCompound nbt = GetNBT(item);
         nbt.setInteger(key,set);
+        item.setTagCompound(nbt);
+        return item;
+    }
+    public static ItemStack SetNBTString(ItemStack item,String key,String set){
+        NBTTagCompound nbt = GetNBT(item);
+        nbt.setString(key,set);
         item.setTagCompound(nbt);
         return item;
     }

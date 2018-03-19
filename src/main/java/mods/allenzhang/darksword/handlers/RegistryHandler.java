@@ -8,16 +8,24 @@ import mods.allenzhang.darksword.init.*;
 import mods.allenzhang.darksword.util.IHasModel;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAnvil;
+import net.minecraft.block.BlockCauldron;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionUtils;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
+import net.minecraftforge.event.entity.item.ItemEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -49,7 +57,11 @@ public class RegistryHandler {
             if(item instanceof IHasModel)
             {
                 if(item instanceof ItemUndeadFlask){
-                ((IHasModel)item).registerModelsBySplitName("_full");
+                    ItemUndeadFlask iuf = (ItemUndeadFlask) item;
+                    if(iuf.types== EnumHandler.FlaskTypes.HEALING) {
+                        ((IHasModel) item).registerModelsBySplitName("_" + iuf.types.getName());
+                    }else
+                        ((IHasModel)item).registerModels();
                 }
                 else {
                 ((IHasModel)item).registerModels();
@@ -115,6 +127,16 @@ public class RegistryHandler {
     public static void OnFurnaceBurn(FurnaceFuelBurnTimeEvent event){
 //        if(event.getItemStack().getItem()==ModItems.&&event.getBurnTime())
     }
+
+    @SubscribeEvent
+    public static void OnBlockUpdate(BlockEvent event){
+        Block b = event.getState().getBlock();
+        if(b instanceof BlockAnvil){
+            BlockAnvil ba = (BlockAnvil) b;
+            Debug.log().info(ba.getBlockState());
+        }
+    }
+
 
     public static void preInitRegisteries(){
         ModEntitys.registerEntites();

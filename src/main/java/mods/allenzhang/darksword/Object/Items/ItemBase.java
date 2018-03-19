@@ -14,11 +14,11 @@ public class ItemBase extends Item implements IHasModel {
         setCreativeTab(DarkswordMain.DARKSWORD);
         ModItems.ITEMS.add(this);
     }
-    public ItemBase(String unlocalizedName,String registryName){
+    public ItemBase(String unlocalizedName,String registryName,boolean setCreativeTab){
         setUnlocalizedName(unlocalizedName);
         setRegistryName(registryName);
         setMaxStackSize(64);
-        setCreativeTab(DarkswordMain.DARKSWORD);
+        if(setCreativeTab)setCreativeTab(DarkswordMain.DARKSWORD);
         ModItems.ITEMS.add(this);
     }
 

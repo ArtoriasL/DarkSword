@@ -1,10 +1,12 @@
 package mods.allenzhang.darksword.handlers;
 
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionType;
 import net.minecraft.util.IStringSerializable;
 
 public class EnumHandler {
     public enum FlaskTypes implements IStringSerializable{
-        FULL("full", 1),
+        HEALING("healing", 1),
         EMPTY("empty", 2)
         ;
 

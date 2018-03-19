@@ -292,6 +292,37 @@ public class DivineTomeBase extends Enchantment{
             entityIn.heal((float) itemD);
         }
     }
+
+    public static ItemStack IsDarkTome(ItemStack left,ItemStack right){
+        DivineTomeBase leftTome = AllenAttributeHelper.GetDarkTomeByItemStack(left);
+        DivineTomeBase rightTome = AllenAttributeHelper.GetDarkTomeByItemStack(right);
+        if(leftTome!=null&&rightTome!=null)return null;
+        if(leftTome==null&&rightTome==null)return null;
+        ItemStack source = null;
+        ItemStack material = null;
+
+        if(leftTome!=null){
+            source=left;
+            material=right;
+        }else{
+            source=right;
+            material=left;
+        }
+
+        if(material.getMaxDamage()==0)return null;
+        ItemStack out = material.copy();
+
+        if(source.getMaxDamage()!=0) {
+            if(source.getItemDamage()>material.getItemDamage())
+                out.setItemDamage(source.getItemDamage());
+            else
+                out.setItemDamage(material.getItemDamage());
+        }
+
+        if(out.getItemDamage()==0)out.setItemDamage(1);
+        out.addEnchantment(AllenAttributeHelper.GetDarkTomeByItemStack(source),1);
+        return out;
+    }
 //    public int OnBurning(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
 //    public int OnInvisible(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
 //    public int OnGlowing(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}

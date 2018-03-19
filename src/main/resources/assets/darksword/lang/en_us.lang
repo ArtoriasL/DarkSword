@@ -12,7 +12,7 @@ item.enchanteddivinetome.name=Divine Tome
 item.repairpowder_weak.name=Weak Repair Powder
 item.repairpowder_concentrated.name=Concentrated Repair Powder
 item.repairpowder_perfect.name=Perfect Repair Powder
-item.undeadflask_full.name=Undead Flask
+item.undeadflask_healing.name=Undead Flask
 item.undeadflask.name=Empty Undead Flask
 item.undeadflask_shards.name=Undead Flask Shards
 

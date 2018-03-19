@@ -1,5 +1,6 @@
 package mods.allenzhang.darksword.proxy;
 
+import mods.allenzhang.darksword.allenHelper.Debug;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
