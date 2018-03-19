@@ -179,7 +179,6 @@ public class DivineTomeBase extends Enchantment{
         dI=Math.round(dI);
         int itemD =item.getMaxDamage()-item.getItemDamage();
         if(dI>=itemD&&itemD!=1)dI = itemD - 1;
-        Debug.log().info(MathHelper.ceil(dI));
         return MathHelper.ceil(dI);
     }
 
@@ -293,35 +292,16 @@ public class DivineTomeBase extends Enchantment{
         }
     }
 
-    public static ItemStack IsDarkTome(ItemStack left,ItemStack right){
-        DivineTomeBase leftTome = AllenAttributeHelper.GetDarkTomeByItemStack(left);
-        DivineTomeBase rightTome = AllenAttributeHelper.GetDarkTomeByItemStack(right);
-        if(leftTome!=null&&rightTome!=null)return null;
-        if(leftTome==null&&rightTome==null)return null;
-        ItemStack source = null;
-        ItemStack material = null;
+    public static ItemStack GetDivineTomedItem(ItemStack left, ItemStack right){
+        DivineTomeBase tome = AllenAttributeHelper.GetDarkTomeByItemStack(left);
 
-        if(leftTome!=null){
-            source=left;
-            material=right;
-        }else{
-            source=right;
-            material=left;
+        if(left.getMaxDamage()!=0) {
+            if(left.getItemDamage()>right.getItemDamage())
+                right.setItemDamage(left.getItemDamage());
         }
-
-        if(material.getMaxDamage()==0)return null;
-        ItemStack out = material.copy();
-
-        if(source.getMaxDamage()!=0) {
-            if(source.getItemDamage()>material.getItemDamage())
-                out.setItemDamage(source.getItemDamage());
-            else
-                out.setItemDamage(material.getItemDamage());
-        }
-
-        if(out.getItemDamage()==0)out.setItemDamage(1);
-        out.addEnchantment(AllenAttributeHelper.GetDarkTomeByItemStack(source),1);
-        return out;
+        if(right.getItemDamage()==0)right.setItemDamage(1);
+        right.addEnchantment(tome,1);
+        return right;
     }
 //    public int OnBurning(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}
 //    public int OnInvisible(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn){return 0;}

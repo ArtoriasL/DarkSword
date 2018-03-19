@@ -12,8 +12,6 @@ import net.minecraft.init.PotionTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -69,8 +67,9 @@ public class RecipeHandler {
         ItemStack rightItem = event.getRight().copy();
 
         if(AllenAttributeHelper.GetDarkTomeByItemStack(leftItem)!=null){
-            DivineTomeBase.IsDarkTome(leftItem,rightItem);
-        }else if(rightItem.getItem() instanceof ItemUndeadFlask){
+            out = DivineTomeBase.GetDivineTomedItem(leftItem,rightItem);
+        }
+        else if(rightItem.getItem() instanceof ItemUndeadFlask){
             ItemUndeadFlask iuf = (ItemUndeadFlask) rightItem.getItem();
             cost=AllenAttributeHelper.GetNBTInteger(rightItem,LEVEL);
             if(cost<1)cost=1;

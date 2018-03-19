@@ -128,14 +128,14 @@ public class RegistryHandler {
 //        if(event.getItemStack().getItem()==ModItems.&&event.getBurnTime())
     }
 
-    @SubscribeEvent
-    public static void OnBlockUpdate(BlockEvent event){
-        Block b = event.getState().getBlock();
-        if(b instanceof BlockAnvil){
-            BlockAnvil ba = (BlockAnvil) b;
-            Debug.log().info(ba.getBlockState());
-        }
-    }
+//    @SubscribeEvent
+//    public static void OnBlockUpdate(BlockEvent event){
+//        Block b = event.getState().getBlock();
+//        if(b instanceof BlockAnvil){
+//            BlockAnvil ba = (BlockAnvil) b;
+//            Debug.log().info(ba.getBlockState());
+//        }
+//    }
 
 
     public static void preInitRegisteries(){
