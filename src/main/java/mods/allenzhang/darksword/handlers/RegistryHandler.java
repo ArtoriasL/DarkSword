@@ -8,30 +8,25 @@ import mods.allenzhang.darksword.init.*;
 import mods.allenzhang.darksword.util.IHasModel;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAnvil;
-import net.minecraft.block.BlockCauldron;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
-import net.minecraftforge.event.entity.item.ItemEvent;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Map;
-
-@EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Reference.MODID)
 public class RegistryHandler {
 
     @SubscribeEvent
@@ -49,6 +44,18 @@ public class RegistryHandler {
     @SubscribeEvent
     public static void onEnchantmentRegister( RegistryEvent.Register<Enchantment> event){
         event.getRegistry().registerAll(ModEnchantments.enchantments.toArray(new Enchantment[0]));
+    }
+
+    @SubscribeEvent
+    public static void onLootTableLoadRegister(LootTableLoadEvent event){
+        ResourceLocation cname = event.getName();
+        if(cname.equals(LootTableList.CHESTS_STRONGHOLD_CORRIDOR)||cname.equals(LootTableList.CHESTS_STRONGHOLD_CROSSING)||cname.equals(LootTableList.CHESTS_STRONGHOLD_LIBRARY)){
+            final String name = ModLootTables.CHESTS_STRONGHOLD.toString();
+            final LootEntry entry = new LootEntryTable(ModLootTables.CHESTS_STRONGHOLD,1,0,new LootCondition[0],name);
+            final RandomValueRange rolls = new RandomValueRange(1,1);
+            final LootPool pool=new LootPool(new LootEntry[]{entry},new LootCondition[0],rolls,rolls,name);
+            event.getTable().addPool(pool);
+        }
     }
     @SubscribeEvent
     public static void onModelRegister(ModelRegistryEvent event){
@@ -139,6 +146,7 @@ public class RegistryHandler {
 
 
     public static void preInitRegisteries(){
+        ModLootTables.registerLootTables();
         ModEntitys.registerEntites();
         RenderHandler.registerEntityRenders();
     }

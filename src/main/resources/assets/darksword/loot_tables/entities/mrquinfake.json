@@ -12,7 +12,7 @@
             {
               "function": "enchant_randomly",
               "enchantments": [
-                "darksword:darktome"
+                "darksword:tome_darksword"
               ],
               "conditions": [
                 {

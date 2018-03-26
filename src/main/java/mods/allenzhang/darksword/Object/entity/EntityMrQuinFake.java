@@ -1,8 +1,9 @@
 package mods.allenzhang.darksword.Object.entity;
 
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
-import mods.allenzhang.darksword.handlers.LootTableHandler;
+import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.init.ModEffects;
+import mods.allenzhang.darksword.init.ModLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBreakDoor;
@@ -106,7 +107,9 @@ public class EntityMrQuinFake extends EntityZombie {
 
     @Override
     protected ResourceLocation getLootTable(){
-        return LootTableHandler.ENTITIES_MRQUINFAKE;
+        Debug.log().info(ModLootTables.ENTITIES_MRQUINFAKE.toString());
+
+        return ModLootTables.ENTITIES_MRQUINFAKE;
     }
 
     @Override

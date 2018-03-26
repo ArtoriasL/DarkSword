@@ -1,0 +1,107 @@
+{
+  "pools": [
+    {
+      "name":"weak",
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 1
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "darksword:soul_weak",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 5,
+                "max": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name":"soul_normal",
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.5
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "darksword:soul_normal",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name":"soul_strong",
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.1
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "darksword:soul_strong",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "name":"soul_largecreature",
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.02
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "darksword:soul_largecreature",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "name":"soul_king",
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.002
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "darksword:soul_king",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

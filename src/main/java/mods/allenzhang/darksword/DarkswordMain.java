@@ -10,8 +10,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-import java.util.HashMap;
-
 @Mod(
         modid = Reference.MODID,
         name = Reference.NAME,
@@ -28,7 +26,8 @@ public class DarkswordMain {
     public static CommonProxy PROXY;
 
     @Mod.EventHandler
-    public static void preInit( FMLPreInitializationEvent event){RegistryHandler.preInitRegisteries();
+    public static void preInit( FMLPreInitializationEvent event){
+        RegistryHandler.preInitRegisteries();
     }
 
     @Mod.EventHandler
