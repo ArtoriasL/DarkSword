@@ -1,0 +1,21 @@
+{
+  "pools": [
+    {
+      "name":"shards",
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.3
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "darksword:undeadflask_shards",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

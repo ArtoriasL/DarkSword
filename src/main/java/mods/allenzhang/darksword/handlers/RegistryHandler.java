@@ -48,14 +48,7 @@ public class RegistryHandler {
 
     @SubscribeEvent
     public static void onLootTableLoadRegister(LootTableLoadEvent event){
-        ResourceLocation cname = event.getName();
-        if(cname.equals(LootTableList.CHESTS_STRONGHOLD_CORRIDOR)||cname.equals(LootTableList.CHESTS_STRONGHOLD_CROSSING)||cname.equals(LootTableList.CHESTS_STRONGHOLD_LIBRARY)){
-            final String name = ModLootTables.CHESTS_STRONGHOLD.toString();
-            final LootEntry entry = new LootEntryTable(ModLootTables.CHESTS_STRONGHOLD,1,0,new LootCondition[0],name);
-            final RandomValueRange rolls = new RandomValueRange(1,1);
-            final LootPool pool=new LootPool(new LootEntry[]{entry},new LootCondition[0],rolls,rolls,name);
-            event.getTable().addPool(pool);
-        }
+        ModLootTables.CheckChest(event.getTable(),event.getName());
     }
     @SubscribeEvent
     public static void onModelRegister(ModelRegistryEvent event){

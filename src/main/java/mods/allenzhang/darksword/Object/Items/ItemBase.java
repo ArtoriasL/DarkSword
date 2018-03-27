@@ -3,7 +3,11 @@ package mods.allenzhang.darksword.Object.Items;
 import mods.allenzhang.darksword.DarkswordMain;
 import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.util.IHasModel;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemBase extends Item implements IHasModel {
     //设置物品基本信息

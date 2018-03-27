@@ -2,8 +2,8 @@ package mods.allenzhang.darksword.init;
 
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootTable;
-import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,8 +13,8 @@ import static mods.allenzhang.darksword.init.ModLootTables.RegistrationHandler.c
 public class ModLootTables {
 
     public static final ResourceLocation ENTITIES_MRQUINFAKE = create("entities/mrquinfake");
-    public static final ResourceLocation CHESTS_STRONGHOLD = create("chests/stronghold");
-
+    public static final ResourceLocation CHESTS_SOULS = create("chests/souls");
+    public static final ResourceLocation CHESTS_SHARDS = create("chests/shards");
     /**
      * Register this mod's {@link LootTable}s.
      */
@@ -36,5 +36,43 @@ public class ModLootTables {
             RegistrationHandler.LOOT_TABLES.add(lootTable);
             return lootTable;
         }
+    }
+
+    public final static void CheckChest(LootTable lt,ResourceLocation cname){
+        //souls
+        if(
+                cname.equals(LootTableList.CHESTS_STRONGHOLD_CORRIDOR)||
+                cname.equals(LootTableList.CHESTS_STRONGHOLD_CROSSING)||
+                cname.equals(LootTableList.CHESTS_STRONGHOLD_LIBRARY)||
+                cname.equals(LootTableList.CHESTS_SIMPLE_DUNGEON)||
+                cname.equals(LootTableList.CHESTS_WOODLAND_MANSION)||
+                cname.equals(LootTableList.CHESTS_ABANDONED_MINESHAFT)||
+                cname.equals(LootTableList.CHESTS_DESERT_PYRAMID)||
+                cname.equals(LootTableList.CHESTS_END_CITY_TREASURE)||
+                cname.equals(LootTableList.CHESTS_IGLOO_CHEST)||
+                cname.equals(LootTableList.CHESTS_JUNGLE_TEMPLE)||
+                cname.equals(LootTableList.CHESTS_JUNGLE_TEMPLE_DISPENSER)||
+                cname.equals(LootTableList.CHESTS_NETHER_BRIDGE)||
+                cname.equals(LootTableList.CHESTS_VILLAGE_BLACKSMITH)
+                ){
+            lt.addPool(GetPoolByLoot(ModLootTables.CHESTS_SOULS,1));
+        }
+
+        //shards
+        if(cname.equals(LootTableList.CHESTS_STRONGHOLD_CORRIDOR)||
+                cname.equals(LootTableList.CHESTS_STRONGHOLD_CROSSING)||
+                cname.equals(LootTableList.CHESTS_STRONGHOLD_LIBRARY)||
+                cname.equals(LootTableList.CHESTS_END_CITY_TREASURE)||
+                cname.equals(LootTableList.CHESTS_NETHER_BRIDGE)
+                ){
+            lt.addPool(GetPoolByLoot(ModLootTables.CHESTS_SHARDS,1));
+        }
+    }
+
+    private final static LootPool GetPoolByLoot(ResourceLocation loot,float random){
+        final String name = loot.toString();
+        final LootEntry entry = new LootEntryTable(loot,1,0,new LootCondition[0],name);
+        final RandomValueRange rolls = new RandomValueRange(random,1);
+        return new LootPool(new LootEntry[]{entry},new LootCondition[0],rolls,rolls,name);
     }
 }
