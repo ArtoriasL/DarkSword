@@ -2,7 +2,6 @@ package mods.allenzhang.darksword.Object.Items;
 
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.allenHelper.AllenAttributeHelper;
-import mods.allenzhang.darksword.allenHelper.Debug;
 import mods.allenzhang.darksword.handlers.EnumHandler.FlaskTypes;
 import mods.allenzhang.darksword.init.ModEffects;
 import mods.allenzhang.darksword.init.ModItems;
@@ -16,7 +15,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
@@ -72,7 +70,9 @@ public class ItemUndeadFlask extends ItemBase {
     }
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         ItemStack item = playerIn.getHeldItem(handIn);
-        if(this.types == FlaskTypes.EMPTY||PotionUtils.getPotionFromItem(item)== PotionTypes.EMPTY) {
+        if(playerIn.isPotionActive(ModEffects.FLASK)
+                ||this.types == FlaskTypes.EMPTY||
+                PotionUtils.getPotionFromItem(item)== PotionTypes.EMPTY) {
             return new ActionResult<ItemStack>(EnumActionResult.FAIL, item);
         }
 
@@ -83,7 +83,6 @@ public class ItemUndeadFlask extends ItemBase {
         return EnumAction.DRINK;
     }
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
-
         EntityPlayer entityplayer = entityLiving instanceof EntityPlayer ? (EntityPlayer)entityLiving : null;
         NBTTagCompound nbt = AllenAttributeHelper.GetNBT(stack);
         if (entityplayer == null || !entityplayer.capabilities.isCreativeMode)

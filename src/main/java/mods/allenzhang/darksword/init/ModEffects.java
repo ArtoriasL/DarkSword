@@ -10,7 +10,7 @@ public class ModEffects {
     public static List<EffectBase> EFFECTS = new ArrayList<>();
 
     public static final EffectBase FATIGUE = new EffectBase("effect_fatigue",false,00000).setIconIndex(1,0).setEffectID(0);
-    public static final EffectBase FLASK = new EffectBase("effect_flask",false,0000000).setIconIndex(6,0).setEffectID(2).setDurationSecond(30d);
+    public static final EffectBase FLASK = new EffectBase("effect_flask",false,0000000).setIconIndex(6,0).setEffectID(2).setDurationSecond(10d);
 
     public static final EffectBase DODGE = new EffectBase("effect_dodge",false,0000000).setIconIndex(3,2).setEffectID(1).setDurationSecond(1d).setItemDamage(0.5).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
     public static final EffectBase REPOSTE = new EffectBase("skill_reposte",false,0000000).setIconIndex(7,1).setEffectID(101).setDurationSecond(1).setAttackDamage(2).setItemDamage(1).setPlayerLevel(10).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
