@@ -7,9 +7,13 @@ import mods.allenzhang.darksword.Object.SmeltingBase;
 import mods.allenzhang.darksword.Object.divinetome.DivineTomeBase;
 import mods.allenzhang.darksword.allenHelper.AllenAttributeHelper;
 import mods.allenzhang.darksword.allenHelper.Debug;
+import mods.allenzhang.darksword.init.ModItems;
 import mods.allenzhang.darksword.init.ModRepices;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.PotionUtils;
@@ -59,26 +63,34 @@ public class RecipeHandler {
     private static void registerSmeltingRecipe(Item input,ItemStack output,float xp){
         GameRegistry.addSmelting(input,output,xp);
     }
-    public static void CheckDarkTomeRecipeByAnvil(AnvilUpdateEvent event){
+    public static void CheckAnvil(AnvilUpdateEvent event){
         if(event.getOutput()!=ItemStack.EMPTY)return;
         ItemStack out = null;
         int cost = 1;
         ItemStack leftItem = event.getLeft().copy();
         ItemStack rightItem = event.getRight().copy();
 
-        if(AllenAttributeHelper.GetDarkTomeByItemStack(leftItem)!=null){
-            out = DivineTomeBase.GetDivineTomedItem(leftItem,rightItem);
-        }
-        else if(rightItem.getItem() instanceof ItemUndeadFlask){
-            ItemUndeadFlask iuf = (ItemUndeadFlask) rightItem.getItem();
-            cost=AllenAttributeHelper.GetNBTInteger(rightItem,LEVEL);
-            if(cost<1)cost=1;
-            if(leftItem.getItem() instanceof ItemUndeadFlaskShards) {
-                cost+=1;
-                out = ItemUndeadFlask.getFlaskInstanceByLevel(cost,AllenAttributeHelper.GetNBT(rightItem),leftItem,iuf.types);
-            }else if(PotionUtils.getPotionFromItem(leftItem)!= PotionTypes.EMPTY){
-                if(PotionUtils.getPotionFromItem(leftItem).getEffects().size()>0)
-                    out = ItemUndeadFlask.getFlaskInstanceByLevel(cost,AllenAttributeHelper.GetNBT(rightItem),leftItem, EnumHandler.FlaskTypes.HEALING);
+        if(rightItem.getItem() instanceof ItemBlock) {
+            if(leftItem.getItem() instanceof ItemUndeadFlask){
+                cost = AllenAttributeHelper.GetNBTInteger(leftItem, LEVEL);
+                if(cost<2)return;
+                out = ModItems.UNDEADFLASK_SHARDS.getDefaultInstance();
+                cost = 1;
+            }
+        }else{
+            if (AllenAttributeHelper.GetDarkTomeByItemStack(leftItem) != null) {
+                out = DivineTomeBase.GetDivineTomedItem(leftItem, rightItem);
+            } else if (rightItem.getItem() instanceof ItemUndeadFlask) {
+                ItemUndeadFlask iuf = (ItemUndeadFlask) rightItem.getItem();
+                cost = AllenAttributeHelper.GetNBTInteger(rightItem, LEVEL);
+                if (cost < 1) cost = 1;
+                if (leftItem.getItem() instanceof ItemUndeadFlaskShards) {
+                    cost += 1;
+                    out = ItemUndeadFlask.getFlaskInstanceByLevel(cost, AllenAttributeHelper.GetNBT(rightItem), leftItem, iuf.types);
+                } else if (PotionUtils.getPotionFromItem(leftItem) != PotionTypes.EMPTY) {
+                    if (PotionUtils.getPotionFromItem(leftItem).getEffects().size() > 0)
+                        out = ItemUndeadFlask.getFlaskInstanceByLevel(cost, AllenAttributeHelper.GetNBT(rightItem), leftItem, EnumHandler.FlaskTypes.HEALING);
+                }
             }
         }
 

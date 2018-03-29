@@ -12,9 +12,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.*;
-import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
@@ -111,7 +108,6 @@ public class RegistryHandler {
     }
     @SubscribeEvent
     public static void OnEntityHurt(LivingHurtEvent event){
-
         for (EffectBase effect : ModEffects.EFFECTS) {
             if(event.getEntityLiving().isPotionActive(effect)){
                 DivineTomeBase.CheckEffectByHurt( event.getEntityLiving(),effect,event.getSource(),event.getAmount());
@@ -120,8 +116,8 @@ public class RegistryHandler {
     }
     @SubscribeEvent
     public static void OnAnvilUpdate(AnvilUpdateEvent event){
-        if(event.getLeft()==null||event.getRight()==null||event.getOutput()!=ItemStack.EMPTY)return;
-        RecipeHandler.CheckDarkTomeRecipeByAnvil(event);
+        if(event.getLeft()==null||event.getOutput()!=ItemStack.EMPTY)return;
+        RecipeHandler.CheckAnvil(event);
     }
     @SubscribeEvent
     public static void OnFurnaceBurn(FurnaceFuelBurnTimeEvent event){
