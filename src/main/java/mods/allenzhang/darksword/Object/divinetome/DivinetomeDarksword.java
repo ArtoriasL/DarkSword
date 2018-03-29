@@ -160,7 +160,7 @@ public class DivinetomeDarksword extends DivineTomeBase {
             v3ds.add(AllenPosition.GetPos(entityIn,height,AllenPosition.GetYawByType(entityIn,2, AllenPosition.Left,false)));
         }else if(duration==3){
             worldIn.playSound((EntityPlayer) null, entityIn.posX, height, entityIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.3F, (0.2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);
-            v3ds = Arrays.asList(AllenPosition.GetEntityRoundPos(entityIn,0,3));
+            v3ds = AllenPosition.GetEntityRoundPos(entityIn,0,3);
         }
 
         for(int i=0;i<v3ds.size();i++) {

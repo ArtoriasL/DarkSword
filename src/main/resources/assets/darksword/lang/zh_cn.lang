@@ -18,6 +18,7 @@ item.undeadflask_shards.name=烧瓶的元素碎片
 
 tile.block_largeember.name=大块余烬
 
+potion.effect_flask=溢出
 potion.effect_dodge=闪躲
 potion.effect_fatigue=硬直
 potion.skill_strick=强袭
@@ -25,6 +26,7 @@ potion.skill_riteofdark=黑暗之环
 potion.skill_reposte=黑暗箭
 potion.skill_darkstorm=黑暗风暴
 potion.skill_airborne=下落一击
+
 
 potion.entityskill_mrquindarksword=秦川黑暗剑技
 

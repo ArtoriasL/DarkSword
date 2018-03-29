@@ -22,7 +22,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -234,8 +233,8 @@ public class DivineTomeBase extends Enchantment{
     //Skill Effects
     public static void PreCast( World worldIn, EntityLivingBase entityIn,float height,double far,CastParticleTypes castType,EnumParticleTypes praticle,SoundEvent sound){
 //        worldIn.spawnParticle(EnumParticleTypes.CLOUD,entityIn.posX,entityIn.posY+entityIn.getEyeHeight()*0.7,entityIn.posZ,0,0.01,0);
-        List<Vec3d> pos = new ArrayList<Vec3d>(Arrays.asList(AllenPosition.GetEntityRoundPos(entityIn,height,far)));
-        List<Vec3d> dir =  new ArrayList<Vec3d>(Arrays.asList(AllenPosition.GetEntityRoundYaw(entityIn,1,true)));
+        List<Vec3d> pos = AllenPosition.GetEntityRoundPos(entityIn,height,far);
+        List<Vec3d> dir = AllenPosition.GetEntityRoundYaw(entityIn,1,true);
         double speed = 0.06;
         double yspeed = -0.01;
         switch (castType){
@@ -263,10 +262,10 @@ public class DivineTomeBase extends Enchantment{
         World worldIn = entityIn.world;
 
         worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE,entityIn.posX,entityIn.posY+entityIn.getEyeHeight()*1.5,entityIn.posZ,0,0.1,0);
-        Vec3d[] d = AllenPosition.GetEntityRoundYaw(entityIn,1,false);
-        for (int i = 0; i < d.length; i++) {
-            worldIn.spawnParticle(EnumParticleTypes.SPELL_WITCH,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,d[i].x*0.005,0.1,d[i].z*0.005);
-            worldIn.spawnParticle(EnumParticleTypes.CRIT_MAGIC, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.7, entityIn.posZ,d[i].x*2, -0.005, d[i].z*2);
+        List<Vec3d> d = AllenPosition.GetEntityRoundYaw(entityIn,1,false);
+        for (int i = 0; i < d.size(); i++) {
+            worldIn.spawnParticle(EnumParticleTypes.SPELL_WITCH,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,d.get(i).x*0.005,0.1,d.get(i).z*0.005);
+            worldIn.spawnParticle(EnumParticleTypes.CRIT_MAGIC, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.7, entityIn.posZ,d.get(i).x*2, -0.005, d.get(i).z*2);
         }
 //        worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE,entityIn.posX,entityIn.posY,entityIn.posZ,0,1,0);
         worldIn.playSound((EntityPlayer) null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_BIG_FALL, SoundCategory.NEUTRAL, 4.0F, (0.3F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);

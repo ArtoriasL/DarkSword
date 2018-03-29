@@ -19,6 +19,7 @@ item.undeadflask_shards.name=Undead Flask Shards
 
 tile.block_largeember.name=Large Ember
 
+potion.effect_flask=overflow
 potion.effect_dodge=Dodgeing
 potion.effect_fatigue=Tired
 potion.skill_strick=Assault

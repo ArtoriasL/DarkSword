@@ -55,13 +55,12 @@ public enum AllenPosition {
         return f.rotateYaw(ap.yAngle*AngleToPi);
     }
 
-    public static Vec3d[] GetEntityRoundPos(Entity entityIn,double height,double far){
-        Vec3d[] roundD = GetEntityRoundYaw(entityIn,far,false);
+    public static List<Vec3d> GetEntityRoundPos(Entity entityIn,double height,double far){
         List<Vec3d> roundPos = new ArrayList<>();
-        for (Vec3d vec3d : roundD) {
+        for (Vec3d vec3d : GetEntityRoundYaw(entityIn,far,false)) {
             roundPos.add(GetPos(entityIn, height, vec3d));
         }
-        return roundPos.toArray(new Vec3d[roundPos.size()]);
+        return roundPos;
     }
 
 //    public static Vec3d[] GetEntityRoundDirection(Entity entityIn,RoundType rt){
@@ -103,7 +102,7 @@ public enum AllenPosition {
 //        return round.toArray(new Vec3d[round.size()]);
 //    }
 
-    public static Vec3d[] GetEntityRoundYaw(Entity entityIn, double far,boolean turnBack){
+    public static List<Vec3d> GetEntityRoundYaw(Entity entityIn, double far,boolean turnBack){
         List<Vec3d> round = new ArrayList<>();
         round.add(GetYawByType(entityIn,far,AllenPosition.Forward,turnBack));
         round.add(GetYawByType(entityIn,far,AllenPosition.RightForward,turnBack));
@@ -113,7 +112,7 @@ public enum AllenPosition {
         round.add(GetYawByType(entityIn,far,AllenPosition.LeftBack,turnBack));
         round.add(GetYawByType(entityIn,far,AllenPosition.Left,turnBack));
         round.add(GetYawByType(entityIn,far,AllenPosition.LeftForward,turnBack));
-        return round.toArray(new Vec3d[round.size()]);
+        return round;
     }
 
     public static final float AngleToPi = (float)Math.PI*2/360;

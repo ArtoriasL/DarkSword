@@ -18,6 +18,7 @@ item.undeadflask_shards.name=燒瓶的元素碎片
 
 tile.block_largeember.name=大塊餘燼
 
+potion.effect_flask=溢出
 potion.effect_dodge=閃躲
 potion.effect_fatigue=硬直
 potion.skill_strick=強襲
