@@ -20,7 +20,7 @@ public class EntityDarkArrow extends EntityThrowable {
     public EntityLivingBase owner;
     public int life=200;
     public int maxLife=200;
-    public int preCast=100;
+    public int preCast=70;
     public float damage=0;
     public EntityDarkArrow( World worldIn,EntityLivingBase entityIn, double x, double y, double z ,int life) {
         super(worldIn,x,y,z);

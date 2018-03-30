@@ -16,7 +16,7 @@ public class ModEffects {
     public static final EffectBase REPOSTE = new EffectBase("skill_reposte",false,0000000).setIconIndex(7,1).setEffectID(101).setDurationSecond(1).setAttackDamage(2).setItemDamage(1).setPlayerLevel(10).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
     public static final EffectBase STRICK = new EffectBase("skill_strick",false,0000000).setIconIndex(7,1).setEffectID(102).setDurationSecond(2d).setAttackDamage(1).setItemDamage(1).setPlayerLevel(20).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
     public static final EffectBase RITEOFDARK = new EffectBase("skill_riteofdark",false,0000000).setIconIndex(7,1).setEffectID(104).setDurationSecond(2d).setItemDamage(1).setPlayerLevel(10).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
-    public static final EffectBase DARKSTORM = new EffectBase("skill_darkstorm",false,0000000).setIconIndex(7,1).setEffectID(103).setDurationSecond(3.5d).setAttackDamage(0.8).setItemDamage(2).setPlayerLevel(30).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
+    public static final EffectBase DARKSTORM = new EffectBase("skill_darkstorm",false,0000000).setIconIndex(7,1).setEffectID(103).setDurationSecond(3.5d).setAttackDamage(1).setItemDamage(2).setPlayerLevel(30).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
     public static final EffectBase AIRBORNE = new EffectBase("skill_airborne",false,0000000).setIconIndex(7,1).setEffectID(105).setDurationSecond(0.5d).setAttackDamage(3).setItemDamage(5).setPlayerLevel(40).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
 
 

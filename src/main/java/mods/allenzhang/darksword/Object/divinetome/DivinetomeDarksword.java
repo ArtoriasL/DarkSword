@@ -139,7 +139,7 @@ public class DivinetomeDarksword extends DivineTomeBase {
         worldIn.playSound(null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_GUARDIAN_ATTACK, SoundCategory.NEUTRAL, 5.0F, 2F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F);
 
         int far =(maxDuration/10) - (duration/10);
-        for (Vec3d vec3d : AllenPosition.GetEntityRoundPos(entityIn,entityIn.getEyeHeight()*0.5,far)){
+        for (Vec3d vec3d : AllenPosition.GetEntityRoundPos(entityIn,entityIn.getEyeHeight()*0.2,far)){
             EntityDarkStorm tempThrowable = new EntityDarkStorm(worldIn, entityIn, vec3d.x, vec3d.y, vec3d.z, 2);
             tempThrowable.setDamage((float) (AllenAttributeHelper.GetAttribute(entityIn, SharedMonsterAttributes.ATTACK_DAMAGE)*ModEffects.DARKSTORM.getAttackDamage(1)));
             tempThrowable.shoot(entityIn, entityIn.rotationPitch, entityIn.rotationYaw, 0.0F, 0.0F, 1.0F);
