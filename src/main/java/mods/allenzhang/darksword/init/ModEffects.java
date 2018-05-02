@@ -19,6 +19,7 @@ public class ModEffects {
     public static final EffectBase DARKSTORM = new EffectBase("skill_darkstorm",false,0000000).setIconIndex(7,1).setEffectID(103).setDurationSecond(3.5d).setAttackDamage(1).setItemDamage(2).setPlayerLevel(30).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
     public static final EffectBase AIRBORNE = new EffectBase("skill_airborne",false,0000000).setIconIndex(7,1).setEffectID(105).setDurationSecond(0.5d).setAttackDamage(3).setItemDamage(5).setPlayerLevel(40).setTomeType(DivineTomeBase.DarkTomeType.DARKSWORD);
 
+    public static final EffectBase Combustion = new EffectBase("skill_combustion",false,0000000).setIconIndex(7,1).setEffectID(110).setDurationSecond(1).setAttackDamage(1.5).setItemDamage(1).setPlayerLevel(10).setTomeType(DivineTomeBase.DarkTomeType.PYROMANCYFLAME);
 
     public static final EffectBase MRQUINDARKSWORD = new EffectBase("entityskill_mrquindarksword",false,0000000).setIconIndex(7,1).setEffectID(1001).setDurationSecond(15);
 //    public static final EffectLargeEmber

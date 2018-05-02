@@ -22,6 +22,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.event.terraingen.OreGenEvent;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ import java.util.UUID;
 public class DivineTomeBase extends Enchantment{
     public enum ClickType {left,right}
     public enum DarkTomeType{
-        DARKSWORD
+        DARKSWORD,
+        PYROMANCYFLAME
     }
     public enum CastParticleTypes{
         cast,
@@ -42,11 +44,11 @@ public class DivineTomeBase extends Enchantment{
     public static final float up=-0.05f,forward=0.3f,friction=2f;
     protected static final double eyeHeight = 0.5;
     protected static final UUID dodgeArmorUUID = UUID.randomUUID();
-    protected static final UUID dodgeArmorToughnessUUID = UUID.randomUUID();
+    protected static final UUID combustionArmorUUID = UUID.randomUUID();
 
     public ModEnchantments.EquipmentSlots slots;
-    public DivineTomeBase(String name, Rarity rarityIn, EnumEnchantmentType typeIn, ModEnchantments.EquipmentSlots slots) {
-        super(rarityIn, typeIn,slots.slots);
+    public DivineTomeBase(String name, EnumEnchantmentType typeIn, ModEnchantments.EquipmentSlots slots) {
+        super(Enchantment.Rarity.COMMON, typeIn,slots.slots);
         setRegistryName(name);
         this.setName(name);
         this.slots=slots;
@@ -143,6 +145,8 @@ public class DivineTomeBase extends Enchantment{
             case 105:
                 DivinetomeDarksword.AirBorneEffect(worldIn,entityIn,duration);break;
 
+            case 110:
+                DivinetomePyromancyFlame.CombustionEffect(worldIn, entityIn, duration);break;
         }
     }
     public static void CheckEffectByHurt(EntityLivingBase entityIn , EffectBase eb, DamageSource source, float amount){
@@ -151,6 +155,7 @@ public class DivineTomeBase extends Enchantment{
             case 101:if(source.isProjectile()||source.getDamageType()=="mob") DivinetomeDarksword.DoReposte(entityIn, amount);break;
         }
     }
+    public static boolean AddEffectToEntity(EntityLivingBase entityIn, Potion potionIn, int durationIn){return AddEffectToEntity(entityIn, potionIn, durationIn, 0);}
     public static boolean AddEffectToEntity(EntityLivingBase entityIn, Potion potionIn, int durationIn, int amplifierIn){
         if(entityIn.isPotionActive(potionIn))return false;
 
@@ -230,8 +235,12 @@ public class DivineTomeBase extends Enchantment{
         }
         return true;
     }
+
     //Skill Effects
     public static void PreCast( World worldIn, EntityLivingBase entityIn,float height,double far,CastParticleTypes castType,EnumParticleTypes praticle,SoundEvent sound){
+        PreCast(worldIn, entityIn, height, far, castType, praticle, sound,1.0F,1.0f);
+    }
+    public static void PreCast( World worldIn, EntityLivingBase entityIn,float height,double far,CastParticleTypes castType,EnumParticleTypes praticle,SoundEvent sound,Float volume,Float pitch){
 //        worldIn.spawnParticle(EnumParticleTypes.CLOUD,entityIn.posX,entityIn.posY+entityIn.getEyeHeight()*0.7,entityIn.posZ,0,0.01,0);
         List<Vec3d> pos = AllenPosition.GetEntityRoundPos(entityIn,height,far);
         List<Vec3d> dir = AllenPosition.GetEntityRoundYaw(entityIn,1,true);
@@ -252,8 +261,15 @@ public class DivineTomeBase extends Enchantment{
         for(int i=0;i<pos.size();i++){
             worldIn.spawnParticle(praticle,pos.get(i).x,pos.get(i).y+height,pos.get(i).z,dir.get(i).x*speed,yspeed,dir.get(i).z*speed);
         }
-        worldIn.playSound(null,entityIn.posX,entityIn.posY,entityIn.posZ, sound, SoundCategory.NEUTRAL,4.0F,0.5F);
+        worldIn.playSound(null,entityIn.posX,entityIn.posY,entityIn.posZ, sound, SoundCategory.NEUTRAL,volume,pitch);
     }
+    public static void DarkswordPreCast(World worldIn,EntityLivingBase playerIn){
+        PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.2f,0.7,CastParticleTypes.absorb,EnumParticleTypes.ENCHANTMENT_TABLE,SoundEvents.ENTITY_ENDERMEN_TELEPORT,2.0F,0.5F);
+    }
+    public static void PyromancyFlamePreCast(World worldIn,EntityLivingBase playerIn){
+        PreCast(worldIn, playerIn, 0,0.7,CastParticleTypes.cast, EnumParticleTypes.LAVA, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE,0.4F,2F);
+    }
+
     public static void FatigueEffect(Entity entity){
         entity.setInWeb();
         entity.spawnRunningParticles();

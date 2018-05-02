@@ -46,7 +46,7 @@ public class AllenAttributeHelper {
         if(entityIn==null)return 0;
         return entityIn.getEntityAttribute(sharedMA).getAttributeValue();
     }
-    public static void AddAttribute(EntityLivingBase entityIn, IAttribute sharedMA, int a, UUID uuid,String name,@Nullable Integer operation){
+    public static void AddAttribute(EntityLivingBase entityIn, IAttribute sharedMA, int a, UUID uuid,String name){
         entityIn.getEntityAttribute(sharedMA).applyModifier(new AttributeModifier(uuid,name,a,0));
     }
     public static void RemoveAttribut(EntityLivingBase entityIn, IAttribute sharedMA,UUID uuid){

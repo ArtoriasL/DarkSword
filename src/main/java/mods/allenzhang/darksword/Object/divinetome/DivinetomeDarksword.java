@@ -23,19 +23,19 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DivinetomeDarksword extends DivineTomeBase {
-    public DivinetomeDarksword(String name, Rarity rarityIn, EnumEnchantmentType typeIn, ModEnchantments.EquipmentSlots slots) {
-        super(name, rarityIn, typeIn, slots);
+    public DivinetomeDarksword(String name, EnumEnchantmentType typeIn, ModEnchantments.EquipmentSlots slots) {
+        super(name, typeIn, slots);
     }
+
     @Override
-    public int OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
+    public int OnNormal(World worldIn, EntityPlayer playerIn, ItemStack itemStackIn) {
         if(!CanUse(playerIn, ModEffects.REPOSTE)||!playerIn.onGround)return 0;
-        AddEffectToEntity(playerIn, ModEffects.REPOSTE,ModEffects.REPOSTE.getDuration(),0);
+        AddEffectToEntity(playerIn, ModEffects.REPOSTE,ModEffects.REPOSTE.getDuration());
         playerIn.renderBrokenItemStack(itemStackIn);
-        PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.2f,0.7,CastParticleTypes.absorb,EnumParticleTypes.ENCHANTMENT_TABLE,SoundEvents.ENTITY_ENDERMEN_TELEPORT);
+        DarkswordPreCast(worldIn, playerIn);
         worldIn.playSound(playerIn,new BlockPos(playerIn),SoundEvents.ITEM_SHIELD_BLOCK,SoundCategory.NEUTRAL,1,1);
         return 1;
     }
@@ -50,29 +50,29 @@ public class DivinetomeDarksword extends DivineTomeBase {
     @Override
     public int OnJumping( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.DARKSTORM))return 0;
-        AddEffectToEntity(playerIn, ModEffects.DARKSTORM,ModEffects.DARKSTORM.getDuration(),0);
-        PreCast(worldIn, playerIn, playerIn.getEyeHeight()*0.5f,1,CastParticleTypes.cast,EnumParticleTypes.DRAGON_BREATH,SoundEvents.ENTITY_ENDERMEN_TELEPORT);
+        AddEffectToEntity(playerIn, ModEffects.DARKSTORM,ModEffects.DARKSTORM.getDuration());
+        DarkswordPreCast(worldIn, playerIn);
         return GetItemDamage(itemStackIn,playerIn, ModEffects.DARKSTORM.getItemDamage());
     }
 
     @Override
     public int OnFalling( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.AIRBORNE))return 0;
-        AddEffectToEntity(playerIn,ModEffects.AIRBORNE,ModEffects.AIRBORNE.getDuration(),0);
+        AddEffectToEntity(playerIn,ModEffects.AIRBORNE,ModEffects.AIRBORNE.getDuration());
         return GetItemDamage(itemStackIn,playerIn,ModEffects.AIRBORNE.getItemDamage());
     }
 
     @Override
     public int OnSneaking( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.RITEOFDARK))return 0;
-        AddEffectToEntity(playerIn, ModEffects.RITEOFDARK,ModEffects.RITEOFDARK.getDuration(),0);
+        AddEffectToEntity(playerIn, ModEffects.RITEOFDARK,ModEffects.RITEOFDARK.getDuration());
         return (int)ModEffects.RITEOFDARK.getItemDamage();
     }
 
     @Override
     public int OnSprinting( World worldIn, EntityPlayer playerIn, ItemStack itemStackIn ) {
         if(!CanUse(playerIn, ModEffects.STRICK))return 0;
-        AddEffectToEntity(playerIn,ModEffects.STRICK,ModEffects.STRICK.getDuration(),0);
+        AddEffectToEntity(playerIn,ModEffects.STRICK,ModEffects.STRICK.getDuration());
         return GetItemDamage(itemStackIn,playerIn,ModEffects.STRICK.getItemDamage());
     }
 
@@ -81,10 +81,8 @@ public class DivinetomeDarksword extends DivineTomeBase {
         int maxdur = ModEffects.REPOSTE.getDuration();
         if(duration==maxdur){
             SetFatigue(entityIn,10);
-//            AllenAttributeHelper.AddAttribute(entityIn, SharedMonsterAttributes.MAX_HEALTH,20,dodgeArmorUUID,"dodge",null);
-            if(!worldIn.isRemote)AllenAttributeHelper.AddAttribute(entityIn, SharedMonsterAttributes.ARMOR,20,dodgeArmorUUID,"darksword",null);
+            if(!worldIn.isRemote)AllenAttributeHelper.AddAttribute(entityIn, SharedMonsterAttributes.ARMOR,20,dodgeArmorUUID,"dodgeArmor");
         }else if(duration==maxdur-10){
-//            AllenAttributeHelper.RemoveAttribut(entityIn,SharedMonsterAttributes.MAX_HEALTH,dodgeArmorUUID);
             if(!worldIn.isRemote)AllenAttributeHelper.RemoveAttribut(entityIn,SharedMonsterAttributes.ARMOR,dodgeArmorUUID);
         }
     }
@@ -179,7 +177,7 @@ public class DivinetomeDarksword extends DivineTomeBase {
         World worldIn = entityIn.getEntityWorld();
         if (!worldIn.isRemote)
         {
-            PreCast(worldIn, entityIn, entityIn.getEyeHeight(),1,CastParticleTypes.cast,EnumParticleTypes.DRAGON_BREATH,SoundEvents.ENTITY_ENDERMEN_TELEPORT);
+            DarkswordPreCast(worldIn, entityIn);
             EntityDarkArrow tempThrowable = new EntityDarkArrow(worldIn,entityIn,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,ModEffects.REPOSTE.getDuration()/20);
             tempThrowable.setDamage((float) (AllenAttributeHelper.GetAttribute(entityIn, SharedMonsterAttributes.ATTACK_DAMAGE)*ModEffects.REPOSTE.getAttackDamage(1)));
             tempThrowable.shoot(entityIn, entityIn.rotationPitch, entityIn.rotationYaw, 0.0F, 0.5F, 1.0F);
