@@ -3,9 +3,11 @@ package mods.allenzhang.darksword.handlers;
 import mods.allenzhang.darksword.Object.Items.ItemBase;
 import mods.allenzhang.darksword.Object.entity.EntityDarkArrow;
 import mods.allenzhang.darksword.Object.entity.EntityMrQuinFake;
+import mods.allenzhang.darksword.Object.entity.EntityPFFireBall;
 import mods.allenzhang.darksword.Object.entity.EntitySoul;
 import mods.allenzhang.darksword.Object.entity.render.RenderDarkArrow;
 import mods.allenzhang.darksword.Object.entity.render.RenderMrQuinFake;
+import mods.allenzhang.darksword.Object.entity.render.RenderPFFireBall;
 import mods.allenzhang.darksword.init.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -27,6 +29,6 @@ public class RenderHandler {
         });
         RenderingRegistry.registerEntityRenderingHandler(EntityMrQuinFake.class, new IRenderFactory<EntityMrQuinFake>() {@Override public Render<? super EntityMrQuinFake> createRenderFor( RenderManager manager ) {return new RenderMrQuinFake(manager);}});
         RenderingRegistry.registerEntityRenderingHandler(EntityDarkArrow.class, new IRenderFactory<EntityDarkArrow>() {@Override public Render<? super EntityDarkArrow> createRenderFor( RenderManager manager ) {return new RenderDarkArrow(manager);}});
-
+        RenderingRegistry.registerEntityRenderingHandler(EntityPFFireBall.class, new IRenderFactory<EntityPFFireBall>() {@Override public Render<? super EntityPFFireBall> createRenderFor(RenderManager manager ) {return new RenderPFFireBall(manager);}});
     }
 }

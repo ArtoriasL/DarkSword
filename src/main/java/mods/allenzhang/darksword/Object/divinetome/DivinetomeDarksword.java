@@ -1,7 +1,7 @@
 package mods.allenzhang.darksword.Object.divinetome;
 
 import mods.allenzhang.darksword.Object.entity.EntityDarkArrow;
-import mods.allenzhang.darksword.Object.entity.render.EntityDarkStorm;
+import mods.allenzhang.darksword.Object.entity.EntityDarkStorm;
 import mods.allenzhang.darksword.allenHelper.*;
 import mods.allenzhang.darksword.handlers.LivingDropHandler;
 import mods.allenzhang.darksword.init.ModEnchantments;

@@ -281,7 +281,7 @@ public class DivineTomeBase extends Enchantment{
         List<Vec3d> d = AllenPosition.GetEntityRoundYaw(entityIn,1,false);
         for (int i = 0; i < d.size(); i++) {
             worldIn.spawnParticle(EnumParticleTypes.SPELL_WITCH,entityIn.posX,entityIn.posY+entityIn.getEyeHeight(),entityIn.posZ,d.get(i).x*0.005,0.1,d.get(i).z*0.005);
-            worldIn.spawnParticle(EnumParticleTypes.CRIT_MAGIC, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.7, entityIn.posZ,d.get(i).x*2, -0.005, d.get(i).z*2);
+//            worldIn.spawnParticle(EnumParticleTypes.CRIT_MAGIC, entityIn.posX, entityIn.posY+entityIn.getEyeHeight()*0.7, entityIn.posZ,d.get(i).x*2, -0.005, d.get(i).z*2);
         }
 //        worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE,entityIn.posX,entityIn.posY,entityIn.posZ,0,1,0);
         worldIn.playSound((EntityPlayer) null, entityIn.posX, entityIn.posY, entityIn.posZ, SoundEvents.ENTITY_PLAYER_BIG_FALL, SoundCategory.NEUTRAL, 4.0F, (0.3F + (worldIn.rand.nextFloat() - worldIn.rand.nextFloat()) * 0.2F) * 0.7F);

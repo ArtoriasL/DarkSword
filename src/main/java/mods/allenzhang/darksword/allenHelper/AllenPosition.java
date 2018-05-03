@@ -43,8 +43,7 @@ public enum AllenPosition {
         Vec3d pos = new Vec3d(entityIn.posX,entityIn.posY+height,entityIn.posZ);
         return pos.add(direction);
     }
-
-    public static Vec3d GetYawByType(Entity entityIn, double far, AllenPosition ap,boolean turnBack){
+    public static Vec3d GetYawByAngle(Entity entityIn, double far,float yAngle,boolean turnBack){
         double x = entityIn.getLookVec().x*far;
         double z = entityIn.getLookVec().z*far;
         if(turnBack){
@@ -52,7 +51,10 @@ public enum AllenPosition {
             z=-z;
         }
         Vec3d f =new Vec3d(x,0,z);
-        return f.rotateYaw(ap.yAngle*AngleToPi);
+        return f.rotateYaw(yAngle*AngleToPi);
+    }
+    public static Vec3d GetYawByType(Entity entityIn, double far, AllenPosition ap,boolean turnBack){
+        return GetYawByAngle(entityIn,far,ap.yAngle,turnBack);
     }
 
     public static List<Vec3d> GetEntityRoundPos(Entity entityIn,double height,double far){

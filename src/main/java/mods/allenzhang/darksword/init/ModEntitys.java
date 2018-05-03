@@ -3,7 +3,8 @@ package mods.allenzhang.darksword.init;
 import mods.allenzhang.darksword.DarkswordMain;
 import mods.allenzhang.darksword.Object.entity.EntityDarkArrow;
 import mods.allenzhang.darksword.Object.entity.EntityMrQuinFake;
-import mods.allenzhang.darksword.Object.entity.render.EntityDarkStorm;
+import mods.allenzhang.darksword.Object.entity.EntityDarkStorm;
+import mods.allenzhang.darksword.Object.entity.EntityPFFireBall;
 import mods.allenzhang.darksword.util.Reference;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -15,6 +16,7 @@ public class ModEntitys {
         registerEntity("mrquinfake",EntityMrQuinFake.class,4220,50,3801438,000000);
         registerEntity("darkarrow",EntityDarkArrow.class,4221,50);
         registerEntity("darkstorm", EntityDarkStorm.class,4222,50);
+        registerEntity("pffireball", EntityPFFireBall.class,4223,50);
     }
 
 
